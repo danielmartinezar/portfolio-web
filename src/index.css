@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  /* Background colors */
+  --color-bg-primary: #292C40;
+  --color-bg-secondary: #2E3247;
+
+  /* Primary/Accent color */
+  --color-primary: #FFD154;
+
+  /* Foreground colors (text, icons, borders, UI elements) */
+  --color-fg-primary: #FBFCFF;
+  --color-fg-secondary: #A5A9BC;
+
+  /* Font sizes - responsive */
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+}
+
+/* Global base styles */
+html {
+  font-size: var(--font-size-base);
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: var(--font-size-lg);
+  }
+}
