@@ -38,20 +38,20 @@ export default function Hero() {
           <div className="md:justify-end justify-center flex">
             {/* Photo */}
             <div className="relative flex justify-center max-w-[250px] md:max-w-[300px]">
-              {/* Low quality placeholder - fades out then removed */}
-              {!imageLoaded && (
-                <img
-                  src={danielImageBlur}
-                  alt=""
-                  className="rounded-2xl w-full h-auto object-cover transition-opacity duration-500"
-                  aria-hidden="true"
-                />
-              )}
-              {/* High quality image - fades in */}
+              {/* Low quality placeholder - stays in DOM, fades out */}
+              <img
+                src={danielImageBlur}
+                alt=""
+                className={`rounded-2xl w-full h-auto object-cover transition-opacity duration-700 ${
+                  imageLoaded ? "opacity-0" : "opacity-100"
+                }`}
+                aria-hidden="true"
+              />
+              {/* High quality image - absolute positioned, fades in */}
               <img
                 src={danielImage}
                 alt="Daniel Martinez"
-                className={`rounded-2xl w-full h-auto object-cover transition-opacity duration-500 ${
+                className={`rounded-2xl w-full h-auto object-cover absolute inset-0 transition-opacity duration-700 ${
                   imageLoaded ? "opacity-100" : "opacity-0"
                 }`}
                 onLoad={() => setImageLoaded(true)}
