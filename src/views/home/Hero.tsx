@@ -38,21 +38,21 @@ export default function Hero() {
           <div className="md:justify-end justify-center flex">
             {/* Photo */}
             <div className="relative flex justify-center max-w-[250px] md:max-w-[300px]">
-              {/* Blur placeholder */}
-              <img
-                src={danielImageBlur}
-                alt=""
-                className={`rounded-2xl w-full h-auto object-cover absolute inset-0 transition-opacity duration-500 ${
-                  imageLoaded ? "opacity-0" : "opacity-100 blur-lg"
-                }`}
-                aria-hidden="true"
-              />
-              {/* Actual image */}
+              {/* Low quality placeholder - fades out then removed */}
+              {!imageLoaded && (
+                <img
+                  src={danielImageBlur}
+                  alt=""
+                  className="rounded-2xl w-full h-auto object-cover transition-opacity duration-500"
+                  aria-hidden="true"
+                />
+              )}
+              {/* High quality image - fades in */}
               <img
                 src={danielImage}
                 alt="Daniel Martinez"
                 className={`rounded-2xl w-full h-auto object-cover transition-opacity duration-500 ${
-                  imageLoaded ? "opacity-100" : "opacity-0"
+                  imageLoaded ? 'opacity-100' : 'opacity-0'
                 }`}
                 onLoad={() => setImageLoaded(true)}
               />
