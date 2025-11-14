@@ -1,6 +1,6 @@
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
-import I18nSwitchButton from "./i18nSwitchButton";
+import I18nSwitchButton from "./I18nSwitchButton";
 
 interface HeaderProps {
   className?: string;
