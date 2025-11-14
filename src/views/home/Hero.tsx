@@ -2,7 +2,7 @@ import { useState } from "react";
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
 import danielImage from "../../assets/DanielMartinez.webp";
-import danielImageBlur from "../../assets/DanielMartinezBlur.webp";
+import danielImageBlur from "../../assets/DanielMartinezBlur3.webp";
 
 export default function Hero() {
   const [imageLoaded, setImageLoaded] = useState(false);
