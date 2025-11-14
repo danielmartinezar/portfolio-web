@@ -30,19 +30,19 @@ export default function Hero() {
           </div>
 
           {/* Image Container */}
-          <div className="md:justify-end">
+          <div className="md:justify-end justify-center flex">
             {/* Photo */}
-            <div className="relative flex justify-center max-w-md md:max-w-lg">
+            <div className="relative flex justify-center max-w-[250px] md:max-w-[300px]">
               {/* Social Icons - Positioned absolutely on the left */}
               <SocialIcons
                 direction="vertical"
                 size="sm"
-                className="absolute left-0 top-10/12 -translate-y-1/2 flex"
+                className="absolute -left-12 bottom-0 flex"
               />
               <img
-                src="/src/assets/daniel-martinez.png"
+                src="/src/assets/DanielMartinez1.webp"
                 alt="Daniel Martinez"
-                className="rounded-2xl w-auto h-auto object-cover"
+                className="rounded-2xl w-full h-auto object-cover"
               />
             </div>
           </div>
