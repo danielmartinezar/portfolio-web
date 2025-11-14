@@ -1,8 +1,12 @@
+import { useState } from "react";
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
 import danielImage from "../../assets/DanielMartinez1.webp";
+import danielImageBlur from "../../assets/DanielMartinez1.webp";
 
 export default function Hero() {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <section className="flex items-start md:items-center pt-8 md:pt-0">
       <div className="w-full">
@@ -34,19 +38,32 @@ export default function Hero() {
           <div className="md:justify-end justify-center flex">
             {/* Photo */}
             <div className="relative flex justify-center max-w-[250px] md:max-w-[300px]">
-              {/* Social Icons - Positioned absolutely on the left */}
-              <SocialIcons
-                direction="vertical"
-                size="sm"
-                className="absolute -left-12 bottom-0 flex"
+              {/* Blur placeholder */}
+              <img
+                src={danielImageBlur}
+                alt=""
+                className={`rounded-2xl w-full h-auto object-cover absolute inset-0 transition-opacity duration-500 ${
+                  imageLoaded ? "opacity-0" : "opacity-100 blur-lg"
+                }`}
+                aria-hidden="true"
               />
+              {/* Actual image */}
               <img
                 src={danielImage}
                 alt="Daniel Martinez"
-                className="rounded-2xl w-full h-auto object-cover"
-                loading="eager"
-                fetchPriority="high"
+                className={`rounded-2xl w-full h-auto object-cover transition-opacity duration-500 ${
+                  imageLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                onLoad={() => setImageLoaded(true)}
               />
+              {/* Social Icons - Positioned absolutely on the left */}
+              {imageLoaded && (
+                <SocialIcons
+                  direction="vertical"
+                  size="sm"
+                  className="absolute -left-12 bottom-0 flex"
+                />
+              )}
             </div>
           </div>
         </div>
