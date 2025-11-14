@@ -1,5 +1,6 @@
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
+import danielImage from "../../assets/DanielMartinez1.webp";
 
 export default function Hero() {
   return (
@@ -40,7 +41,7 @@ export default function Hero() {
                 className="absolute -left-12 bottom-0 flex"
               />
               <img
-                src="/public/DanielMartinez1.webp"
+                src={danielImage}
                 alt="Daniel Martinez"
                 className="rounded-2xl w-full h-auto object-cover"
               />
