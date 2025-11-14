@@ -44,6 +44,8 @@ export default function Hero() {
                 src={danielImage}
                 alt="Daniel Martinez"
                 className="rounded-2xl w-full h-auto object-cover"
+                loading="eager"
+                fetchPriority="high"
               />
             </div>
           </div>
