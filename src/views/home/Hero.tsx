@@ -1,8 +1,8 @@
 import { useState } from "react";
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
-import danielImage from "../../assets/DanielMartinez1.webp";
-import danielImageBlur from "../../assets/DanielMartinez1.webp";
+import danielImage from "../../assets/DanielMartinez.webp";
+import danielImageBlur from "../../assets/DanielMartinezBlur.webp";
 
 export default function Hero() {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -52,7 +52,7 @@ export default function Hero() {
                 src={danielImage}
                 alt="Daniel Martinez"
                 className={`rounded-2xl w-full h-auto object-cover transition-opacity duration-500 ${
-                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                  imageLoaded ? "opacity-100" : "opacity-0"
                 }`}
                 onLoad={() => setImageLoaded(true)}
               />
