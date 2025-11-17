@@ -2,7 +2,7 @@ import { useState } from "react";
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
 import danielImage from "../../assets/DanielMartinez.webp";
-import danielImageBlur from "../../assets/DanielMartinezBlur.webp";
+import { danielImageBlurBase64 } from "../../assets/danielImageBlurBase64";
 
 export default function Hero() {
   const [blurLoaded, setBlurLoaded] = useState(false);
@@ -43,7 +43,7 @@ export default function Hero() {
             <div className="relative flex justify-center max-w-[250px] md:max-w-[300px]">
               {/* Low quality placeholder - stays in DOM, fades out */}
               <img
-                src={danielImageBlur}
+                src={danielImageBlurBase64}
                 alt=""
                 className={`rounded-2xl w-full h-auto object-cover transition-opacity duration-700 ${
                   imageLoaded ? "opacity-0" : "opacity-100"
