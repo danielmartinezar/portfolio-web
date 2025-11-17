@@ -18,12 +18,36 @@
 }
 
 /* Global base styles */
-html {
-  font-size: var(--font-size-base);
+html,
+body {
+  font-size: 16px;
+  background-color: var(--color-bg-primary);
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: var(--font-size-lg);
+  html,
+  body {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html,
+  body {
+    font-size: 19px;
+  }
+}
+
+@media (min-width: 1280px) {
+  html,
+  body {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1536px) {
+  html,
+  body {
+    font-size: 22px;
   }
 }

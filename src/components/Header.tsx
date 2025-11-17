@@ -19,7 +19,7 @@ export default function Header({ className = "" }: HeaderProps) {
         </a>
 
         {/* Right side: I18n + Navigation */}
-        <div className="flex items-center">
+        <div className="flex items-center md:gap-3">
           {/* I18n Switch Button */}
           <I18nSwitchButton size="sm" className="" />
 
