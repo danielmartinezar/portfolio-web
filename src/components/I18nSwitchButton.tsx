@@ -1,20 +1,16 @@
-import { useState } from 'react';
+import { useLanguage } from '../shared/services';
 import i18nIcon from '../assets/i18n-icon.svg';
 
 interface I18nSwitchButtonProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
-  defaultLanguage?: 'EN' | 'ES';
-  onLanguageChange?: (language: 'EN' | 'ES') => void;
 }
 
 export default function I18nSwitchButton({
   size = 'md',
   className = '',
-  defaultLanguage = 'ES',
-  onLanguageChange,
 }: I18nSwitchButtonProps) {
-  const [isSpanish, setIsSpanish] = useState(defaultLanguage === 'ES');
+  const { language, setLanguage } = useLanguage();
 
   const sizeClasses = {
     sm: 'h-6 px-2 text-xs',
@@ -29,19 +25,18 @@ export default function I18nSwitchButton({
   };
 
   const handleToggle = () => {
-    const newLanguage = isSpanish ? 'EN' : 'ES';
-    setIsSpanish(!isSpanish);
-    onLanguageChange?.(newLanguage);
+    setLanguage(language === 'es' ? 'en' : 'es');
   };
 
   return (
     <button
+      type="button"
       onClick={handleToggle}
       className={`${sizeClasses[size]} flex items-center gap-2 bg-fg-secondary rounded-full transition-colors hover:opacity-90 ${className}`}
       aria-label="Switch language"
     >
       <span className="text-bg-primary font-medium">
-        {isSpanish ? 'ES' : 'EN'}
+        {language.toUpperCase()}
       </span>
       <img
         src={i18nIcon}

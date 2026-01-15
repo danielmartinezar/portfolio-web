@@ -1,0 +1,141 @@
+/* Card Container - maintains perspective for 3D effect */
+.cardContainer {
+  perspective: 1000px;
+  cursor: pointer;
+  width: 100%;
+  height: 180px;
+  outline: none;
+}
+
+/* Responsive height adjustments */
+@media (min-width: 768px) {
+  .cardContainer {
+    height: 200px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardContainer {
+    height: 280px;
+  }
+}
+
+/* Card wrapper - handles the flip transformation */
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Flipped state */
+.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Both card faces share these styles */
+.cardFace {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: var(--color-bg-primary);
+  border: 1px;
+  border-radius: 10px;
+}
+
+/* Back face - rotated 180 degrees */
+.cardBack {
+  transform: rotateY(180deg);
+}
+
+/* Flip indicator in corner */
+.flipIndicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: var(--color-fg-secondary);
+  opacity: 0.6;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.cardContainer:hover .flipIndicator,
+.cardContainer:focus-visible .flipIndicator {
+  opacity: 1;
+}
+
+/* Icon wrapper */
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-fg-primary);
+}
+
+.iconWrapper svg {
+  width: 48px;
+  height: 48px;
+}
+
+@media (min-width: 768px) {
+  .iconWrapper svg {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .iconWrapper svg {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Title on front face */
+.title {
+  margin: 0;
+  font-size: var(--font-size-paragraph);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-fg-primary);
+  text-align: center;
+  line-height: var(--line-height-tight);
+  max-width: 180px;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 1.125rem;
+  }
+}
+
+/* Description on back face */
+.description {
+  margin: 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-fg-secondary);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+@media (min-width: 768px) {
+  .description {
+    font-size: var(--font-size-paragraph);
+  }
+}
+
+@media (min-width: 1024px) {
+  .description {
+    line-height: var(--line-height-relaxed);
+  }
+}

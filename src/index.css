@@ -12,9 +12,21 @@
   --color-fg-primary: #FBFCFF;
   --color-fg-secondary: #A5A9BC;
 
-  /* Font sizes - responsive */
-  --font-size-base: 16px;
-  --font-size-lg: 18px;
+  /* Font sizes */
+  --font-size-title: 1.75rem;
+  --font-size-subtitle: 0.875rem;
+  --font-size-paragraph: 1rem;
+  --font-size-small: 0.875rem;
+
+  /* Font weights */
+  --font-weight-regular: 300;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
 }
 
 /* Global base styles */

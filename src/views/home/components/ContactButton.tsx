@@ -1,9 +1,10 @@
 interface ContactButtonProps {
   onClick?: () => void;
   className?: string;
+  label?: string;
 }
 
-export default function ContactButton({ onClick, className = '' }: ContactButtonProps) {
+export default function ContactButton({ onClick, className = '', label = "Let's talk" }: ContactButtonProps) {
   return (
     <button
       onClick={onClick}
@@ -21,7 +22,7 @@ export default function ContactButton({ onClick, className = '' }: ContactButton
           fill="#FFD154"
         />
       </svg>
-      <span className="underline font-medium">Lets talk</span>
+      <span className="underline font-medium">{label}</span>
     </button>
   );
 }

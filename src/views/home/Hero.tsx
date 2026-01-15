@@ -1,16 +1,24 @@
 import { useState } from "react";
+import type { HeroTranslations } from "../../pages/home/i18n";
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
+import { ContentContainer } from "../../components/layout";
 import danielImage from "../../assets/DanielMartinez.webp";
 import { danielImageBlurBase64 } from "../../assets/danielImageBlurBase64";
 
-export default function Hero() {
+interface HeroProps {
+  translations: HeroTranslations;
+}
+
+export default function Hero({ translations }: HeroProps) {
   const [blurLoaded, setBlurLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const [firstName, lastName] = translations.name.split(" ");
+
   return (
     <section className="flex items-start md:items-center md:pt-0">
-      <div className="w-full">
+      <ContentContainer className="w-full">
         {/* Mobile & Desktop Layout */}
         <div className="flex flex-col md:grid md:grid-cols-2 md:gap-16 md:items-center">
           {/* Text Content */}
@@ -19,22 +27,20 @@ export default function Hero() {
               {/* Name with yellow underline */}
               <div>
                 <h1 className="text-5xl md:text-6xl font-bold text-fg-primary leading-[1.1]">
-                  Daniel
+                  {firstName}
                   <br className="md:hidden" />
                   <span className="hidden md:inline"> </span>
-                  Martinez.
+                  {lastName}
                 </h1>
                 <div className="w-20 md:w-24 h-1 bg-primary"></div>
               </div>
 
               {/* Description */}
               <p className="text-base md:text-lg text-fg-secondary leading-relaxed">
-                Hi! I'm a Mid-level Software Engineer, specialized in full stack
-                development with Node.js and Flutter. I bring ideas to life
-                through clean and scalable solutions.
+                {translations.description}
               </p>
             </div>
-            <ContactButton className="mt-4 md:mt-1" />
+            <ContactButton className="mt-4 md:mt-1" label={translations.contactButton} />
           </div>
 
           {/* Image Container */}
@@ -54,7 +60,7 @@ export default function Hero() {
               {/* High quality image - absolute positioned, fades in */}
               <img
                 src={danielImage}
-                alt="Daniel Martinez"
+                alt={translations.imageAlt}
                 className={`rounded-2xl w-full h-auto object-cover absolute inset-0 transition-opacity duration-700 ${
                   imageLoaded ? "opacity-100" : "opacity-0"
                 }`}
@@ -71,7 +77,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      </div>
+      </ContentContainer>
     </section>
   );
 }

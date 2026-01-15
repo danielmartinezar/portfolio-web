@@ -25,6 +25,59 @@ export const tokens = {
       secondary: '#A5A9BC',  // Medium emphasis: body text, descriptions, secondary icons, subtle UI elements
     },
   },
+
+  typography: {
+    // Font sizes for different text hierarchies
+    fontSize: {
+      // Section titles (e.g., "What I Am Providing", "What I've Worked On")
+      title: '1.75rem',      // 28px - Main section titles
+
+      // Section subtitles/taglines (e.g., "Services", "Portfolio")
+      subtitle: '0.875rem',  // 14px - Section labels/tags
+
+      // Paragraphs and body text
+      paragraph: '1rem',     // 16px - Standard body text
+
+      // Small text (e.g., captions, metadata)
+      small: '0.875rem',     // 14px - Secondary information
+    },
+
+    // Font weights for text emphasis
+    fontWeight: {
+      regular: 400,          // Normal text
+      semibold: 600,         // Medium emphasis
+      bold: 700,             // Strong emphasis
+    },
+
+    // Line heights for readability
+    lineHeight: {
+      tight: 1.2,            // For titles
+      normal: 1.5,           // For body text
+      relaxed: 1.75,         // For large paragraphs
+    },
+  },
+
+  spacing: {
+    // Section spacing (vertical margins/padding)
+    section: {
+      paddingTop: '1rem',    // 16px - Top padding for sections
+      paddingBottom: '4rem', // 64px - Bottom padding for sections
+      gap: '2rem',           // 32px - Gap between title/subtitle and content
+    },
+  },
+
+  layout: {
+    // Content container settings - consistent padding/width across all sections
+    container: {
+      // Horizontal padding for all content sections
+      paddingX: {
+        mobile: '1.5rem',    // 24px - Mobile padding (px-6)
+        desktop: '170px',    // 170px - Desktop padding (md:px-[170px])
+      },
+      // Maximum width for content container
+      maxWidth: '1900px',    // Maximum width before centering
+    },
+  },
 } as const;
 
 /**
