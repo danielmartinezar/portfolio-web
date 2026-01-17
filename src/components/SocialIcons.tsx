@@ -31,7 +31,7 @@ export default function SocialIcons({
   const iconSize = sizeClasses[size];
 
   return (
-    <div className={`${className} ${directionClass} ${gap}`}>
+    <div className={`flex ${directionClass} ${gap} ${className}`}>
       {links.linkedin && (
         <a
           href={links.linkedin}

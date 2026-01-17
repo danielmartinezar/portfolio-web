@@ -12,6 +12,9 @@
   --color-fg-primary: #FBFCFF;
   --color-fg-secondary: #A5A9BC;
 
+  /* Font families */
+  --font-georama: "Georama", sans-serif;
+
   /* Font sizes */
   --font-size-title: 1.75rem;
   --font-size-subtitle: 0.875rem;

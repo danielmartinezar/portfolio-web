@@ -1,17 +1,29 @@
+import type { ContactTranslations } from '../../pages/home/i18n';
 import { HomeSection } from './shared';
+import { ContactMeCard } from './components';
+import styles from './Contact.module.css';
 
-export default function Contact() {
+interface ContactProps {
+  translations: ContactTranslations;
+}
+
+export default function Contact({ translations }: ContactProps) {
   return (
     <HomeSection
-      subtitle="Lets Talk"
-      title="Ways To Contact me"
+      subtitle={translations.subtitle}
+      title={translations.title}
       variant="primary"
     >
-      <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-        {/* Add your contact methods here */}
-        <p className="text-center text-fg-secondary">
-          Contact methods content goes here
-        </p>
+      {/* Description paragraph */}
+      <p className={styles.description}>
+        {translations.description}
+      </p>
+
+      {/* Contact cards grid */}
+      <div className={styles.contactGrid}>
+        {translations.items.map((item, index) => (
+          <ContactMeCard key={index} icon={item.icon} value={item.value} />
+        ))}
       </div>
     </HomeSection>
   );

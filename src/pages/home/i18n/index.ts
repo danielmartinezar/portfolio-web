@@ -3,6 +3,8 @@ export type {
   HeroTranslations,
   ServicesTranslations,
   ServiceItem,
+  SkillsTranslations,
+  SkillItem,
 } from './types';
 
 /**

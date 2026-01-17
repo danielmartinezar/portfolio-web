@@ -1,0 +1,29 @@
+/**
+ * Contact section styles
+ */
+
+.contactGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .contactGrid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #a5a9bc;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+}

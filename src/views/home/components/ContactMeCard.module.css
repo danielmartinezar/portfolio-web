@@ -1,0 +1,51 @@
+/**
+ * ContactMeCard component styles
+ */
+
+.card {
+  background-color: #2E3247;
+  color: #FBFCFF;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  text-align: left;
+  min-height: 60px;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: auto;
+  }
+}
+
+.card.interactive {
+  cursor: pointer;
+}
+
+.card.interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card.static {
+  cursor: default;
+}
+
+.iconContainer {
+  color: #FFD154;
+}
+
+.value {
+  font-size: 0.9rem;
+  margin: 0;
+  word-break: break-word;
+  font-weight: 400;
+  line-height: 1.3;
+}
