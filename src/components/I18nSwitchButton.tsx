@@ -57,7 +57,7 @@ export default function I18nSwitchButton({
     <button
       type="button"
       role="switch"
-      aria-checked={isSpanish ? 'true' : 'false'}
+      aria-checked={isSpanish}
       onClick={handleToggle}
       className={`relative cursor-pointer hover:opacity-90 transition-opacity ${className}`}
       aria-label={`Switch to ${isSpanish ? 'English' : 'Spanish'}`}

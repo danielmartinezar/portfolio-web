@@ -5,6 +5,8 @@ export type {
   ServiceItem,
   SkillsTranslations,
   SkillItem,
+  ContactTranslations,
+  ContactItem,
 } from './types';
 
 /**
