@@ -63,11 +63,32 @@ export interface ContactTranslations {
 }
 
 /**
+ * Single experience item translation
+ */
+export interface ExperienceItem {
+  logo: string;
+  company: string;
+  role: string;
+  period: string;
+  achievements: string[];
+}
+
+/**
+ * Experience section translation structure
+ */
+export interface ExperienceTranslations {
+  subtitle: string;
+  title: string;
+  items: ExperienceItem[];
+}
+
+/**
  * Complete Home page translation structure
  */
 export interface HomePageTranslations {
   hero: HeroTranslations;
   services: ServicesTranslations;
   skills: SkillsTranslations;
+  experience: ExperienceTranslations;
   contact: ContactTranslations;
 }

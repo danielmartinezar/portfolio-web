@@ -7,6 +7,8 @@ export type {
   SkillItem,
   ContactTranslations,
   ContactItem,
+  ExperienceTranslations,
+  ExperienceItem,
 } from './types';
 
 /**

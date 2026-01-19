@@ -1,0 +1,116 @@
+.container {
+  border-bottom: 1px solid rgba(165, 169, 188, 0.2);
+}
+
+.container:last-child {
+  border-bottom: none;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.companyRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.company {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FBFCFF;
+}
+
+.chevron {
+  font-size: 1.25rem;
+  color: #A5A9BC;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+.role {
+  font-size: 0.875rem;
+  color: #A5A9BC;
+}
+
+.period {
+  font-size: 0.875rem;
+  color: #A5A9BC;
+  white-space: nowrap;
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.contentOpen {
+  max-height: 1000px;
+  padding-bottom: 1rem;
+}
+
+.achievements {
+  list-style: disc;
+  margin: 0;
+  padding-left: 4.5rem;
+}
+
+.achievement {
+  font-size: 0.875rem;
+  color: #A5A9BC;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.achievement:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .period {
+    padding-left: 4rem;
+  }
+
+  .achievements {
+    padding-left: 1rem;
+  }
+}
