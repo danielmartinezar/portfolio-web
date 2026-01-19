@@ -19,11 +19,19 @@ export interface ServiceItem {
 }
 
 /**
- * Single skill item translation
+ * Single skill item with icon reference
  */
 export interface SkillItem {
-  title: string;
-  description: string;
+  name: string;
+  icon: string;
+}
+
+/**
+ * Skill category with label and items
+ */
+export interface SkillCategory {
+  label: string;
+  items: SkillItem[];
 }
 
 /**
@@ -32,7 +40,7 @@ export interface SkillItem {
 export interface SkillsTranslations {
   subtitle: string;
   title: string;
-  items: SkillItem[];
+  categories: Record<string, SkillCategory>;
 }
 
 /**
@@ -66,11 +74,11 @@ export interface ContactTranslations {
  * Single experience item translation
  */
 export interface ExperienceItem {
-  logo: string;
   company: string;
   role: string;
   period: string;
-  achievements: string[];
+  description: string;
+  skills: string[];
 }
 
 /**

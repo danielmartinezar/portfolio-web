@@ -37,78 +37,82 @@ const en: HomePageTranslations = {
     ],
   },
   skills: {
-    subtitle: 'Core Technologies',
-    title: 'Where I Am Expert',
-    items: [
-      {
-        title: 'Backend',
-        description: 'Springboot, Nodejs, Nestjs, Express',
+    subtitle: 'My Skills',
+    title: 'Technologies I Work With',
+    categories: {
+      backend: {
+        label: 'Backend',
+        items: [
+          { name: 'Node.js', icon: 'nodejs' },
+          { name: 'TypeScript', icon: 'typescript' },
+          { name: 'NestJS', icon: 'nestjs' },
+          { name: 'Spring Boot', icon: 'springboot' },
+        ],
       },
-      {
-        title: 'Frontend',
-        description: 'React, Vite, NextJs',
+      frontend: {
+        label: 'Frontend',
+        items: [
+          { name: 'React', icon: 'react' },
+          { name: 'TypeScript', icon: 'typescript' },
+        ],
       },
-      {
-        title: 'Cloud',
-        description: 'AWS, GCP, Vercel',
+      database: {
+        label: 'Database',
+        items: [
+          { name: 'PostgreSQL', icon: 'postgresql' },
+          { name: 'MongoDB', icon: 'mongodb' },
+        ],
       },
-      {
-        title: 'Database',
-        description: 'MongoDb, PostgreSQL, MySQL',
+      mobile: {
+        label: 'Mobile',
+        items: [
+          { name: 'Flutter', icon: 'flutter' },
+        ],
       },
-      {
-        title: 'DevOps',
-        description: 'CI/CD, GitHub, Git',
+      devops: {
+        label: 'DevOps',
+        items: [
+          { name: 'Git', icon: 'git' },
+          { name: 'GitHub', icon: 'github' },
+        ],
       },
-      {
-        title: 'Mobile',
-        description: 'Flutter',
-      },
-    ],
+    },
   },
   experience: {
     subtitle: 'Experience',
     title: 'Work Experience',
     items: [
       {
-        logo: '/images/experience/humanforce.png',
         company: 'Humanforce',
         role: 'Software Engineer',
-        period: 'Jan 2024 - Present',
-        achievements: [
-          'Worked on web applications serving 600,000+ users with a modern tech stack including a Laravel backend (PHP) with GraphQL endpoints, a React SPA frontend (TypeScript), event-driven Node.js (TypeScript) microservices, and also AWS Lambda backends (TypeScript).',
-          'Enhanced the email log in intelliHR by integrating AWS SES and a microservice to track bounce, complaint, and delivery status, allowing users to retry failed messages.',
-          'Built user management features for a multi-tenant infrastructure management system, enabling administrators to create users, assign companies, and define permissions (TypeScript, Angular, Lambda, API Gateway, DynamoDB).',
-          'Developed backend APIs for the intelliHR-Thrive mobile app integration, streamlining in-app form completion and boosting task completion rates.',
-          'Automated pruning of large database tables to reduce data growth and lower long-term storage costs.',
-          'Setup Sumo Logic in Node.js and .NET lambdas to standardise logging format across codebases.',
-          'Improved job data download performance by implementing a streaming mechanism, making downloads significantly faster and more memory-efficient.',
-          'Implemented comprehensive testing across the stack using Playwright, PHPUnit, Jest and Cypress.',
-          'Migrated legacy REST endpoints to GraphQL.',
-          'Led smooth PHP and Laravel version upgrades.',
-          'Setup ESLint and Prettier in CI/CD pipelines to enforce coding standards and consistent code quality across teams.',
-        ],
+        period: '2024 - Present',
+        description:
+          'Hi! I am a software engineer based in Colombia, specialize in full stack development with Nodejs and Flutter.',
+        skills: ['react', 'typescript', 'nodejs', 'postgresql'],
       },
       {
-        logo: '/images/experience/uq.png',
         company: 'The University of Queensland',
         role: 'Software Engineer',
-        period: 'Nov 2022 - Jan 2024',
-        achievements: [],
+        period: '2022 - 2024',
+        description:
+          'Developed and maintained web applications for academic research projects.',
+        skills: ['react', 'typescript', 'nodejs'],
       },
       {
-        logo: '/images/experience/youpay.png',
         company: 'YouPay',
         role: 'Software Developer',
-        period: 'Feb 2022 - Nov 2022',
-        achievements: [],
+        period: '2022 - 2022',
+        description:
+          'Built payment integration features and improved checkout experience.',
+        skills: ['nodejs', 'typescript', 'mongodb'],
       },
       {
-        logo: '/images/experience/m3digital.png',
         company: 'M3 Digital',
         role: 'Web Developer',
-        period: 'Sep 2021 - Feb 2022',
-        achievements: [],
+        period: '2021 - 2022',
+        description:
+          'Created responsive websites and web applications for various clients.',
+        skills: ['react', 'nodejs'],
       },
     ],
   },

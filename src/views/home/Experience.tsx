@@ -1,10 +1,18 @@
 import type { ExperienceTranslations } from '../../pages/home/i18n';
 import { HomeSection } from './shared';
 import { ExperienceItem } from './components';
+import logoIcon from '../../assets/logo_icon.png';
 
 interface ExperienceProps {
   translations: ExperienceTranslations;
 }
+
+const experienceLogos: Record<string, string> = {
+  'Humanforce': logoIcon,
+  'The University of Queensland': logoIcon,
+  'YouPay': logoIcon,
+  'M3 Digital': logoIcon,
+};
 
 export default function Experience({ translations }: ExperienceProps) {
   return (
@@ -17,11 +25,12 @@ export default function Experience({ translations }: ExperienceProps) {
         {translations.items.map((experience, index) => (
           <ExperienceItem
             key={index}
-            logo={experience.logo}
+            logo={experienceLogos[experience.company]}
             company={experience.company}
             role={experience.role}
             period={experience.period}
-            achievements={experience.achievements}
+            description={experience.description}
+            skills={experience.skills}
           />
         ))}
       </div>

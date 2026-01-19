@@ -1,10 +1,12 @@
+import { lazy, Suspense } from "react";
 import { useTranslation } from "../../shared/services";
 import { homeTranslationLoaders, type HomePageTranslations } from "./i18n";
 import Hero from "../../views/home/Hero";
 import Services from "../../views/home/Services";
-import Skills from "../../views/home/Skills";
 import Experience from "../../views/home/Experience";
 import Contact from "../../views/home/Contact";
+
+const Skills = lazy(() => import("../../views/home/Skills"));
 
 export default function HomePage() {
   const { t, isLoading } = useTranslation<HomePageTranslations>(
@@ -20,7 +22,9 @@ export default function HomePage() {
       <Hero translations={t.hero} />
       <Services translations={t.services} />
       <Experience translations={t.experience} />
-      <Skills translations={t.skills} />
+      <Suspense fallback={null}>
+        <Skills translations={t.skills} />
+      </Suspense>
       <Contact translations={t.contact} />
     </div>
   );

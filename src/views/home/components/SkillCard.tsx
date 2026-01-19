@@ -1,19 +1,15 @@
+import type { ReactNode } from "react";
+
 interface SkillCardProps {
   /**
-   * Skill category title (e.g., "Backend", "Frontend")
+   * Skill name (e.g., "React", "TypeScript")
    */
   title: string;
 
   /**
-   * Technologies or skills description (e.g., "React, Vite, NextJs")
+   * Icon component to display
    */
-  description: string;
-
-  /**
-   * Whether the card has a highlighted border
-   * @default false
-   */
-  highlighted?: boolean;
+  icon: ReactNode;
 
   /**
    * Optional additional CSS classes
@@ -22,28 +18,22 @@ interface SkillCardProps {
 }
 
 /**
- * Card component for displaying skill categories
- *
- * Features:
- * - Clean card design with title and description
- * - Optional highlighted border variant
- * - Responsive styling
+ * Card component for displaying individual skills with icons
  */
-export default function SkillCard({
-  title,
-  description,
-  className = "",
-}: SkillCardProps) {
+export default function SkillCard({ title, icon, className = "" }: SkillCardProps) {
   return (
     <div
       className={`
-        bg-bg-primary rounded-lg p-4 md:p-6 text-center
-        h-28 flex flex-col justify-center
+        bg-bg-primary rounded-lg p-4
+        flex flex-col items-center justify-center gap-2
+        w-28 h-24 md:w-32 md:h-28
         ${className}
       `}
     >
-      <h3 className="text-lg font-semibold text-fg-primary mb-2">{title}</h3>
-      <p className="text-sm text-fg-secondary leading-relaxed">{description}</p>
+      <div className="w-8 h-8 md:w-10 md:h-10 text-fg-primary [&>svg]:w-full [&>svg]:h-full [&>svg]:fill-current">
+        {icon}
+      </div>
+      <span className="text-sm md:text-base font-medium text-fg-primary">{title}</span>
     </div>
   );
 }

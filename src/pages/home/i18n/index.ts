@@ -5,6 +5,7 @@ export type {
   ServiceItem,
   SkillsTranslations,
   SkillItem,
+  SkillCategory,
   ContactTranslations,
   ContactItem,
   ExperienceTranslations,
