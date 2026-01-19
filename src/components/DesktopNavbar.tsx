@@ -1,28 +1,28 @@
-interface NavLink {
-  label: string;
-  href: string;
-}
+import type { NavbarTranslations } from './i18n';
 
 interface DesktopNavbarProps {
-  links?: NavLink[];
+  translations: NavbarTranslations;
   activeHref?: string;
   className?: string;
 }
 
 export default function DesktopNavbar({
-  links = [
-    { label: 'Services', href: '#services' },
-    { label: 'Works', href: '#works' },
-    { label: 'Blog', href: '#blog' },
-  ],
+  translations,
   activeHref = '#services',
   className = '',
 }: DesktopNavbarProps) {
+  // Navigation structure defined here, translations only provide labels
+  const navigationLinks = [
+    { label: translations?.services || 'Services', href: '#services' },
+    { label: translations?.works || 'Works', href: '#works' },
+    { label: translations?.blog || 'Blog', href: '#blog' },
+  ];
+
   return (
     <nav className={`flex items-center ${className}`}>
       {/* Navigation Links */}
       <ul className="flex items-center gap-6 md:gap-8">
-        {links.map((link) => {
+        {navigationLinks.map((link) => {
           const isActive = link.href === activeHref;
           return (
             <li key={link.href} className="relative">

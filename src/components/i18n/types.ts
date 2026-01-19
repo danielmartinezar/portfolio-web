@@ -7,6 +7,15 @@ export interface NavLinkTranslation {
 }
 
 /**
+ * Navbar section translation structure
+ */
+export interface NavbarTranslations {
+  services: string;
+  works: string;
+  blog: string;
+}
+
+/**
  * Footer section translation structure
  */
 export interface FooterTranslations {

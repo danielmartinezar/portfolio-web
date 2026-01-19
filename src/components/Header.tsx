@@ -1,12 +1,16 @@
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import I18nSwitchButton from "./I18nSwitchButton";
+import { useTranslation } from "../shared/services";
+import { navbarTranslationLoaders } from "./i18n";
 
 interface HeaderProps {
   className?: string;
 }
 
 export default function Header({ className = "" }: HeaderProps) {
+  const { t: navbar } = useTranslation(navbarTranslationLoaders);
+
   return (
     <header className={`py-6 ${className}`}>
       <div className="flex justify-between items-center">
@@ -24,14 +28,18 @@ export default function Header({ className = "" }: HeaderProps) {
           <I18nSwitchButton size="sm" className="" />
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <DesktopNavbar />
-          </div>
+          {navbar && (
+            <div className="hidden md:block">
+              <DesktopNavbar translations={navbar} />
+            </div>
+          )}
 
           {/* Mobile Navigation */}
-          <div className="block md:hidden">
-            <MobileNavbar />
-          </div>
+          {navbar && (
+            <div className="block md:hidden">
+              <MobileNavbar translations={navbar} />
+            </div>
+          )}
         </div>
       </div>
     </header>
