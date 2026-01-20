@@ -31,7 +31,7 @@ export default function DesktopNavbar({
                 className={`transition-colors text-base md:text-lg font-medium ${
                   isActive
                     ? 'text-fg-primary'
-                    : 'text-fg-secondary hover:text-primary'
+                    : 'text-fg-secondary hover:text-fg-primary'
                 }`}
               >
                 {link.label}

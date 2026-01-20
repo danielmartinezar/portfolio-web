@@ -7,7 +7,7 @@ const en: HomePageTranslations = {
     description:
       'Software Engineer specialized in full stack development with Node.js and Flutter. I bring ideas to life through clean and scalable solutions.',
     contactButton: 'Lets talk',
-    followMe: 'Follow me on',
+    followMe: 'Find me on',
     imageAlt: 'Daniel Martinez',
   },
   services: {

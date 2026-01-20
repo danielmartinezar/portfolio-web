@@ -1,6 +1,6 @@
-import { useTranslation } from '../shared/services';
-import { footerTranslationLoaders } from './i18n';
-import SocialIcons from './SocialIcons';
+import { useTranslation } from "../shared/services";
+import { footerTranslationLoaders } from "./i18n";
+import SocialIcons from "./SocialIcons";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -30,16 +30,7 @@ export default function Footer() {
           </p>
 
           {/* Social Icons */}
-          <SocialIcons
-            direction="horizontal"
-            size="md"
-            gap="gap-4"
-            links={{
-              linkedin: 'https://linkedin.com',
-              github: 'https://github.com',
-              instagram: 'https://instagram.com',
-            }}
-          />
+          <SocialIcons direction="horizontal" size="md" gap="gap-4" />
         </div>
       </div>
     </footer>
