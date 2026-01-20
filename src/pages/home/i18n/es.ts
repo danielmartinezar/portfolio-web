@@ -80,41 +80,49 @@ const es: HomePageTranslations = {
   },
   experience: {
     subtitle: 'Experiencia',
-    title: 'Experiencia Laboral',
-    items: [
-      {
-        company: 'Humanforce',
-        role: 'Ingeniero de Software',
-        period: '2024 - Presente',
+    title: 'Experiencia Profesional',
+    items: {
+      'mosaiq': {
+        role: 'Ingeniero Full Stack',
         description:
-          '¡Hola! Soy un ingeniero de software en Colombia, especializado en desarrollo full stack con Nodejs y Flutter.',
-        skills: ['react', 'typescript', 'nodejs', 'postgresql'],
+          'Plataforma SaaS impulsada por IA para construcción de marca que ayuda a empresas a crear y documentar su identidad de marca profesionalmente. Construyendo agentes conversacionales de IA usando LangGraph que guían a usuarios a través de preguntas estructuradas para generar documentos de branding de alta calidad.',
       },
-      {
-        company: 'The University of Queensland',
-        role: 'Ingeniero de Software',
-        period: '2022 - 2024',
+      'dappsco-fifco': {
+        role: 'Ingeniero Backend Mid-level',
         description:
-          'Desarrollé y mantuve aplicaciones web para proyectos de investigación académica.',
-        skills: ['react', 'typescript', 'nodejs'],
+          'Líder costarricense de alimentos y bebidas con una app gamificada de aprendizaje que involucra usuarios mediante quizzes, colección de puntos y canje de recompensas. Construyendo servicios backend escalables con Node.js, Strapi y PostgreSQL. Desplegando en Google Cloud (Cloud Run, Cloud Build, Cloud Storage).',
       },
-      {
-        company: 'YouPay',
-        role: 'Desarrollador de Software',
-        period: '2022 - 2022',
+      'brentunited': {
+        role: 'Ingeniero Frontend',
         description:
-          'Construí funcionalidades de integración de pagos y mejoré la experiencia de checkout.',
-        skills: ['nodejs', 'typescript', 'mongodb'],
+          'Empresa líder en acabados arquitectónicos con 6 años de experiencia especializada en Alucobond, Louvers, rótulos, portones y estructuras metálicas. Diseñé y desarrollé el sitio web corporativo usando React, TypeScript y Vite, desplegado en Vercel.',
       },
-      {
-        company: 'M3 Digital',
-        role: 'Desarrollador Web',
-        period: '2021 - 2022',
+      'refundo': {
+        role: 'Ingeniero Backend',
         description:
-          'Creé sitios web responsivos y aplicaciones web para diversos clientes.',
-        skills: ['react', 'nodejs'],
+          'Plataforma bancaria todo-en-uno para preparadores de impuestos que ofrece productos bancarios competitivos y herramientas de crecimiento. Construí una API Server-Driven UI (SDUI) con NestJS que sirve interfaces dinámicas y datos hidratados para una app móvil Flutter, siguiendo mejores prácticas y arquitectura limpia.',
       },
-    ],
+      'dappsco-realay': {
+        role: 'Ingeniero Backend Mid-level',
+        description:
+          'Startup inmobiliaria que proporciona una plataforma basada en app para simplificar la gestión de propiedades y comunicación entre agentes y clientes. Construí APIs RESTful modulares usando NestJS, TypeORM, PostgreSQL y Supabase. Desplegué soluciones escalables con AWS (ECS, S3, Lambda) y Docker.',
+      },
+      'software-sushi-babel-street': {
+        role: 'Ingeniero Frontend',
+        description:
+          'Plataforma de inteligencia impulsada por IA para detección de amenazas y gestión de riesgos. Desarrollé interfaces de usuario responsivas usando Next.js, React, Redux y Material UI. Construí arquitectura frontend escalable y optimicé el rendimiento de la aplicación.',
+      },
+      'ucover': {
+        role: 'Ingeniero Frontend',
+        description:
+          'Plataforma móvil innovadora que transforma el descubrimiento local, conectando usuarios con experiencias culturales y recreativas. Desarrollé interfaces amigables usando React y Ant Design. Integré Wompi como pasarela de pagos.',
+      },
+      'overnights': {
+        role: 'Ingeniero Full Stack',
+        description:
+          'Startup de alquileres vacacionales con app web y móvil sin comisiones para reservas directas entre anfitriones y huéspedes. Desarrollé funcionalidades full-stack usando MongoDB, Express, React, Node.js. Integré Stripe para pagos y desplegué en Google Cloud Platform y DigitalOcean.',
+      },
+    },
   },
   contact: {
     subtitle: 'Hablemos',

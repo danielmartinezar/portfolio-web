@@ -12,6 +12,21 @@ import MongoIcon from "../../../assets/tools/mongodb.svg?react";
 import FlutterIcon from "../../../assets/tools/flutter.svg?react";
 import GitIcon from "../../../assets/tools/git.svg?react";
 import GithubIcon from "../../../assets/tools/github.svg?react";
+import StrapiIcon from "../../../assets/tools/strapi.svg?react";
+import GoogleCloudIcon from "../../../assets/tools/googlecloud.svg?react";
+import SupabaseIcon from "../../../assets/tools/supabase.svg?react";
+import AwsIcon from "../../../assets/tools/aws.svg?react";
+import DockerIcon from "../../../assets/tools/docker.svg?react";
+import NextJsIcon from "../../../assets/tools/nextdotjs.svg?react";
+import ReduxIcon from "../../../assets/tools/redux.svg?react";
+import MaterialUiIcon from "../../../assets/tools/mui.svg?react";
+import AntDesignIcon from "../../../assets/tools/antdesign.svg?react";
+import CssIcon from "../../../assets/tools/css.svg?react";
+import ExpressIcon from "../../../assets/tools/express.svg?react";
+import DigitalOceanIcon from "../../../assets/tools/digitalocean.svg?react";
+import StripeIcon from "../../../assets/tools/stripe.svg?react";
+import VercelIcon from "../../../assets/tools/vercel.svg?react";
+import LanggraphIcon from "../../../assets/tools/langgraph.svg?react";
 
 const iconMap: Record<string, ReactNode> = {
   typescript: <TypeScriptIcon />,
@@ -27,6 +42,22 @@ const iconMap: Record<string, ReactNode> = {
   flutter: <FlutterIcon />,
   git: <GitIcon />,
   github: <GithubIcon />,
+  strapi: <StrapiIcon />,
+  googlecloud: <GoogleCloudIcon />,
+  supabase: <SupabaseIcon />,
+  aws: <AwsIcon />,
+  docker: <DockerIcon />,
+  nextjs: <NextJsIcon />,
+  redux: <ReduxIcon />,
+  materialui: <MaterialUiIcon />,
+  antdesign: <AntDesignIcon />,
+  css: <CssIcon />,
+  express: <ExpressIcon />,
+  digitalocean: <DigitalOceanIcon />,
+  stripe: <StripeIcon />,
+  vercel: <VercelIcon />,
+  langraph: <LanggraphIcon />,
+  langgraph: <LanggraphIcon />,
 };
 
 function getIcon(iconKey: string): ReactNode {

@@ -71,14 +71,11 @@ export interface ContactTranslations {
 }
 
 /**
- * Single experience item translation
+ * Single experience item translation (only translatable fields)
  */
-export interface ExperienceItem {
-  company: string;
+export interface ExperienceItemTranslation {
   role: string;
-  period: string;
   description: string;
-  skills: string[];
 }
 
 /**
@@ -87,7 +84,7 @@ export interface ExperienceItem {
 export interface ExperienceTranslations {
   subtitle: string;
   title: string;
-  items: ExperienceItem[];
+  items: Record<string, ExperienceItemTranslation>;
 }
 
 /**

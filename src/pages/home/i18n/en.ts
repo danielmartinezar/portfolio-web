@@ -80,41 +80,49 @@ const en: HomePageTranslations = {
   },
   experience: {
     subtitle: 'Experience',
-    title: 'Work Experience',
-    items: [
-      {
-        company: 'Humanforce',
-        role: 'Software Engineer',
-        period: '2024 - Present',
+    title: 'Professional Experience',
+    items: {
+      'mosaiq': {
+        role: 'Full Stack Engineer',
         description:
-          'Hi! I am a software engineer based in Colombia, specialize in full stack development with Nodejs and Flutter.',
-        skills: ['react', 'typescript', 'nodejs', 'postgresql'],
+          'AI-powered SaaS platform for brand building that helps businesses create and document their brand identity professionally. Building conversational AI agents using LangGraph that guide users through structured questions to generate high-quality branding documents.',
       },
-      {
-        company: 'The University of Queensland',
-        role: 'Software Engineer',
-        period: '2022 - 2024',
+      'dappsco-fifco': {
+        role: 'Mid-level Backend Engineer',
         description:
-          'Developed and maintained web applications for academic research projects.',
-        skills: ['react', 'typescript', 'nodejs'],
+          'Costa Rican food & beverage leader with a gamified learning app that engages users through quizzes, point collection, and reward redemption. Building scalable backend services with Node.js, Strapi, and PostgreSQL. Deploying on Google Cloud (Cloud Run, Cloud Build, Cloud Storage).',
       },
-      {
-        company: 'YouPay',
-        role: 'Software Developer',
-        period: '2022 - 2022',
+      'brentunited': {
+        role: 'Frontend Engineer',
         description:
-          'Built payment integration features and improved checkout experience.',
-        skills: ['nodejs', 'typescript', 'mongodb'],
+          'Leading company in architectural finishes with 6 years of experience specializing in Alucobond, Louvers, signs, gates, and metal structures. Designed and developed the corporate website using React, TypeScript, and Vite, deployed on Vercel.',
       },
-      {
-        company: 'M3 Digital',
-        role: 'Web Developer',
-        period: '2021 - 2022',
+      'refundo': {
+        role: 'Backend Engineer',
         description:
-          'Created responsive websites and web applications for various clients.',
-        skills: ['react', 'nodejs'],
+          'All-in-one banking platform for tax preparers offering competitive bank products and growth tools. Built a Server-Driven UI (SDUI) API with NestJS that serves dynamic UIs and hydrated data for a Flutter mobile app, following best practices and clean architecture.',
       },
-    ],
+      'dappsco-realay': {
+        role: 'Mid-level Backend Engineer',
+        description:
+          'Real estate startup providing an app-based platform to simplify property management and communication between agents and clients. Built modular RESTful APIs using NestJS, TypeORM, PostgreSQL, and Supabase. Deployed scalable solutions with AWS (ECS, S3, Lambda) and Docker.',
+      },
+      'software-sushi-babel-street': {
+        role: 'Frontend Engineer',
+        description:
+          'AI-powered intelligence platform for threat detection and risk management. Developed responsive user interfaces using Next.js, React, Redux, and Material UI. Built scalable frontend architecture and optimized application performance.',
+      },
+      'ucover': {
+        role: 'Frontend Engineer',
+        description:
+          'Innovative mobile platform that transforms local discovery, connecting users with cultural and recreational experiences. Developed user-friendly interfaces using React and Ant Design. Integrated Wompi as payment gateway.',
+      },
+      'overnights': {
+        role: 'Full Stack Engineer',
+        description:
+          'Vacation rental startup with a no-fee web and mobile app for direct host-guest booking. Developed full-stack features using MongoDB, Express, React, Node.js. Integrated Stripe for payments and deployed on Google Cloud Platform and DigitalOcean.',
+      },
+    },
   },
   contact: {
     subtitle: 'Lets Talk',
