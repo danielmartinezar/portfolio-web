@@ -84,6 +84,8 @@ export interface ExperienceItemTranslation {
 export interface ExperienceTranslations {
   subtitle: string;
   title: string;
+  showMore: string;
+  showLess: string;
   items: Record<string, ExperienceItemTranslation>;
 }
 

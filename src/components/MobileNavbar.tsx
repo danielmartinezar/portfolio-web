@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { NavbarTranslations } from './i18n';
 
 interface MobileNavbarProps {
@@ -23,6 +23,18 @@ export default function MobileNavbar({
   ];
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  // Block scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const handleLinkClick = () => {
     setIsOpen(false);
@@ -86,7 +98,7 @@ export default function MobileNavbar({
             onMouseLeave={handleMouseUp}
             onTouchStart={handleMouseDown}
             onTouchEnd={handleMouseUp}
-            className={`text-fg-primary hover:text-primary transition-all duration-150 ${
+            className={`text-fg-primary hover:text-primary transition-all duration-300 ${
               isPressed ? 'scale-90 rotate-90' : 'scale-100 rotate-0'
             }`}
             aria-label="Close menu"
@@ -113,27 +125,26 @@ export default function MobileNavbar({
         <nav className="flex flex-col items-start px-8 py-12 gap-8">
           {navigationLinks.map((link, index) => {
             const isActive = link.href === activeHref;
+            const delayClass = isOpen
+              ? ['delay-0', 'delay-100', 'delay-200'][index]
+              : 'delay-0';
             return (
               <div
                 key={link.href}
-                className={`relative flex items-center gap-4 transition-all duration-500 ${
+                className={`relative flex items-center gap-4 transition-all duration-500 ${delayClass} ${
                   isOpen
                     ? 'opacity-100 translate-x-0'
                     : 'opacity-0 -translate-x-8'
                 }`}
-                style={{
-                  transitionDelay: isOpen ? `${index * 100}ms` : '0ms',
-                }}
               >
                 <a
                   href={link.href}
                   onClick={handleLinkClick}
-                  className={`transition-colors font-medium leading-none ${
+                  className={`text-6xl transition-colors font-medium leading-none ${
                     isActive
                       ? 'text-fg-primary'
                       : 'text-fg-secondary hover:text-primary'
                   }`}
-                  style={{ fontSize: '60px' }}
                 >
                   {link.label}
                 </a>

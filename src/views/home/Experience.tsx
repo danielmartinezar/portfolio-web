@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ExperienceTranslations } from '../../pages/home/i18n';
 import { HomeSection } from './shared';
 import { ExperienceItem } from './components';
@@ -81,7 +82,15 @@ const experiences: ExperienceData[] = [
   },
 ];
 
+const INITIAL_COUNT = 4;
+
 export default function Experience({ translations }: ExperienceProps) {
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleExperiences = showAll
+    ? experiences
+    : experiences.slice(0, INITIAL_COUNT);
+
   return (
     <HomeSection
       subtitle={translations.subtitle}
@@ -89,7 +98,7 @@ export default function Experience({ translations }: ExperienceProps) {
       variant="primary"
     >
       <div className="max-w-3xl mx-auto">
-        {experiences.map((experience) => {
+        {visibleExperiences.map((experience) => {
           const translation = translations.items[experience.id];
           return (
             <ExperienceItem
@@ -103,6 +112,15 @@ export default function Experience({ translations }: ExperienceProps) {
             />
           );
         })}
+        {experiences.length > INITIAL_COUNT && (
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="w-full mt-6 py-3 px-6 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-400 dark:hover:border-gray-600 transition-colors duration-200"
+          >
+            {showAll ? translations.showLess : `${translations.showMore}`}
+          </button>
+        )}
       </div>
     </HomeSection>
   );

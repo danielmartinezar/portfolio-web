@@ -79,8 +79,10 @@ const es: HomePageTranslations = {
     },
   },
   experience: {
-    subtitle: 'Experiencia',
-    title: 'Experiencia Profesional',
+    subtitle: 'Mi Trayectoria',
+    title: 'Compañías Donde He Trabajado',
+    showMore: 'Ver más',
+    showLess: 'Ver menos',
     items: {
       'mosaiq': {
         role: 'Ingeniero Full Stack',
