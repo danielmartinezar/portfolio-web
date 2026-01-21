@@ -5,14 +5,19 @@ interface ContactButtonProps {
 }
 
 export default function ContactButton({ onClick, className = '', label = "Let's talk" }: ContactButtonProps) {
+  const handleClick = () => {
+    window.open('https://wa.me/573024689083', '_blank');
+    onClick?.();
+  };
+
   return (
     <button
-      onClick={onClick}
-      className={`flex items-center gap-0 text-primary hover:opacity-80 transition-opacity ${className} text-lg`}
+      onClick={handleClick}
+      className={`flex items-center gap-0.5 text-primary hover:opacity-80 transition-opacity ${className} text-xl`}
     >
       <svg
-        width="16"
-        height="16"
+        width="20"
+        height="20"
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

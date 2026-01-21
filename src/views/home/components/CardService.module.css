@@ -139,3 +139,23 @@
     line-height: var(--line-height-relaxed);
   }
 }
+
+/* Flip hint animation - plays once when section becomes visible */
+@keyframes flipHint {
+  0% {
+    transform: rotateY(0deg);
+  }
+  45% {
+    transform: rotateY(180deg);
+  }
+  55% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.flipHint {
+  animation: flipHint 2s ease-in-out;
+}

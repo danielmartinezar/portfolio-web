@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import type { SkillsTranslations } from "../../pages/home/i18n";
 import { HomeSection } from "./shared";
 import { SkillCard, SkillTabs } from "./components";
@@ -43,11 +43,32 @@ interface SkillsProps {
 export default function Skills({ translations }: SkillsProps) {
   const categories = Object.keys(translations.categories);
   const [activeTab, setActiveTab] = useState(categories[0] || "");
+  const [pulseTabIndex, setPulseTabIndex] = useState<number | undefined>(undefined);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const tabLabels = categories.map((cat) => translations.categories[cat].label);
   const activeCategory = translations.categories[activeTab];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setPulseTabIndex(1);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
+    <div ref={sectionRef}>
     <HomeSection
       subtitle={translations.subtitle}
       title={translations.title}
@@ -58,8 +79,14 @@ export default function Skills({ translations }: SkillsProps) {
         activeTab={activeCategory?.label || ""}
         onTabChange={(label) => {
           const cat = categories.find((c) => translations.categories[c].label === label);
-          if (cat) setActiveTab(cat);
+          if (cat) {
+            setActiveTab(cat);
+            if (pulseTabIndex !== undefined) {
+              setPulseTabIndex(undefined);
+            }
+          }
         }}
+        pulseTabIndex={pulseTabIndex}
       />
       <div className="flex flex-wrap justify-center gap-3 md:gap-4">
         {activeCategory?.items.map((skill) => (
@@ -71,5 +98,6 @@ export default function Skills({ translations }: SkillsProps) {
         ))}
       </div>
     </HomeSection>
+    </div>
   );
 }

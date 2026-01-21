@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import styles from "./CardService.module.css";
 
 interface CardServiceProps {
@@ -21,6 +21,11 @@ interface CardServiceProps {
    * Optional additional CSS classes
    */
   className?: string;
+
+  /**
+   * When true, plays a flip animation hint to show the card is interactive
+   */
+  showFlipHint?: boolean;
 }
 
 /**
@@ -37,30 +42,56 @@ export default function CardService({
   icon,
   description,
   className = "",
+  showFlipHint = false,
 }: CardServiceProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  const isFlipped = isTouchDevice ? isClicked : isHovered;
+
+  useEffect(() => {
+    if (showFlipHint && !hasAnimated) {
+      setIsAnimating(true);
+      setHasAnimated(true);
+      const timer = setTimeout(() => setIsAnimating(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showFlipHint, hasAnimated]);
+
+  const handleClick = () => {
+    if (isTouchDevice) {
+      setIsClicked(!isClicked);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      handleFlip();
+      if (isTouchDevice) {
+        setIsClicked(!isClicked);
+      }
     }
   };
 
   return (
     <div
       className={`${styles.cardContainer} ${className}`}
-      onClick={handleFlip}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
       onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
-      aria-label={`${title}. Click to ${isFlipped ? "hide" : "show"} description`}
+      aria-label={`${title}. Click or hover to ${isFlipped ? "hide" : "show"} description`}
     >
-      <div className={`${styles.card} ${isFlipped ? styles.flipped : ""}`}>
+      <div className={`${styles.card} ${isFlipped ? styles.flipped : ""} ${isAnimating ? styles.flipHint : ""}`}>
         {/* Front Face */}
         <div className={styles.cardFace}>
           {/* Flip indicator */}

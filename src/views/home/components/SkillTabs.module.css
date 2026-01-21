@@ -28,3 +28,23 @@
   color: #FBFCFF;
   border-color: #FFD154;
 }
+
+/* Pulse hint animation */
+@keyframes pulseHint {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 209, 84, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(255, 209, 84, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 209, 84, 0);
+  }
+}
+
+.pulseHint {
+  animation: pulseHint 0.8s ease-in-out infinite;
+}

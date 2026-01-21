@@ -5,14 +5,14 @@ const es: HomePageTranslations = {
     name: 'DANIEL MARTINEZ',
     slogan: 'Donde la creatividad se encuentra con la ingeniería',
     description:
-      'Ingeniero de Software, especializado en desarrollo de principio a fin. Doy vida a las ideas a través de soluciones limpias y escalables.',
+      'Ingeniero de Software, especializado en desarrollo end-to-end. Doy vida a las ideas a través de soluciones limpias y escalables.',
     contactButton: 'Contáctame',
     followMe: 'Encuéntrame en',
     imageAlt: 'Daniel Martinez',
   },
   services: {
     subtitle: 'Servicios',
-    title: 'Lo Que Ofrezco',
+    title: 'Lo que ofrezco',
     items: [
       {
         title: 'Desarrollo Móvil con Flutter',
@@ -22,7 +22,7 @@ const es: HomePageTranslations = {
       {
         title: 'Desarrollo Full Stack',
         description:
-          'Desarrollo web de principio a fin con Node.js, React y frameworks modernos. Desde diseño de base de datos hasta interfaces responsivas.',
+          'Desarrollo web end-to-end con Node.js, React y frameworks modernos. Desde diseño de base de datos hasta interfaces responsivas.',
       },
       {
         title: 'Soluciones en la Nube',
@@ -37,8 +37,8 @@ const es: HomePageTranslations = {
     ],
   },
   skills: {
-    subtitle: 'Mis Habilidades',
-    title: 'Tecnologías Con Las Que Trabajo',
+    subtitle: 'Mis habilidades',
+    title: 'Tecnologías con las que trabajo',
     categories: {
       backend: {
         label: 'Backend',
@@ -79,8 +79,8 @@ const es: HomePageTranslations = {
     },
   },
   experience: {
-    subtitle: 'Mi Trayectoria',
-    title: 'Compañías Donde He Trabajado',
+    subtitle: 'Mi trayectoria',
+    title: 'Compañías donde he trabajado',
     showMore: 'Ver más',
     showLess: 'Ver menos',
     items: {

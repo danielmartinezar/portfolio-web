@@ -116,7 +116,7 @@ export default function Experience({ translations }: ExperienceProps) {
           <button
             type="button"
             onClick={() => setShowAll(!showAll)}
-            className="w-full mt-6 py-3 px-6 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-400 dark:hover:border-gray-600 transition-colors duration-200"
+            className="w-full mt-6 py-3 px-6 text-sm font-medium text-fg-tertiary border border-fg-secondary rounded-lg hover:text-fg-primary hover:border-fg-primary transition-colors duration-200"
           >
             {showAll ? translations.showLess : `${translations.showMore}`}
           </button>

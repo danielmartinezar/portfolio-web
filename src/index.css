@@ -10,6 +10,7 @@
 
   /* Foreground colors (text, icons, borders, UI elements) */
   --color-fg-primary: #FBFCFF;
+  --color-fg-tertiary: #C5C8D6;
   --color-fg-secondary: #A5A9BC;
 
   /* Font families */

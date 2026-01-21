@@ -12,7 +12,7 @@ const en: HomePageTranslations = {
   },
   services: {
     subtitle: "Services",
-    title: "What I Am Providing",
+    title: "What I am providing",
     items: [
       {
         title: "Flutter Mobile Development",
@@ -37,8 +37,8 @@ const en: HomePageTranslations = {
     ],
   },
   skills: {
-    subtitle: "My Skills",
-    title: "Technologies I Work With",
+    subtitle: "My skills",
+    title: "Technologies I work with",
     categories: {
       backend: {
         label: "Backend",
@@ -77,8 +77,8 @@ const en: HomePageTranslations = {
     },
   },
   experience: {
-    subtitle: "My Journey",
-    title: "Companies I've Worked With",
+    subtitle: "My journey",
+    title: "Companies I've worked with",
     showMore: "Show more",
     showLess: "Show less",
     items: {
@@ -125,7 +125,7 @@ const en: HomePageTranslations = {
     },
   },
   contact: {
-    subtitle: "Lets Talk",
+    subtitle: "Let's talk",
     title: "Ways to contact me",
     description:
       "I'm always happy to hear from you. If you have any questions, doubts, or simply want to connect, feel free to reach out. I'm here to help and will gladly answer anything you need.",
