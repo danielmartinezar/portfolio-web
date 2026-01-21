@@ -2,10 +2,10 @@ import type { HomePageTranslations } from './types';
 
 const es: HomePageTranslations = {
   hero: {
-    greeting: 'HEY SOY YO!',
     name: 'DANIEL MARTINEZ',
+    slogan: 'Donde la creatividad se encuentra con la ingeniería',
     description:
-      'Ingeniero de Software especializado en desarrollo full stack con Node.js y Flutter. Doy vida a las ideas a través de soluciones limpias y escalables.',
+      'Ingeniero de Software, especializado en desarrollo de principio a fin. Doy vida a las ideas a través de soluciones limpias y escalables.',
     contactButton: 'Contáctame',
     followMe: 'Encuéntrame en',
     imageAlt: 'Daniel Martinez',

@@ -2,10 +2,10 @@ import type { HomePageTranslations } from "./types";
 
 const en: HomePageTranslations = {
   hero: {
-    greeting: "HEY IT'S ME!",
     name: "DANIEL MARTINEZ",
+    slogan: "Where creativity meets engineering",
     description:
-      "Software Engineer specialized in full stack development with Node.js and Flutter. I bring ideas to life through clean and scalable solutions.",
+      "Software Engineer, specialized in end-to-end development. I bring ideas to life through clean and scalable solutions.",
     contactButton: "Lets talk",
     followMe: "Find me on",
     imageAlt: "Daniel Martinez",

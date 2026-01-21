@@ -2,8 +2,8 @@
  * Hero section translation structure
  */
 export interface HeroTranslations {
-  greeting: string;
   name: string;
+  slogan: string;
   description: string;
   contactButton: string;
   followMe: string;
