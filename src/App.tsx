@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { ContentContainer } from "./components/layout";
 import { LanguageProvider } from "./shared/services";
 
 const HomePage = lazy(() => import("./pages/home/HomePage"));
