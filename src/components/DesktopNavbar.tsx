@@ -1,43 +1,39 @@
-import type { NavbarTranslations } from './i18n';
+import { Link, useLocation } from "react-router-dom";
+import type { NavbarTranslations } from "./i18n";
+import { NAVIGATION_LINKS } from "../shared/constants";
+import { isActive } from "../shared/utils/navigation.utils";
 
 interface DesktopNavbarProps {
   translations: NavbarTranslations;
-  activeHref?: string;
   className?: string;
 }
 
 export default function DesktopNavbar({
   translations,
-  activeHref = '#services',
-  className = '',
+  className = "",
 }: DesktopNavbarProps) {
-  // Navigation structure defined here, translations only provide labels
-  const navigationLinks = [
-    { label: translations?.services || 'Services', href: '#services' },
-    { label: translations?.works || 'Works', href: '#works' },
-    { label: translations?.blog || 'Blog', href: '#blog' },
-  ];
+  const { pathname } = useLocation();
 
   return (
     <nav className={`flex items-center ${className}`}>
-      {/* Navigation Links */}
       <ul className="flex items-center gap-6 md:gap-8">
-        {navigationLinks.map((link) => {
-          const isActive = link.href === activeHref;
+        {NAVIGATION_LINKS.map((link) => {
+          const label = translations?.[link.translationKey] || link.fallbackLabel;
+          const active = isActive(pathname, link.href);
+
           return (
             <li key={link.href} className="relative">
-              <a
-                href={link.href}
+              <Link
+                to={link.href}
                 className={`transition-colors text-base md:text-lg font-medium ${
-                  isActive
-                    ? 'text-fg-primary'
-                    : 'text-fg-secondary hover:text-fg-primary'
+                  active
+                    ? "text-fg-primary"
+                    : "text-fg-secondary hover:text-fg-primary"
                 }`}
               >
-                {link.label}
-              </a>
-              {/* Yellow dot below active item */}
-              {isActive && (
+                {label}
+              </Link>
+              {active && (
                 <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-1.5 h-1.5 bg-primary rounded-full"></div>
               )}
             </li>

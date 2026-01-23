@@ -10,8 +10,8 @@ export interface NavLinkTranslation {
  * Navbar section translation structure
  */
 export interface NavbarTranslations {
-  services: string;
-  works: string;
+  home: string;
+  about: string;
   blog: string;
 }
 

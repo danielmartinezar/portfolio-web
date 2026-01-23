@@ -1,38 +1,33 @@
-import { useState, useEffect } from 'react';
-import type { NavbarTranslations } from './i18n';
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import type { NavbarTranslations } from "./i18n";
+import { NAVIGATION_LINKS } from "../shared/constants";
+import { isActive } from "../shared/utils/navigation.utils";
 
 interface MobileNavbarProps {
   translations: NavbarTranslations;
-  activeHref?: string;
   className?: string;
 }
 
 export default function MobileNavbar({
   translations,
-  activeHref = '#services',
-  className = '',
+  className = "",
 }: MobileNavbarProps) {
+  const { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
-
-  // Navigation structure defined here, translations only provide labels
-  const navigationLinks = [
-    { label: translations?.services || 'Services', href: '#services' },
-    { label: translations?.works || 'Works', href: '#works' },
-    { label: translations?.blog || 'Blog', href: '#blog' },
-  ];
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   // Block scroll when menu is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 
@@ -55,7 +50,7 @@ export default function MobileNavbar({
           onTouchStart={handleMouseDown}
           onTouchEnd={handleMouseUp}
           className={`text-fg-primary hover:text-primary transition-all duration-300 ${
-            isPressed ? 'opacity-0 scale-50' : 'opacity-100 scale-100'
+            isPressed ? "opacity-0 scale-50" : "opacity-100 scale-100"
           }`}
           aria-label="Menu"
           aria-expanded={isOpen}
@@ -86,7 +81,7 @@ export default function MobileNavbar({
       {/* Sidebar Menu */}
       <div
         className={`fixed top-0 right-0 h-full w-full bg-bg-primary z-50 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Close Button */}
@@ -99,7 +94,7 @@ export default function MobileNavbar({
             onTouchStart={handleMouseDown}
             onTouchEnd={handleMouseUp}
             className={`text-fg-primary hover:text-primary transition-all duration-300 ${
-              isPressed ? 'scale-90 rotate-90' : 'scale-100 rotate-0'
+              isPressed ? "scale-90 rotate-90" : "scale-100 rotate-0"
             }`}
             aria-label="Close menu"
           >
@@ -123,33 +118,33 @@ export default function MobileNavbar({
 
         {/* Navigation Links */}
         <nav className="flex flex-col items-start px-8 py-12 gap-8">
-          {navigationLinks.map((link, index) => {
-            const isActive = link.href === activeHref;
+          {NAVIGATION_LINKS.map((link, index) => {
+            const label = translations?.[link.translationKey] || link.fallbackLabel;
+            const active = isActive(pathname, link.href);
             const delayClass = isOpen
-              ? ['delay-0', 'delay-100', 'delay-200'][index]
-              : 'delay-0';
+              ? ["delay-0", "delay-100", "delay-200"][index]
+              : "delay-0";
             return (
               <div
                 key={link.href}
                 className={`relative flex items-center gap-4 transition-all duration-500 ${delayClass} ${
                   isOpen
-                    ? 'opacity-100 translate-x-0'
-                    : 'opacity-0 -translate-x-8'
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-8"
                 }`}
               >
-                <a
-                  href={link.href}
+                <Link
+                  to={link.href}
                   onClick={handleLinkClick}
                   className={`text-6xl transition-colors font-medium leading-none ${
-                    isActive
-                      ? 'text-fg-primary'
-                      : 'text-fg-secondary hover:text-primary'
+                    active
+                      ? "text-fg-primary"
+                      : "text-fg-secondary hover:text-primary"
                   }`}
                 >
-                  {link.label}
-                </a>
-                {/* Yellow dot next to active item */}
-                {isActive && (
+                  {label}
+                </Link>
+                {active && (
                   <div className="w-4 h-4 bg-primary rounded-full"></div>
                 )}
               </div>

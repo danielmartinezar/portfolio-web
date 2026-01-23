@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "created_at": "2025-07-10",
+    "title": "The future of cloud computing: Predictions and trends",
+    "resume": "Cloud computing is the on-demand delivery of computing resources like storage, processing, and software over the internet. Discover what the future holds for this transformative technology.",
+    "cover_image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=400&fit=crop",
+    "content": "<h2>Introduction</h2><p>Cloud computing has revolutionized how businesses operate, offering scalable and flexible solutions. In this article, we explore the key predictions and trends shaping the future of cloud technology.</p><h2>Key Trends</h2><ul><li><strong>Edge Computing:</strong> Processing data closer to the source for reduced latency.</li><li><strong>Serverless Architecture:</strong> Focus on code without managing infrastructure.</li><li><strong>Multi-cloud Strategies:</strong> Leveraging multiple providers for resilience.</li></ul><h2>Conclusion</h2><p>The cloud landscape continues to evolve rapidly, and staying informed about these trends is crucial for developers and businesses alike.</p>",
+    "category": "architecture"
+  },
+  {
+    "id": 2,
+    "created_at": "2025-06-25",
+    "title": "Understanding TypeScript generics in depth",
+    "resume": "TypeScript generics allow you to create reusable components that work with a variety of types. Learn how to leverage them effectively in your projects.",
+    "cover_image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop",
+    "content": "<h2>What are Generics?</h2><p>Generics provide a way to create components that can work over a variety of types rather than a single one.</p><h2>Basic Example</h2><pre><code>function identity&lt;T&gt;(arg: T): T {\n  return arg;\n}</code></pre><h2>Constraints</h2><p>You can use constraints to limit the types that a generic can accept using the <code>extends</code> keyword.</p>",
+    "category": "frontend"
+  },
+  {
+    "id": 3,
+    "created_at": "2025-06-10",
+    "title": "Building scalable APIs with Node.js and Express",
+    "resume": "Learn the best practices for building production-ready APIs using Node.js and Express, including error handling, validation, and architecture patterns.",
+    "cover_image": "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=600&h=400&fit=crop",
+    "content": "<h2>Project Structure</h2><p>A well-organized project structure is key to maintainability. Separate your routes, controllers, services, and models into distinct layers.</p><h2>Error Handling</h2><p>Centralize error handling with middleware to keep your controllers clean and consistent.</p><h2>Validation</h2><p>Use libraries like Zod or Joi to validate incoming request data at the boundaries of your application.</p>",
+    "category": "backend"
+  },
+  {
+    "id": 4,
+    "created_at": "2025-05-20",
+    "title": "React performance optimization techniques",
+    "resume": "Discover practical techniques to optimize your React applications, from memoization to code splitting and virtualization.",
+    "cover_image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop",
+    "content": "<h2>Memoization</h2><p>Use <code>React.memo</code>, <code>useMemo</code>, and <code>useCallback</code> to prevent unnecessary re-renders.</p><h2>Code Splitting</h2><p>Lazy load components with <code>React.lazy</code> and <code>Suspense</code> to reduce initial bundle size.</p><h2>Virtualization</h2><p>For long lists, use libraries like react-window to only render visible items.</p>",
+    "category": "frontend"
+  },
+  {
+    "id": 5,
+    "created_at": "2025-05-05",
+    "title": "Introduction to Docker for frontend developers",
+    "resume": "Docker isn't just for backend developers. Learn how containerization can improve your frontend development workflow and deployment process.",
+    "cover_image": "https://images.unsplash.com/photo-1605745341112-85968b19335b?w=600&h=400&fit=crop",
+    "content": "<h2>Why Docker?</h2><p>Docker ensures consistency across development, testing, and production environments. No more \"it works on my machine\" issues.</p><h2>Basic Dockerfile</h2><pre><code>FROM node:20-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm run build</code></pre><h2>Docker Compose</h2><p>Use Docker Compose to orchestrate multiple services like your frontend, API, and database together.</p>",
+    "category": "devops"
+  },
+  {
+    "id": 6,
+    "created_at": "2025-04-15",
+    "title": "CSS Grid vs Flexbox: When to use each",
+    "resume": "Both CSS Grid and Flexbox are powerful layout tools. Understanding when to use each one will help you write cleaner and more maintainable CSS.",
+    "cover_image": "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=600&h=400&fit=crop",
+    "content": "<h2>Flexbox</h2><p>Best for one-dimensional layouts — either a row or a column. Ideal for navigation bars, card rows, and centering content.</p><h2>CSS Grid</h2><p>Best for two-dimensional layouts — rows and columns simultaneously. Perfect for page layouts, galleries, and complex component arrangements.</p><h2>Using Both Together</h2><p>The best approach often combines both: Grid for the overall page layout and Flexbox for component-level alignment.</p>",
+    "category": "frontend"
+  },
+  {
+    "id": 7,
+    "created_at": "2025-04-01",
+    "title": "Getting started with PostgreSQL and Supabase",
+    "resume": "Supabase provides a powerful open-source alternative to Firebase, built on top of PostgreSQL. Learn how to set up your first project and leverage its real-time capabilities.",
+    "cover_image": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&h=400&fit=crop",
+    "content": "<h2>What is Supabase?</h2><p>Supabase is an open-source Firebase alternative that provides a PostgreSQL database, authentication, instant APIs, and real-time subscriptions.</p><h2>Setting Up</h2><p>Create a new project on supabase.com, then install the client library with <code>npm install @supabase/supabase-js</code>.</p><h2>Querying Data</h2><pre><code>const { data, error } = await supabase\n  .from('posts')\n  .select('*')\n  .order('created_at', { ascending: false });</code></pre>",
+    "category": "backend"
+  },
+  {
+    "id": 8,
+    "created_at": "2025-03-18",
+    "title": "Mastering Git branching strategies",
+    "resume": "A solid Git branching strategy is essential for team collaboration. Explore Git Flow, GitHub Flow, and trunk-based development to find the right fit for your team.",
+    "cover_image": "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=600&h=400&fit=crop",
+    "content": "<h2>Git Flow</h2><p>Git Flow uses long-lived branches like <code>develop</code> and <code>main</code>, with feature, release, and hotfix branches. Best for projects with scheduled releases.</p><h2>GitHub Flow</h2><p>A simpler model with a single <code>main</code> branch and short-lived feature branches. Ideal for continuous deployment.</p><h2>Trunk-Based Development</h2><p>Developers commit directly to main (or very short-lived branches). Requires strong CI/CD and feature flags.</p>",
+    "category": "devops"
+  },
+  {
+    "id": 9,
+    "created_at": "2025-03-05",
+    "title": "Web accessibility: A practical guide for developers",
+    "resume": "Building accessible websites is not just a legal requirement — it's the right thing to do. Learn practical techniques to make your web apps usable by everyone.",
+    "cover_image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop",
+    "content": "<h2>Semantic HTML</h2><p>Using the correct HTML elements (<code>nav</code>, <code>main</code>, <code>article</code>, <code>button</code>) provides built-in accessibility without extra effort.</p><h2>ARIA Attributes</h2><p>When semantic HTML isn't enough, ARIA attributes like <code>aria-label</code>, <code>aria-expanded</code>, and <code>role</code> help screen readers understand your UI.</p><h2>Keyboard Navigation</h2><p>Ensure all interactive elements are reachable and operable via keyboard. Test with Tab, Enter, and Escape keys.</p>",
+    "category": "frontend"
+  },
+  {
+    "id": 10,
+    "created_at": "2025-02-20",
+    "title": "Introduction to testing with Vitest and React Testing Library",
+    "resume": "Writing tests gives you confidence that your code works as expected. Learn how to set up Vitest with React Testing Library for fast and reliable component testing.",
+    "cover_image": "https://images.unsplash.com/photo-1518932945647-7a1c969f8be2?w=600&h=400&fit=crop",
+    "content": "<h2>Why Vitest?</h2><p>Vitest is a blazing-fast test runner built on Vite. It supports ESM, TypeScript, and JSX out of the box with minimal configuration.</p><h2>Testing Components</h2><pre><code>import { render, screen } from '@testing-library/react';\nimport Button from './Button';\n\ntest('renders button text', () => {\n  render(&lt;Button&gt;Click me&lt;/Button&gt;);\n  expect(screen.getByText('Click me')).toBeInTheDocument();\n});</code></pre><h2>Best Practices</h2><p>Test behavior, not implementation. Query by accessible roles and labels rather than class names or test IDs.</p>",
+    "category": "testing"
+  },
+  {
+    "id": 11,
+    "created_at": "2025-02-05",
+    "title": "Understanding REST vs GraphQL: Choosing the right API paradigm",
+    "resume": "REST and GraphQL are two popular approaches to building APIs. Each has trade-offs in flexibility, performance, and developer experience.",
+    "cover_image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
+    "content": "<h2>REST</h2><p>REST uses fixed endpoints that return predefined data structures. It's simple, cacheable, and well-understood, but can lead to over-fetching or under-fetching.</p><h2>GraphQL</h2><p>GraphQL provides a single endpoint where clients specify exactly what data they need. It eliminates over-fetching but adds complexity with schemas and resolvers.</p><h2>When to Use Each</h2><p>Use REST for simple CRUD apps with predictable data needs. Use GraphQL when clients have diverse data requirements or when you need to aggregate multiple data sources.</p>",
+    "category": "architecture"
+  },
+  {
+    "id": 12,
+    "created_at": "2025-01-15",
+    "title": "Deploying applications with GitHub Actions and CI/CD",
+    "resume": "Automate your build, test, and deployment pipeline with GitHub Actions. Learn how to set up continuous integration and delivery for your projects.",
+    "cover_image": "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=600&h=400&fit=crop",
+    "content": "<h2>What is CI/CD?</h2><p>Continuous Integration (CI) automatically builds and tests your code on every push. Continuous Delivery (CD) automates deployment to staging or production.</p><h2>Basic Workflow</h2><pre><code>name: CI\non: [push, pull_request]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n      - run: npm ci\n      - run: npm test\n      - run: npm run build</code></pre><h2>Deployment</h2><p>Add a deploy step that runs only on the main branch to push your built application to your hosting provider.</p>",
+    "category": "devops"
+  }
+]

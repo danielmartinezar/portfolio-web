@@ -1,8 +1,8 @@
 import type { FooterTranslations, NavbarTranslations } from './types';
 
 export const navbar: NavbarTranslations = {
-  services: 'Inicio',
-  works: 'Acerca de mí',
+  home: 'Inicio',
+  about: 'Acerca de mí',
   blog: 'Blog',
 };
 
