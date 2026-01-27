@@ -1,73 +1,86 @@
+import { Client } from "../../../shared/services/Client";
+import type { Article } from "../blog.types";
 import type {
-  Article,
+  APIArticle,
+  APIResponse,
   ArticleOverviewResponse,
-  GetArticlesRequest,
   GetArticleBySlugRequest,
-} from "../types";
-import mockedArticlesData from "./mocked.articles.json";
-
-// Type cast the imported JSON to ensure proper typing
-const mockedArticles = mockedArticlesData as Article[];
-
-function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
+  GetArticlesRequest,
+} from "./types";
+import { mapAPIArticleToArticle, mapAPIArticleToOverview } from "./types";
 
 export interface IBlogServices {
   getArticles(request: GetArticlesRequest): Promise<ArticleOverviewResponse>;
   getArticleBySlug(request: GetArticleBySlugRequest): Promise<Article>;
 }
 
-export const blogServices = {
+export const blogServices: IBlogServices = {
   getArticles: async (
-    request: GetArticlesRequest,
+    request: GetArticlesRequest
   ): Promise<ArticleOverviewResponse> => {
     const { page, pageSize, category, search } = request;
 
-    let allOverviews = mockedArticles.map(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ({ content, ...overview }) => overview,
+    const params = new URLSearchParams();
+
+    // Fields for overview (exclude content)
+    params.append("fields[0]", "title");
+    params.append("fields[1]", "slug");
+
+    
+    params.append("fields[3]", "category");
+    params.append("fields[4]", "createdAt");
+
+    // Populate cover image
+    params.append("populate", "cover_image");
+
+    // Pagination
+    params.append("pagination[page]", String(page));
+    params.append("pagination[pageSize]", String(pageSize));
+
+    // Filter by category
+    if (category && category !== "all") {
+      params.append("filters[category][$eq]", category);
+    }
+
+    // Search by title or resume
+    if (search && search.trim()) {
+      params.append("filters[$or][0][title][$containsi]", search);
+      params.append("filters[$or][1][resume][$containsi]", search);
+    }
+
+    const response = await Client.get<APIResponse<APIArticle>>(
+      `/articles?${params.toString()}`
     );
 
-    // Filter by category if specified and not 'all'
-    if (category && category !== "all") {
-      allOverviews = allOverviews.filter(
-        (article) => article.category === category,
-      );
-    }
-
-    // Filter by search term if specified
-    if (search && search.trim()) {
-      const query = search.toLowerCase();
-      allOverviews = allOverviews.filter(
-        (article) =>
-          article.title.toLowerCase().includes(query) ||
-          article.resume.toLowerCase().includes(query),
-      );
-    }
-
-    const start = (page - 1) * pageSize;
-    const data = allOverviews.slice(start, start + pageSize);
-
     return {
-      data,
+      data: response.data.data.map((article) =>
+        mapAPIArticleToOverview(article)
+      ),
       pagination: {
-        page,
-        pageSize,
-        totalItems: allOverviews.length,
+        page: response.data.meta.pagination.page,
+        pageSize: response.data.meta.pagination.pageSize,
+        totalItems: response.data.meta.pagination.total,
       },
     };
   },
 
   getArticleBySlug: async (
-    request: GetArticleBySlugRequest,
+    request: GetArticleBySlugRequest
   ): Promise<Article> => {
     const { slug } = request;
-    const article = mockedArticles.find((a) => slugify(a.title) === slug);
-    if (!article) throw new Error("Article not found");
-    return article;
+
+    const params = new URLSearchParams();
+    params.append("filters[slug][$eq]", slug);
+    params.append("populate", "cover_image");
+
+    const response = await Client.get<APIResponse<APIArticle>>(
+      `/articles?${params.toString()}`
+    );
+
+    if (!response.data.data.length) {
+      throw new Error("Article not found");
+    }
+
+    return mapAPIArticleToArticle(response.data.data[0]);
   },
 };

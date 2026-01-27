@@ -6,8 +6,8 @@ import {
   blogTranslationLoaders,
   type BlogPageTranslations,
 } from "../../pages/blog/i18n";
-import type { ArticleOverview, ArticleCategory } from "../../pages/blog/types";
-import { ARTICLE_CATEGORIES } from "../../pages/blog/types";
+import type { ArticleOverview, ArticleCategory } from "../../pages/blog/blog.types";
+import { ARTICLE_CATEGORIES } from "../../pages/blog/blog.types";
 import type { IBlogServices } from "../../pages/blog/services/blog.services";
 
 const PAGE_SIZE = 6;

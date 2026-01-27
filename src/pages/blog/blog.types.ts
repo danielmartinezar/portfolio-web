@@ -11,6 +11,7 @@ export type ArticleCategory = (typeof ARTICLE_CATEGORIES)[number];
 
 export interface Article {
   id: number;
+  slug: string;
   created_at: string;
   title: string;
   resume: string;
@@ -20,25 +21,3 @@ export interface Article {
 }
 
 export type ArticleOverview = Omit<Article, 'content'>;
-
-export interface Pagination {
-  page: number;
-  pageSize: number;
-  totalItems: number;
-}
-
-export interface GetArticlesRequest {
-  page: number;
-  pageSize: number;
-  category?: ArticleCategory;
-  search?: string;
-}
-
-export interface GetArticleBySlugRequest {
-  slug: string;
-}
-
-export interface ArticleOverviewResponse {
-  data: ArticleOverview[];
-  pagination: Pagination;
-}

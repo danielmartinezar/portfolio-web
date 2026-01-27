@@ -1,4 +1,4 @@
-import type { ArticleCategory } from '../../../pages/blog/types';
+import type { ArticleCategory } from '../../../pages/blog/blog.types';
 
 interface CategoryTabsProps {
   categories: readonly ArticleCategory[];

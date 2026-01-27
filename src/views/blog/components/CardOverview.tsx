@@ -1,16 +1,10 @@
 import { Link } from 'react-router-dom';
-import type { ArticleOverview } from '../../../pages/blog/types';
+import type { ArticleOverview } from '../../../pages/blog/blog.types';
 
 interface CardOverviewProps {
   article: ArticleOverview;
 }
 
-function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -22,11 +16,10 @@ function formatDate(dateStr: string): string {
 }
 
 export default function CardOverview({ article }: CardOverviewProps) {
-  const slug = slugify(article.title);
 
   return (
     <Link
-      to={`/blog/${slug}`}
+      to={`/blog/${article.slug}`}
       state={{ articleId: article.id }}
       className="block rounded-[10px] overflow-hidden bg-bg-secondary hover:scale-[1.02] transition-transform duration-300"
     >
