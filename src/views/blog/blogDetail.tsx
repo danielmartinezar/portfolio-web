@@ -1,39 +1,21 @@
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ContentContainer } from "../../components/layout";
+import { MarkdownContent } from "./components/MarkdownContent";
 import { useTranslation } from "../../shared/services";
 import {
   blogTranslationLoaders,
   type BlogPageTranslations,
 } from "../../pages/blog/i18n";
-import type { Article } from "../../pages/blog/types";
-import type { IBlogServices } from "../../pages/blog/services/blog.services";
+import { getArticleBySlug } from "../../content/posts";
 
-interface IBlogDetailProps {
-  blogServices: IBlogServices;
-}
-
-export default function BlogDetail({ blogServices }: IBlogDetailProps) {
+export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation<BlogPageTranslations>(blogTranslationLoaders);
-  const [article, setArticle] = useState<Article | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (!slug) return;
-    blogServices
-      .getArticleBySlug({ slug })
-      .then((data) => {
-        setArticle(data);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setIsLoading(false);
-      });
-  }, [slug, blogServices]);
+  const article = slug ? getArticleBySlug(slug) : null;
 
-  if (!t || isLoading) {
+  if (!t) {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -94,10 +76,7 @@ export default function BlogDetail({ blogServices }: IBlogDetailProps) {
           {formattedDate}
         </span>
 
-        <div
-          className="prose prose-invert max-w-none text-fg-secondary prose-headings:text-fg-primary prose-a:text-primary prose-strong:text-fg-primary"
-          dangerouslySetInnerHTML={{ __html: article.content }}
-        />
+        <MarkdownContent content={article.content} />
       </ContentContainer>
     </div>
   );
