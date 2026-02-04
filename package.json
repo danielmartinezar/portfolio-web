@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
+    "@vite-plugin-vercel/vike": "^9.1.0",
     "axios": "^1.13.2",
     "express": "^5.2.1",
     "markdown-to-jsx": "^9.6.1",
