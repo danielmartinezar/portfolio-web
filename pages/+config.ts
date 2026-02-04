@@ -1,6 +1,7 @@
 import vikeReact from "vike-react/config";
+import vikePhoton from "vike-photon/config";
 
 export default {
-  extends: [vikeReact],
+  extends: [vikeReact, vikePhoton],
   ssr: false,
 };
