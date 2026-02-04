@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { ContentContainer } from "../../components/layout";
 import { useTranslation } from "../../shared/services";
 import { CardOverview, CategoryTabs } from "./components";
@@ -6,69 +6,45 @@ import {
   blogTranslationLoaders,
   type BlogPageTranslations,
 } from "../../pages/blog/i18n";
-import type { ArticleOverview, ArticleCategory } from "../../pages/blog/types";
-import { ARTICLE_CATEGORIES } from "../../pages/blog/types";
-import type { IBlogServices } from "../../pages/blog/services/blog.services";
+import type { ArticleOverview, ArticleCategory } from "../../pages/blog/blog.types";
+import { ARTICLE_CATEGORIES } from "../../pages/blog/blog.types";
+import { blogService } from "../../pages/blog/services";
 
 const PAGE_SIZE = 6;
 
-export interface IBlogProps {
-  blogServices: IBlogServices;
-}
-export default function Blog({ blogServices }: IBlogProps) {
+export default function Blog() {
   const { t } = useTranslation<BlogPageTranslations>(blogTranslationLoaders);
-  const [articles, setArticles] = useState<ArticleOverview[]>([]);
-  const [totalItems, setTotalItems] = useState(0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] =
     useState<ArticleCategory>("all");
-  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchArticles = useCallback(
-    (currentPage: number, category: ArticleCategory) => {
-      setIsLoading(true);
-      blogServices
-        .getArticles({
-          page: currentPage,
-          pageSize: PAGE_SIZE,
-          category,
-        })
-        .then((response) => {
-          setArticles((prev) =>
-            currentPage === 1 ? response.data : [...prev, ...response.data],
-          );
-          setTotalItems(response.pagination.totalItems);
-          setIsLoading(false);
-        })
-        .catch(() => {
-          setIsLoading(false);
-        });
-    },
-    [blogServices],
-  );
-
-  useEffect(() => {
-    setArticles([]);
-    setPage(1);
-    fetchArticles(1, selectedCategory);
-  }, [fetchArticles, selectedCategory]);
+  const { articles, totalItems } = useMemo(() => {
+    const response = blogService.getArticles({
+      page: 1,
+      pageSize: page * PAGE_SIZE,
+      category: selectedCategory,
+    });
+    return {
+      articles: response.data,
+      totalItems: response.pagination.totalItems,
+    };
+  }, [page, selectedCategory]);
 
   const handleLoadMore = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    fetchArticles(nextPage, selectedCategory);
+    setPage((prev) => prev + 1);
   };
 
   const handleCategoryChange = (category: ArticleCategory) => {
     setSelectedCategory(category);
+    setPage(1);
   };
 
   const filteredArticles = useMemo(() => {
     if (!search.trim()) return articles;
     const query = search.toLowerCase();
     return articles.filter(
-      (a) =>
+      (a: ArticleOverview) =>
         a.title.toLowerCase().includes(query) ||
         a.resume.toLowerCase().includes(query),
     );
@@ -107,28 +83,19 @@ export default function Blog({ blogServices }: IBlogProps) {
           {t.allPosts} ({displayCount})
         </h2>
 
-        {isLoading && articles.length === 0 ? (
-          <div className="flex justify-center py-12">
-            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredArticles.map((article) => (
-                <CardOverview key={article.id} article={article} />
-              ))}
-            </div>
-            {hasMore && !search.trim() && (
-              <button
-                type="button"
-                onClick={handleLoadMore}
-                disabled={isLoading}
-                className="w-full mt-6 py-3 px-6 text-sm font-medium text-fg-secondary border border-fg-secondary rounded-lg hover:text-fg-primary hover:border-fg-primary transition-colors duration-200"
-              >
-                {t.loadMore}
-              </button>
-            )}
-          </>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredArticles.map((article: ArticleOverview) => (
+            <CardOverview key={article.id} article={article} />
+          ))}
+        </div>
+        {hasMore && !search.trim() && (
+          <button
+            type="button"
+            onClick={handleLoadMore}
+            className="w-full mt-6 py-3 px-6 text-sm font-medium text-fg-secondary border border-fg-secondary rounded-lg hover:text-fg-primary hover:border-fg-primary transition-colors duration-200"
+          >
+            {t.loadMore}
+          </button>
         )}
       </ContentContainer>
     </div>
