@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { usePageContext } from "vike-react/usePageContext";
 import type { NavbarTranslations } from "./i18n";
 import { NAVIGATION_LINKS } from "../shared/constants";
 import { isActive } from "../shared/utils/navigation.utils";
@@ -13,7 +13,7 @@ export default function MobileNavbar({
   translations,
   className = "",
 }: MobileNavbarProps) {
-  const { pathname } = useLocation();
+  const { urlPathname: pathname } = usePageContext();
   const [isOpen, setIsOpen] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
@@ -133,8 +133,8 @@ export default function MobileNavbar({
                     : "opacity-0 -translate-x-8"
                 }`}
               >
-                <Link
-                  to={link.href}
+                <a
+                  href={link.href}
                   onClick={handleLinkClick}
                   className={`text-6xl transition-colors font-medium leading-none ${
                     active
@@ -143,7 +143,7 @@ export default function MobileNavbar({
                   }`}
                 >
                   {label}
-                </Link>
+                </a>
                 {active && (
                   <div className="w-4 h-4 bg-primary rounded-full"></div>
                 )}

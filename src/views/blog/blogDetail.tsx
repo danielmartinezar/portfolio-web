@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { usePageContext } from "vike-react/usePageContext";
 import { ContentContainer } from "../../components/layout";
 import { MarkdownContent } from "./components/MarkdownContent";
 import { useTranslation } from "../../shared/services";
@@ -6,14 +6,14 @@ import {
   blogTranslationLoaders,
   type BlogPageTranslations,
 } from "../../pages/blog/i18n";
-import { getArticleBySlug } from "../../content/posts";
+import { blogService } from "../../pages/blog/services";
 
 export default function BlogDetail() {
-  const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
+  const { routeParams } = usePageContext();
+  const slug = routeParams?.slug;
   const { t } = useTranslation<BlogPageTranslations>(blogTranslationLoaders);
 
-  const article = slug ? getArticleBySlug(slug) : null;
+  const article = slug ? blogService.getArticleBySlug(slug) : null;
 
   if (!t) {
     return (
@@ -30,13 +30,12 @@ export default function BlogDetail() {
           <p className="text-fg-secondary text-center py-12">
             {t.articleNotFound}
           </p>
-          <button
-            type="button"
-            onClick={() => navigate("/blog")}
+          <a
+            href="/blog"
             className="text-fg-primary hover:text-primary transition-colors"
           >
             &larr; {t.backToBlog}
-          </button>
+          </a>
         </ContentContainer>
       </div>
     );
@@ -54,13 +53,12 @@ export default function BlogDetail() {
   return (
     <div className="min-h-screen bg-bg-primary pt-8 pb-16">
       <ContentContainer>
-        <button
-          type="button"
-          onClick={() => navigate("/blog")}
+        <a
+          href="/blog"
           className="text-fg-primary hover:text-primary transition-colors mb-6 inline-block"
         >
           &larr; {t.backToBlog}
-        </button>
+        </a>
 
         <img
           src={article.cover_image}

@@ -4,7 +4,6 @@ import MobileNavbar from "./MobileNavbar";
 import I18nSwitchButton from "./I18nSwitchButton";
 import { useTranslation } from "../shared/services";
 import { navbarTranslationLoaders } from "./i18n";
-import { Link } from "react-router-dom";
 import { ContentContainer } from "./layout";
 
 interface HeaderProps {
@@ -29,12 +28,12 @@ export default function Header({ className = "" }: HeaderProps) {
       <ContentContainer>
         <div className="flex justify-between items-center">
         {/* Logo D. */}
-        <Link
-          to=""
+        <a
+          href="/"
           className="text-4xl font-bold text-primary hover:opacity-80 transition-opacity"
         >
           D<span className="text-primary">.</span>
-        </Link>
+        </a>
 
         {/* Right side: I18n + Navigation */}
         <div className="flex items-center md:gap-3">

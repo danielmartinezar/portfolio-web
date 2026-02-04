@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { ContentContainer } from '../../components/layout';
 import { useTranslation } from '../../shared/services';
 import { notFoundTranslationLoaders, type NotFoundPageTranslations } from './i18n';
@@ -18,12 +17,12 @@ export default function NotFoundPage() {
         <p className="text-fg-secondary mb-8">
           {t.description}
         </p>
-        <Link
-          to="/"
+        <a
+          href="/"
           className="inline-block px-6 py-3 rounded-[10px] bg-primary text-bg-primary font-semibold hover:opacity-90 transition-opacity"
         >
           {t.goHome}
-        </Link>
+        </a>
       </ContentContainer>
     </div>
   );

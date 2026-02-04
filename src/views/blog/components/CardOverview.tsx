@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import type { ArticleOverview } from '../../../pages/blog/blog.types';
 
 interface CardOverviewProps {
@@ -18,9 +17,8 @@ function formatDate(dateStr: string): string {
 export default function CardOverview({ article }: CardOverviewProps) {
 
   return (
-    <Link
-      to={`/blog/${article.slug}`}
-      state={{ articleId: article.id }}
+    <a
+      href={`/blog/${article.slug}`}
       className="block rounded-[10px] overflow-hidden bg-bg-secondary hover:scale-[1.02] transition-transform duration-300"
     >
       <img
@@ -39,6 +37,6 @@ export default function CardOverview({ article }: CardOverviewProps) {
           {formatDate(article.created_at)}
         </span>
       </div>
-    </Link>
+    </a>
   );
 }

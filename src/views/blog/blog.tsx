@@ -8,7 +8,7 @@ import {
 } from "../../pages/blog/i18n";
 import type { ArticleOverview, ArticleCategory } from "../../pages/blog/blog.types";
 import { ARTICLE_CATEGORIES } from "../../pages/blog/blog.types";
-import { getArticles } from "../../content/posts";
+import { blogService } from "../../pages/blog/services";
 
 const PAGE_SIZE = 6;
 
@@ -20,7 +20,7 @@ export default function Blog() {
     useState<ArticleCategory>("all");
 
   const { articles, totalItems } = useMemo(() => {
-    const response = getArticles({
+    const response = blogService.getArticles({
       page: 1,
       pageSize: page * PAGE_SIZE,
       category: selectedCategory,
