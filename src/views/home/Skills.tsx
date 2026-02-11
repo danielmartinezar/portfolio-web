@@ -1,19 +1,21 @@
+"use client";
+
 import { useState, useEffect, useRef, type ReactNode } from "react";
-import type { SkillsTranslations } from "../../pages/home/i18n";
+import type { SkillsTranslations } from "../../features/home/i18n";
 import { HomeSection } from "./shared";
 import { SkillCard, SkillTabs } from "./components";
 
 // Import tool icons
-import TypeScriptIcon from "../../assets/tools/typescript.svg?react";
-import ReactIcon from "../../assets/tools/react.svg?react";
-import NodeIcon from "../../assets/tools/nodedotjs.svg?react";
-import NestJsIcon from "../../assets/tools/nestjs.svg?react";
-import SpringbootIcon from "../../assets/tools/springboot.svg?react";
-import PostgresIcon from "../../assets/tools/postgresql.svg?react";
-import MongoIcon from "../../assets/tools/mongodb.svg?react";
-import FlutterIcon from "../../assets/tools/flutter.svg?react";
-import GitIcon from "../../assets/tools/git.svg?react";
-import GithubIcon from "../../assets/tools/github.svg?react";
+import TypeScriptIcon from "../../assets/tools/typescript.svg";
+import ReactIcon from "../../assets/tools/react.svg";
+import NodeIcon from "../../assets/tools/nodedotjs.svg";
+import NestJsIcon from "../../assets/tools/nestjs.svg";
+import SpringbootIcon from "../../assets/tools/springboot.svg";
+import PostgresIcon from "../../assets/tools/postgresql.svg";
+import MongoIcon from "../../assets/tools/mongodb.svg";
+import FlutterIcon from "../../assets/tools/flutter.svg";
+import GitIcon from "../../assets/tools/git.svg";
+import GithubIcon from "../../assets/tools/github.svg";
 
 // Icon mapping by skill name
 const iconMap: Record<string, ReactNode> = {

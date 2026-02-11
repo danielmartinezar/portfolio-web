@@ -68,3 +68,13 @@ body {
     font-size: 22px;
   }
 }
+
+/* Space journey star animations */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}

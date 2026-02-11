@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./SkillTabs.module.css";
 
 interface SkillTabsProps {

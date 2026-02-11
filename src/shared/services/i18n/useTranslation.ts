@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { useLanguage } from './useLanguage';
 import type { Language } from './types';

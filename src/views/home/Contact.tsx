@@ -1,4 +1,6 @@
-import type { ContactTranslations, ContactItem } from "../../pages/home/i18n";
+"use client";
+
+import type { ContactTranslations, ContactItem } from "../../features/home/i18n";
 import { HomeSection } from "./shared";
 import { ContactMeCard } from "./components";
 import styles from "./Contact.module.css";

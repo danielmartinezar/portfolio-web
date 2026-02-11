@@ -1,0 +1,61 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes bounceDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.modalEnter {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.modalExit {
+  animation: fadeOut 0.3s ease-in forwards;
+}
+
+.scrollHint {
+  animation: bounceDown 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-3px) rotate(1.5deg);
+  }
+  50% {
+    transform: translateY(1px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-2px) rotate(0.5deg);
+  }
+}
+
+.shuttleFloat {
+  animation: float 4s ease-in-out infinite;
+}

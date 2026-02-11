@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useMemo } from "react";
 import { ContentContainer } from "../../components/layout";
 import { useTranslation } from "../../shared/services";
@@ -5,53 +7,50 @@ import { CardOverview, CategoryTabs } from "./components";
 import {
   blogTranslationLoaders,
   type BlogPageTranslations,
-} from "../../pages/blog/i18n";
-import type { ArticleOverview, ArticleCategory } from "../../pages/blog/blog.types";
-import { ARTICLE_CATEGORIES } from "../../pages/blog/blog.types";
-import { blogService } from "../../pages/blog/services";
+} from "../../features/blog/i18n";
+import type { ArticleOverview, ArticleCategory } from "../../features/blog/blog.types";
+import { ARTICLE_CATEGORIES } from "../../features/blog/blog.types";
 
-const PAGE_SIZE = 6;
+interface BlogProps {
+  allArticles: ArticleOverview[];
+}
 
-export default function Blog() {
+export default function Blog({ allArticles }: BlogProps) {
   const { t } = useTranslation<BlogPageTranslations>(blogTranslationLoaders);
-  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] =
     useState<ArticleCategory>("all");
+  const [visibleCount, setVisibleCount] = useState(6);
 
-  const { articles, totalItems } = useMemo(() => {
-    const response = blogService.getArticles({
-      page: 1,
-      pageSize: page * PAGE_SIZE,
-      category: selectedCategory,
-    });
-    return {
-      articles: response.data,
-      totalItems: response.pagination.totalItems,
-    };
-  }, [page, selectedCategory]);
-
-  const handleLoadMore = () => {
-    setPage((prev) => prev + 1);
-  };
-
-  const handleCategoryChange = (category: ArticleCategory) => {
-    setSelectedCategory(category);
-    setPage(1);
-  };
+  const filteredByCategory = useMemo(() => {
+    return selectedCategory === "all"
+      ? allArticles
+      : allArticles.filter((a) => a.category === selectedCategory);
+  }, [allArticles, selectedCategory]);
 
   const filteredArticles = useMemo(() => {
-    if (!search.trim()) return articles;
+    if (!search.trim()) return filteredByCategory.slice(0, visibleCount);
     const query = search.toLowerCase();
-    return articles.filter(
+    return filteredByCategory.filter(
       (a: ArticleOverview) =>
         a.title.toLowerCase().includes(query) ||
         a.resume.toLowerCase().includes(query),
     );
-  }, [articles, search]);
+  }, [filteredByCategory, search, visibleCount]);
 
-  const hasMore = articles.length < totalItems;
-  const displayCount = search.trim() ? filteredArticles.length : totalItems;
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  const handleCategoryChange = (category: ArticleCategory) => {
+    setSelectedCategory(category);
+    setVisibleCount(6);
+  };
+
+  const hasMore = !search.trim() && visibleCount < filteredByCategory.length;
+  const displayCount = search.trim()
+    ? filteredArticles.length
+    : filteredByCategory.length;
 
   if (!t) return null;
 
@@ -71,7 +70,6 @@ export default function Blog() {
           />
         </div>
 
-        {/* Category Filter Tags */}
         <CategoryTabs
           categories={ARTICLE_CATEGORIES}
           activeCategory={selectedCategory}
@@ -88,7 +86,7 @@ export default function Blog() {
             <CardOverview key={article.id} article={article} />
           ))}
         </div>
-        {hasMore && !search.trim() && (
+        {hasMore && (
           <button
             type="button"
             onClick={handleLoadMore}

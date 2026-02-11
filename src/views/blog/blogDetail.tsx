@@ -1,42 +1,26 @@
-import { usePageContext } from "vike-react/usePageContext";
+"use client";
+
+import Link from "next/link";
 import { ContentContainer } from "../../components/layout";
 import { MarkdownContent } from "./components/MarkdownContent";
 import { useTranslation } from "../../shared/services";
 import {
   blogTranslationLoaders,
   type BlogPageTranslations,
-} from "../../pages/blog/i18n";
-import { blogService } from "../../pages/blog/services";
+} from "../../features/blog/i18n";
+import type { Article } from "../../features/blog/blog.types";
 
-export default function BlogDetail() {
-  const { routeParams } = usePageContext();
-  const slug = routeParams?.slug;
+interface BlogDetailProps {
+  article: Article;
+}
+
+export default function BlogDetail({ article }: BlogDetailProps) {
   const { t } = useTranslation<BlogPageTranslations>(blogTranslationLoaders);
-
-  const article = slug ? blogService.getArticleBySlug(slug) : null;
 
   if (!t) {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!article) {
-    return (
-      <div className="min-h-screen bg-bg-primary pt-8 pb-16">
-        <ContentContainer>
-          <p className="text-fg-secondary text-center py-12">
-            {t.articleNotFound}
-          </p>
-          <a
-            href="/blog"
-            className="text-fg-primary hover:text-primary transition-colors"
-          >
-            &larr; {t.backToBlog}
-          </a>
-        </ContentContainer>
       </div>
     );
   }
@@ -53,12 +37,12 @@ export default function BlogDetail() {
   return (
     <div className="min-h-screen bg-bg-primary pt-8 pb-16">
       <ContentContainer>
-        <a
+        <Link
           href="/blog"
           className="text-fg-primary hover:text-primary transition-colors mb-6 inline-block"
         >
           &larr; {t.backToBlog}
-        </a>
+        </Link>
 
         <img
           src={article.cover_image}

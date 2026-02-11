@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "../shared/services";
 import { footerTranslationLoaders } from "./i18n";
 import SocialIcons from "./SocialIcons";

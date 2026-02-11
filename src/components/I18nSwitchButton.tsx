@@ -1,5 +1,6 @@
+"use client";
+
 import { useLanguage } from '../shared/services';
-import i18nIcon from '../assets/i18n-icon.svg';
 
 interface I18nSwitchButtonProps {
   size?: 'sm' | 'md' | 'lg';
@@ -87,7 +88,7 @@ export default function I18nSwitchButton({
           }`}
         >
           <img
-            src={i18nIcon}
+            src="/i18n-icon.svg"
             alt=""
             className={`${config.icon} filter-[invert(42%)_brightness(58%)_contrast(89%)]`}
           />

@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import type { HeroTranslations } from "../../pages/home/i18n";
+import type { HeroTranslations } from "../../features/home/i18n";
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
 import danielImage from "../../assets/DanielMartinez.webp";
@@ -123,7 +125,7 @@ export default function Hero({ translations }: HeroProps) {
               onLoad={() => setBlurLoaded(true)}
             />
             <img
-              src={danielImage}
+              src={danielImage.src}
               alt={translations.imageAlt}
               className={`h-full w-auto object-contain object-bottom absolute inset-0 transition-opacity duration-700 ${
                 imageLoaded ? "opacity-100" : "opacity-0"
@@ -226,7 +228,7 @@ export default function Hero({ translations }: HeroProps) {
             onLoad={() => setBlurLoaded(true)}
           />
           <img
-            src={danielImage}
+            src={danielImage.src}
             alt={translations.imageAlt}
             className={`h-full w-auto object-contain object-bottom absolute inset-0 left-1/2 -translate-x-1/2 transition-opacity duration-700 ${
               imageLoaded ? "opacity-100" : "opacity-0"

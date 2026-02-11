@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, type ReactNode } from 'react';
 import { DEFAULT_LANGUAGE, type Language } from './types';
 import { LanguageContext, type LanguageContextValue } from './languageContext';

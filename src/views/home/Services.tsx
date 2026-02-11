@@ -1,10 +1,12 @@
+"use client";
+
 import { useState, useEffect, useRef } from 'react';
-import type { ServicesTranslations } from '../../pages/home/i18n';
+import type { ServicesTranslations } from '../../features/home/i18n';
 import { HomeSection } from './shared';
 import { CardService } from './components';
-import MobileIcon from '../../assets/mobile-icon.svg?react';
-import StackIcon from '../../assets/stack-icon.svg?react';
-import CloudIcon from '../../assets/cloud-icon.svg?react';
+import MobileIcon from '../../assets/mobile-icon.svg';
+import StackIcon from '../../assets/stack-icon.svg';
+import CloudIcon from '../../assets/cloud-icon.svg';
 
 const serviceIcons = [
   <MobileIcon key="mobile" />,

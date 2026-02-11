@@ -1,4 +1,6 @@
-import type { ArticleCategory } from '../../../pages/blog/blog.types';
+"use client";
+
+import type { ArticleCategory } from '../../../features/blog/blog.types';
 
 interface CategoryTabsProps {
   categories: readonly ArticleCategory[];

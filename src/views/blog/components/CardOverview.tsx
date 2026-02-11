@@ -1,4 +1,5 @@
-import type { ArticleOverview } from '../../../pages/blog/blog.types';
+import Link from "next/link";
+import type { ArticleOverview } from '../../../features/blog/blog.types';
 
 interface CardOverviewProps {
   article: ArticleOverview;
@@ -17,7 +18,7 @@ function formatDate(dateStr: string): string {
 export default function CardOverview({ article }: CardOverviewProps) {
 
   return (
-    <a
+    <Link
       href={`/blog/${article.slug}`}
       className="block rounded-[10px] overflow-hidden bg-bg-secondary hover:scale-[1.02] transition-transform duration-300"
     >
@@ -37,6 +38,6 @@ export default function CardOverview({ article }: CardOverviewProps) {
           {formatDate(article.created_at)}
         </span>
       </div>
-    </a>
+    </Link>
   );
 }

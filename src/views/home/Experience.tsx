@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from 'react';
-import type { ExperienceTranslations } from '../../pages/home/i18n';
+import type { StaticImageData } from 'next/image';
+import type { ExperienceTranslations } from '../../features/home/i18n';
 import { HomeSection } from './shared';
 import { ExperienceItem } from './components';
 import overnights from '../../assets/experiences/overnights.webp';
@@ -18,7 +21,7 @@ interface ExperienceProps {
 interface ExperienceData {
   id: string;
   company: string;
-  logo: string;
+  logo: StaticImageData;
   period: string;
   skills: string[];
 }
@@ -103,7 +106,7 @@ export default function Experience({ translations }: ExperienceProps) {
           return (
             <ExperienceItem
               key={experience.id}
-              logo={experience.logo}
+              logo={experience.logo.src}
               company={experience.company}
               role={translation?.role ?? ''}
               period={experience.period}

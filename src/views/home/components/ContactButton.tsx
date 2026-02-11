@@ -1,3 +1,5 @@
+"use client";
+
 interface ContactButtonProps {
   onClick?: () => void;
   className?: string;
