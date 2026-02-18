@@ -16,7 +16,7 @@ interface SpaceJourneyProps {
 }
 
 const ACTIVATION_THRESHOLD = 0.02;
-const SECTION_HEIGHT_VH = 200;
+const SECTION_HEIGHT_VH = 700;
 
 export default function SpaceJourney({ translations }: SpaceJourneyProps) {
   const totalHeightVh = planets.length * SECTION_HEIGHT_VH + 100;
@@ -66,6 +66,19 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     }
   }, [activePlanet, visiblePlanetId, updateHash]);
 
+  // Arrow key scroll acceleration — each press scrolls 5vh of the total page
+  useEffect(() => {
+    const STEP_VH = 9;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      const stepPx = (STEP_VH / 100) * window.innerHeight;
+      window.scrollBy({ top: e.key === 'ArrowDown' ? stepPx : -stepPx, behavior: 'smooth' });
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   // Handle skip world
   const handleSkipWorld = useCallback(() => {
     if (!activePlanet) return;
@@ -95,7 +108,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     <div className="-mt-24" style={{ height: `${totalHeightVh}vh` }}>
       {/* Fixed space viewport */}
       <div className="fixed inset-0 overflow-hidden bg-bg-primary">
-        <StarField scrollProgress={progress} />
+        <StarField />
 
         {planets.map((planet) => (
           <Planet

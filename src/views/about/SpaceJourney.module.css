@@ -59,3 +59,60 @@
 .shuttleFloat {
   animation: float 4s ease-in-out infinite;
 }
+
+@keyframes planetFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-20px); }
+}
+
+.planetFloat {
+  animation: planetFloat 3.5s ease-in-out infinite;
+}
+
+/* Flame / thruster effect */
+@keyframes flameIdle {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1);
+    opacity: 0.7;
+  }
+  33% {
+    transform: scaleX(0.8) scaleY(1.15);
+    opacity: 0.9;
+  }
+  66% {
+    transform: scaleX(1.1) scaleY(0.9);
+    opacity: 0.6;
+  }
+}
+
+@keyframes flameBoost {
+  0%, 100% {
+    transform: scaleX(0.9) scaleY(1.4);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(1.15) scaleY(1.6);
+    opacity: 0.85;
+  }
+}
+
+.flameIdle {
+  animation: flameIdle 0.25s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.flameBoost {
+  animation: flameBoost 0.12s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes asteroidFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(calc(var(--float-amount, 12px) * -1)); }
+}
+
+/* Continuous upward scroll for stars and asteroids */
+@keyframes scrollUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(calc(-100vh - 200px)); }
+}

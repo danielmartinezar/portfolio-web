@@ -71,10 +71,12 @@ body {
 
 /* Space journey star animations */
 @keyframes twinkle {
-  0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 0.15;
-  }
+  0%, 100% { opacity: 1; }
+  40%       { opacity: 0.2; }
+  60%       { opacity: 0.6; }
+}
+
+@keyframes scrollUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(calc(-100vh - 200px)); }
 }

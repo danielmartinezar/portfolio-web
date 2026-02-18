@@ -3,13 +3,15 @@
 import { useMemo } from 'react';
 import type { PlanetData } from '../data/planets';
 import { getPlanetX } from '../data/planets';
+import styles from '../SpaceJourney.module.css';
 
 interface PlanetProps {
   planet: PlanetData;
   scrollProgress: number;
 }
 
-const VISIBLE_RANGE = 0.18;
+// How far (in scroll progress units) the planet is visible on each side of its center
+const VISIBLE_RANGE = 0.13;
 
 export default function Planet({ planet, scrollProgress }: PlanetProps) {
   const { scale, opacity } = useMemo(() => {
@@ -19,30 +21,26 @@ export default function Planet({ planet, scrollProgress }: PlanetProps) {
       return { scale: 0, opacity: 0 };
     }
 
-    const proximity = 1 - distance / VISIBLE_RANGE;
+    const prox = 1 - distance / VISIBLE_RANGE;
 
     return {
-      scale: 0.2 + proximity * 1.1,
-      opacity: Math.min(proximity * 1.5, 1),
+      scale: 0.3 + prox * 0.9,
+      opacity: Math.min(prox * 1.6, 1),
     };
   }, [scrollProgress, planet]);
 
   if (opacity === 0) return null;
 
   const { SvgComponent } = planet;
+
   const x = getPlanetX(planet.side);
 
-  // Vertical position: planet moves from bottom to top of viewport
-  // as scroll progress approaches its scrollCenter
   const distanceSigned = scrollProgress - planet.scrollCenter;
-  // Map: when far below (negative distance) → bottom of screen
-  //       when at center → middle of screen (50%)
-  //       when far above (positive distance) → top of screen
-  const y = 50 - (distanceSigned / VISIBLE_RANGE) * 50;
+  const y = 55 - (distanceSigned / VISIBLE_RANGE) * 70;
 
   return (
     <div
-      className="absolute will-change-transform pointer-events-none"
+      className="absolute will-change-transform pointer-events-none z-20"
       style={{
         left: `${x}%`,
         top: `${y}%`,
@@ -50,7 +48,7 @@ export default function Planet({ planet, scrollProgress }: PlanetProps) {
         opacity,
       }}
     >
-      <SvgComponent className="w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64" />
+      <SvgComponent className={`w-77 h-77 md:w-92 md:h-92 lg:w-123 lg:h-123 ${styles.planetFloat}`} />
     </div>
   );
 }
