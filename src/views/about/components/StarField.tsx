@@ -1,18 +1,6 @@
 "use client";
 
 import { useMemo } from 'react';
-import Asteroid1Svg from '../../../assets/planets/asteroid1.svg';
-import Asteroid2Svg from '../../../assets/planets/asteroid2.svg';
-import Asteroid3Svg from '../../../assets/planets/asteroid3.svg';
-
-const ASTEROID_SVGS = [Asteroid1Svg, Asteroid2Svg, Asteroid3Svg];
-
-// Each type has a distinct size range to look visually different
-const ASTEROID_SIZE_RANGES = [
-  { min: 100, range: 60 }, // type 0 (191×172): large 100–160px
-  { min: 55,  range: 35 }, // type 1 (79×65):  medium 55–90px
-  { min: 25,  range: 25 }, // type 2 (27×25):  small 25–50px
-];
 
 // Star types: dim background dots, mid glowing, bright with cross flare
 type StarType = 'dim' | 'mid' | 'bright';
@@ -30,25 +18,12 @@ interface Star {
   color: string;
 }
 
-interface AsteroidData {
-  id: number;
-  x: number;
-  size: number;
-  rotation: number;
-  opacity: number;
-  duration: number;
-  delay: number;
-  svgIndex: number;
-}
-
 // Speed by layer: far = slow, near = fast
 const LAYER_DURATION = {
   0: { min: 20, range: 12 }, // 20–32s far/slow
   1: { min: 11, range: 7 },  // 11–18s mid
   2: { min: 5,  range: 5 },  // 5–10s near/fast
 };
-
-const ASTEROID_DURATION = { min: 12, range: 10 };
 
 // Realistic star colors: blue-white, white, warm white, soft blue
 const STAR_COLORS = ['#ffffff', '#e8eeff', '#fffbe8', '#c8d8ff', '#f0f8ff'];
@@ -103,34 +78,6 @@ function generateStars(count: number): Star[] {
   return stars;
 }
 
-function generateAsteroids(count: number): AsteroidData[] {
-  const random = createRng(99);
-  const asteroids: AsteroidData[] = [];
-
-  const cols = count;
-  const colWidth = 90 / cols;
-
-  for (let i = 0; i < count; i++) {
-    const baseX = 5 + (i + 0.5) * colWidth;
-    const jitter = (random() - 0.5) * colWidth * 0.6;
-    const x = Math.min(Math.max(baseX + jitter, 5), 95);
-
-    const svgIndex = i % 3;
-    const sizeRange = ASTEROID_SIZE_RANGES[svgIndex];
-
-    asteroids.push({
-      id: i,
-      x,
-      size: sizeRange.min + random() * sizeRange.range,
-      rotation: random() * 360,
-      opacity: 0.35 + random() * 0.45,
-      duration: ASTEROID_DURATION.min + random() * ASTEROID_DURATION.range,
-      delay: -(random() * (ASTEROID_DURATION.min + ASTEROID_DURATION.range)),
-      svgIndex,
-    });
-  }
-  return asteroids;
-}
 
 function getStarBoxShadow(star: Star): string {
   const { size, color, type } = star;
@@ -152,52 +99,40 @@ function getStarBoxShadow(star: Star): string {
   return 'none';
 }
 
-export default function StarField() {
+const LAST_PLANET = 0.639;
+const HYPER_SPEED = 8;
+
+interface StarFieldProps {
+  scrollProgress: number;
+}
+
+export default function StarField({ scrollProgress }: StarFieldProps) {
   const stars = useMemo(() => generateStars(180), []);
-  const asteroids = useMemo(() => generateAsteroids(16), []);
+  const isHyperSpeed = scrollProgress > LAST_PLANET;
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {([0, 1, 2] as const).map((layer) => {
         const layerStars = stars.filter(s => s.layer === layer);
-        return layerStars.map((star, i) => (
-          <div
-            key={`s${layer}-${i}`}
-            className="absolute rounded-full"
-            style={{
-              left: `${star.x}%`,
-              bottom: `-${Math.ceil(star.size)}px`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              opacity: star.brightness,
-              backgroundColor: star.color,
-              boxShadow: getStarBoxShadow(star),
-              animation: `scrollUp ${star.duration}s linear ${star.delay}s infinite`,
-            }}
-          />
-        ));
-      })}
-
-      {asteroids.map((asteroid) => {
-        const Svg = ASTEROID_SVGS[asteroid.svgIndex];
-        return (
-          <div
-            key={`a${asteroid.id}`}
-            className="absolute"
-            style={{
-              left: `${asteroid.x}%`,
-              bottom: `-${asteroid.size}px`,
-              width: `${asteroid.size}px`,
-              height: `${asteroid.size}px`,
-              opacity: asteroid.opacity,
-              animation: `scrollUp ${asteroid.duration}s linear ${asteroid.delay}s infinite`,
-            }}
-          >
-            <div style={{ width: '100%', height: '100%', transform: `rotate(${asteroid.rotation}deg)` }}>
-              <Svg className="w-full h-full" />
-            </div>
-          </div>
-        );
+        return layerStars.map((star, i) => {
+          const duration = isHyperSpeed ? star.duration / HYPER_SPEED : star.duration;
+          return (
+            <div
+              key={`s${layer}-${i}`}
+              className="absolute rounded-full"
+              style={{
+                left: `${star.x}%`,
+                bottom: `-${Math.ceil(star.size)}px`,
+                width: `${star.size}px`,
+                height: `${star.size}px`,
+                opacity: star.brightness,
+                backgroundColor: star.color,
+                boxShadow: getStarBoxShadow(star),
+                animation: `scrollUp ${duration}s linear ${star.delay}s infinite`,
+              }}
+            />
+          );
+        });
       })}
     </div>
   );

@@ -29,7 +29,7 @@ interface ExperienceData {
 const experiences: ExperienceData[] = [
   {
     id: 'mosaiq',
-    company: 'MosaiqOS',
+    company: 'Software Sushi - MosaiqOS',
     logo: mosaiq,
     period: '10/2025 - Present',
     skills: ['nestjs', 'react', 'postgresql', 'docker', 'langraph'],

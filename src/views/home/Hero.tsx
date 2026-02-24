@@ -22,7 +22,7 @@ export default function Hero({ translations }: HeroProps) {
       setTimeout(() => setAnimationStep(2), 200),    // Descripción
       setTimeout(() => setAnimationStep(3), 350),    // Botón
       setTimeout(() => setAnimationStep(4), 500),    // Imagen
-      setTimeout(() => setAnimationStep(5), 1000),   // Slogan (protagonista - al final)
+      setTimeout(() => setAnimationStep(5), 1000),   // Slogan (Final with longest delay for emphasis)
     ];
     return () => timers.forEach(clearTimeout);
   }, []);

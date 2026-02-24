@@ -1,14 +1,17 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { AboutPageTranslations } from '../../features/about/i18n';
 import { useScrollProgress } from './hooks/useScrollProgress';
 import { useHashNavigation } from './hooks/useHashNavigation';
 import { planets } from './data/planets';
 import StarField from './components/StarField';
+import AsteroidField from './components/AsteroidField';
 import Spaceshuttle from './components/Spaceshuttle';
 import Planet from './components/Planet';
 import PlanetGenericView from './components/PlanetGenericView';
+import BlackHole from './components/BlackHole';
+import BlackHoleView from './components/BlackHoleView';
 import styles from './SpaceJourney.module.css';
 
 interface SpaceJourneyProps {
@@ -17,9 +20,11 @@ interface SpaceJourneyProps {
 
 const ACTIVATION_THRESHOLD = 0.02;
 const SECTION_HEIGHT_VH = 700;
+// Black hole "locks in" slightly before SCROLL_CENTER (0.88), once shuttle is absorbed
+const BLACKHOLE_ACTIVATION = 0.86;
 
 export default function SpaceJourney({ translations }: SpaceJourneyProps) {
-  const totalHeightVh = planets.length * SECTION_HEIGHT_VH + 100;
+  const totalHeightVh = planets.length * SECTION_HEIGHT_VH + 1400;
   const [totalHeightPx, setTotalHeightPx] = useState(0);
 
   useEffect(() => {
@@ -32,6 +37,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
   }, [totalHeightVh]);
 
   const { progress, direction } = useScrollProgress(totalHeightPx);
+  const blackHoleRef = useRef<HTMLDivElement | null>(null);
   const { updateHash, scrollToPlanet } = useHashNavigation({
     planets,
     totalHeight: totalHeightPx,
@@ -65,6 +71,36 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
       return () => clearTimeout(timer);
     }
   }, [activePlanet, visiblePlanetId, updateHash]);
+
+  // Black hole activation: once the shuttle has been absorbed, center the BH and show info
+  const isBlackHoleActive = progress >= BLACKHOLE_ACTIVATION;
+
+  // Delay showing the text panel slightly to let the centering animation finish
+  const [showBlackHoleInfo, setShowBlackHoleInfo] = useState(false);
+  const [isBlackHoleInfoExiting, setIsBlackHoleInfoExiting] = useState(false);
+  const bhInfoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (isBlackHoleActive) {
+      // Wait for the centering transition (0.8s) before fading in text
+      bhInfoTimerRef.current = setTimeout(() => setShowBlackHoleInfo(true), 700);
+      setIsBlackHoleInfoExiting(false);
+    } else {
+      if (bhInfoTimerRef.current) clearTimeout(bhInfoTimerRef.current);
+      if (showBlackHoleInfo) {
+        setIsBlackHoleInfoExiting(true);
+        const timer = setTimeout(() => {
+          setShowBlackHoleInfo(false);
+          setIsBlackHoleInfoExiting(false);
+        }, 300);
+        return () => clearTimeout(timer);
+      }
+    }
+    return () => {
+      if (bhInfoTimerRef.current) clearTimeout(bhInfoTimerRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBlackHoleActive]);
 
   // Arrow key scroll acceleration — each press scrolls 5vh of the total page
   useEffect(() => {
@@ -108,7 +144,8 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     <div className="-mt-24" style={{ height: `${totalHeightVh}vh` }}>
       {/* Fixed space viewport */}
       <div className="fixed inset-0 overflow-hidden bg-bg-primary">
-        <StarField />
+        <StarField scrollProgress={progress} />
+        <AsteroidField scrollProgress={progress} />
 
         {planets.map((planet) => (
           <Planet
@@ -122,7 +159,18 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
           scrollProgress={progress}
           isHidden={!!visiblePlanetId}
           direction={direction}
+          blackHoleRef={blackHoleRef}
         />
+
+        <BlackHole progress={progress} centered={isBlackHoleActive} containerRef={blackHoleRef} />
+
+        {/* Page title — fades out as user scrolls */}
+        <h1
+          className={`${styles.pageTitle} text-fg-primary`}
+          style={{ '--title-opacity': Math.max(0, 1 - progress * 30) } as React.CSSProperties}
+        >
+          {translations.title}
+        </h1>
       </div>
 
       {/* Planet content modal */}
@@ -134,6 +182,15 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
           skipLabel={translations.skipWorld}
           onSkip={handleSkipWorld}
           isVisible={!isExiting}
+        />
+      )}
+
+      {/* Black hole info panel */}
+      {(showBlackHoleInfo || isBlackHoleInfoExiting) && (
+        <BlackHoleView
+          title={translations.blackhole.title}
+          content={translations.blackhole.content}
+          isVisible={showBlackHoleInfo && !isBlackHoleInfoExiting}
         />
       )}
 

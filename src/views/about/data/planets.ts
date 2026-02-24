@@ -26,11 +26,11 @@ export interface PlanetData {
  *        [Planet 5]  (right)
  */
 export const planets: PlanetData[] = [
-  { id: 'origin',    SvgComponent: Planet1,  side: 'right', scrollCenter: 0.18 },
-  { id: 'mission',   SvgComponent: Planet3,  side: 'left',  scrollCenter: 0.34 },
-  { id: 'skills',    SvgComponent: Planet8,  side: 'right', scrollCenter: 0.52 },
-  { id: 'interests', SvgComponent: Planet14, side: 'left',  scrollCenter: 0.70 },
-  { id: 'values',    SvgComponent: Planet17, side: 'right', scrollCenter: 0.87 },
+  { id: 'origin',    SvgComponent: Planet1,  side: 'right', scrollCenter: 0.132 },
+  { id: 'mission',   SvgComponent: Planet3,  side: 'left',  scrollCenter: 0.250 },
+  { id: 'skills',    SvgComponent: Planet8,  side: 'right', scrollCenter: 0.382 },
+  { id: 'interests', SvgComponent: Planet14, side: 'left',  scrollCenter: 0.514 },
+  { id: 'values',    SvgComponent: Planet17, side: 'right', scrollCenter: 0.639 },
 ];
 
 /** Get the X position (%) for a planet based on its side */

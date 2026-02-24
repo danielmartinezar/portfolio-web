@@ -7,12 +7,12 @@ import { CardService } from './components';
 import MobileIcon from '../../assets/mobile-icon.svg';
 import StackIcon from '../../assets/stack-icon.svg';
 import CloudIcon from '../../assets/cloud-icon.svg';
-
+import APIIcon from '../../assets/api-svgrepo-com (1).svg';
 const serviceIcons = [
   <MobileIcon key="mobile" />,
   <StackIcon key="stack" />,
   <CloudIcon key="cloud" />,
-  <MobileIcon key="mobile2" />,
+  <APIIcon key="api" />,
 ];
 
 interface ServicesProps {

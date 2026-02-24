@@ -4,7 +4,9 @@ export interface PlanetTranslation {
 }
 
 export interface AboutPageTranslations {
+  title: string;
   scrollHint: string;
   skipWorld: string;
   planets: Record<string, PlanetTranslation>;
+  blackhole: PlanetTranslation;
 }

@@ -22,7 +22,7 @@ const en: HomePageTranslations = {
       {
         title: "Full Stack Development",
         description:
-          "End-to-end web development with Node.js, React, and modern frameworks. From database design to responsive UIs.",
+          "End-to-end web development using modern technologies and frameworks. From scalable database design to responsive, user-focused interfaces.",
       },
       {
         title: "Cloud Solutions",
@@ -32,7 +32,7 @@ const en: HomePageTranslations = {
       {
         title: "API Development",
         description:
-          "RESTful and GraphQL API design with Node.js. Secure, documented, and optimized for performance.",
+          "RESTful and GraphQL API design following best practices, built with modern frameworks. Secure, well-documented, scalable, and optimized for high performance.",
       },
     ],
   },
@@ -140,7 +140,7 @@ const en: HomePageTranslations = {
       },
       {
         icon: "location",
-        value: "Barranquilla, Colombia",
+        value: "Bogotá, Colombia",
       },
     ],
   },

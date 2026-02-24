@@ -22,7 +22,7 @@ const es: HomePageTranslations = {
       {
         title: 'Desarrollo Full Stack',
         description:
-          'Desarrollo web end-to-end con Node.js, React y frameworks modernos. Desde diseño de base de datos hasta interfaces responsivas.',
+          'Desarrollo web end-to-end utilizando tecnologías y frameworks modernos. Desde el diseño de bases de datos escalables hasta interfaces responsivas y centradas en el usuario.',
       },
       {
         title: 'Soluciones en la Nube',
@@ -32,7 +32,7 @@ const es: HomePageTranslations = {
       {
         title: 'Desarrollo de APIs',
         description:
-          'Diseño de APIs RESTful y GraphQL con Node.js. Seguras, documentadas y optimizadas para rendimiento.',
+          'Diseño de APIs RESTful y GraphQL siguiendo buenas prácticas, construidas con frameworks modernos. Seguras, bien documentadas, escalables y optimizadas para alto rendimiento.',
       },
     ],
   },
@@ -142,7 +142,7 @@ const es: HomePageTranslations = {
       },
       {
         icon: 'location',
-        value: 'Barranquilla, Colombia',
+        value: 'Bogotá, Colombia',
       },
     ],
   },

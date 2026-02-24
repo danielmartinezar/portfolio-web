@@ -106,9 +106,28 @@
   transform-origin: center bottom;
 }
 
-@keyframes asteroidFloat {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(calc(var(--float-amount, 12px) * -1)); }
+.pageTitle {
+  position: fixed;
+  top: 7rem;
+  left: 1.5rem;
+  z-index: 20;
+  font-weight: 700;
+  font-size: 2.25rem;
+  pointer-events: none;
+  transition: opacity 0.5s;
+  opacity: var(--title-opacity, 1);
+}
+
+@media (min-width: 768px) {
+  .pageTitle {
+    font-size: 3rem;
+  }
+}
+
+.asteroidFloat {
+  animation-name: asteroidFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 /* Continuous upward scroll for stars and asteroids */

@@ -1,8 +1,14 @@
 import type { AboutPageTranslations } from './types';
 
 const en: AboutPageTranslations = {
+  title: "My Universe",
   scrollHint: "Scroll to explore my universe",
   skipWorld: "Skip world",
+  blackhole: {
+    title: "The Singularity",
+    content:
+      "Every journey has an end — and a new beginning. This black hole marks the edge of my known universe. Beyond here lies the unknown, the next challenge, the next project. Thank you for exploring my world.",
+  },
   planets: {
     origin: {
       title: "My Origins",
