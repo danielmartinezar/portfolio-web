@@ -1,9 +1,11 @@
 import type { ComponentType, SVGProps } from 'react';
 import Planet1 from '../../../assets/planets/planet1.svg';
 import Planet3 from '../../../assets/planets/planet3.svg';
-import Planet8 from '../../../assets/planets/planet8.svg';
-import Planet14 from '../../../assets/planets/planet14.svg';
-import Planet17 from '../../../assets/planets/planet17.svg';
+import Planet5 from '../../../assets/planets/planet5.svg';
+import Planet7 from '../../../assets/planets/planet7.svg';
+import Planet9 from '../../../assets/planets/planet9.svg';
+import Planet12 from '../../../assets/planets/planet12.svg';
+import Planet15 from '../../../assets/planets/planet15.svg';
 
 export interface PlanetData {
   id: string;
@@ -24,13 +26,17 @@ export interface PlanetData {
  *        [Planet 3]  (right)
  *   [Planet 4]       (left)
  *        [Planet 5]  (right)
+ *   [Planet 6]       (left)
+ *        [Planet 7]  (right)
  */
 export const planets: PlanetData[] = [
-  { id: 'origin',    SvgComponent: Planet1,  side: 'right', scrollCenter: 0.132 },
-  { id: 'mission',   SvgComponent: Planet3,  side: 'left',  scrollCenter: 0.250 },
-  { id: 'skills',    SvgComponent: Planet8,  side: 'right', scrollCenter: 0.382 },
-  { id: 'interests', SvgComponent: Planet14, side: 'left',  scrollCenter: 0.514 },
-  { id: 'values',    SvgComponent: Planet17, side: 'right', scrollCenter: 0.639 },
+  { id: 'dreams',     SvgComponent: Planet1,  side: 'right', scrollCenter: 0.100 },
+  { id: 'psychology', SvgComponent: Planet3,  side: 'left',  scrollCenter: 0.214 },
+  { id: 'hobbies',    SvgComponent: Planet5,  side: 'right', scrollCenter: 0.328 },
+  { id: 'engineering',SvgComponent: Planet7,  side: 'left',  scrollCenter: 0.442 },
+  { id: 'art',        SvgComponent: Planet9,  side: 'right', scrollCenter: 0.556 },
+  { id: 'childhood',  SvgComponent: Planet12, side: 'left',  scrollCenter: 0.670 },
+  { id: 'people',     SvgComponent: Planet15, side: 'right', scrollCenter: 0.784 },
 ];
 
 /** Get the X position (%) for a planet based on its side */

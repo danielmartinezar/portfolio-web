@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Georama } from "next/font/google";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import ScrollToTop from "../components/ScrollToTop";
 import { LanguageProvider } from "../shared/services";
 import "../index.css";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </div>
+          <ScrollToTop />
         </LanguageProvider>
       </body>
     </html>
