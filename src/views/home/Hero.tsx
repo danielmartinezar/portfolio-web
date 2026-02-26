@@ -1,19 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import type { HeroTranslations } from "../../features/home/i18n";
 import ContactButton from "./components/ContactButton";
 import SocialIcons from "../../components/SocialIcons";
-import danielImage from "../../assets/DanielMartinez.webp";
-import { danielImageBlurBase64 } from "../../assets/danielImageBlurBase64";
+
+const HERO_IMAGE_URL = "https://res.cloudinary.com/dyezhjnea/image/upload/v1772140035/DanielMartinez_ufqkqq.webp";
+const HERO_IMAGE_BLUR = "https://res.cloudinary.com/dyezhjnea/image/upload/w_20,q_10,e_blur:200/v1772140035/DanielMartinez_ufqkqq.webp";
 
 interface HeroProps {
   translations: HeroTranslations;
 }
 
 export default function Hero({ translations }: HeroProps) {
-  const [blurLoaded, setBlurLoaded] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [animationStep, setAnimationStep] = useState(0);
 
   useEffect(() => {
@@ -83,30 +83,28 @@ export default function Hero({ translations }: HeroProps) {
         {/* Image Container - Right side, extends to bottom */}
         <div className="relative h-full flex items-end justify-center">
           {/* Social Icons with Follow Me */}
-          {blurLoaded && (
-            <div
-              key={translations.followMe}
-              className="absolute right-0 top-[65%] -translate-y-1/2 z-10 flex flex-col items-center gap-4"
+          <div
+            key={translations.followMe}
+            className="absolute right-0 top-[65%] -translate-y-1/2 z-10 flex flex-col items-center gap-4"
+          >
+            <span className="text-fg-secondary text-xs tracking-widest uppercase [writing-mode:vertical-lr] whitespace-nowrap">
+              {translations.followMe}
+            </span>
+            <svg
+              width="12"
+              height="40"
+              viewBox="0 0 12 40"
+              fill="none"
+              className="text-fg-secondary"
             >
-              <span className="text-fg-secondary text-xs tracking-widest uppercase [writing-mode:vertical-lr] whitespace-nowrap">
-                {translations.followMe}
-              </span>
-              <svg
-                width="12"
-                height="40"
-                viewBox="0 0 12 40"
-                fill="none"
-                className="text-fg-secondary"
-              >
-                <path
-                  d="M6 0L6 38M6 38L1 33M6 38L11 33"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-              </svg>
-              <SocialIcons direction="vertical" size="sm" gap="gap-2" />
-            </div>
-          )}
+              <path
+                d="M6 0L6 38M6 38L1 33M6 38L11 33"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+            </svg>
+            <SocialIcons direction="vertical" size="sm" gap="gap-2" />
+          </div>
           {/* Photo */}
           <div
             className={`relative h-[85%] w-auto transition-all duration-500 ease-out ${
@@ -115,22 +113,15 @@ export default function Hero({ translations }: HeroProps) {
                 : "opacity-0 translate-y-12"
             }`}
           >
-            <img
-              src={danielImageBlurBase64}
-              alt=""
-              className={`h-full w-auto object-contain object-bottom transition-opacity duration-700 ${
-                imageLoaded ? "opacity-0" : "opacity-100"
-              }`}
-              aria-hidden="true"
-              onLoad={() => setBlurLoaded(true)}
-            />
-            <img
-              src={danielImage.src}
+            <Image
+              src={HERO_IMAGE_URL}
               alt={translations.imageAlt}
-              className={`h-full w-auto object-contain object-bottom absolute inset-0 transition-opacity duration-700 ${
-                imageLoaded ? "opacity-100" : "opacity-0"
-              }`}
-              onLoad={() => setImageLoaded(true)}
+              width={600}
+              height={900}
+              placeholder="blur"
+              blurDataURL={HERO_IMAGE_BLUR}
+              className="h-full w-auto object-contain object-bottom"
+              priority
             />
           </div>
         </div>
@@ -194,46 +185,37 @@ export default function Hero({ translations }: HeroProps) {
               : "opacity-0 translate-y-12"
           }`}
         >
-          {blurLoaded && (
-            <div
-              key={translations.followMe}
-              className="absolute right-0 top-[25%] -translate-y-1/2 z-10 flex flex-col items-center gap-3"
+          <div
+            key={translations.followMe}
+            className="absolute right-0 top-[25%] -translate-y-1/2 z-10 flex flex-col items-center gap-3"
+          >
+            <span className="text-fg-secondary text-[10px] tracking-widest uppercase [writing-mode:vertical-lr] whitespace-nowrap">
+              {translations.followMe}
+            </span>
+            <svg
+              width="10"
+              height="30"
+              viewBox="0 0 12 40"
+              fill="none"
+              className="text-fg-secondary"
             >
-              <span className="text-fg-secondary text-[10px] tracking-widest uppercase [writing-mode:vertical-lr] whitespace-nowrap">
-                {translations.followMe}
-              </span>
-              <svg
-                width="10"
-                height="30"
-                viewBox="0 0 12 40"
-                fill="none"
-                className="text-fg-secondary"
-              >
-                <path
-                  d="M6 0L6 38M6 38L1 33M6 38L11 33"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-              </svg>
-              <SocialIcons direction="vertical" size="sm" gap="gap-2" />
-            </div>
-          )}
-          <img
-            src={danielImageBlurBase64}
-            alt=""
-            className={`h-full w-auto object-contain object-bottom transition-opacity duration-700 ${
-              imageLoaded ? "opacity-0" : "opacity-100"
-            }`}
-            aria-hidden="true"
-            onLoad={() => setBlurLoaded(true)}
-          />
-          <img
-            src={danielImage.src}
+              <path
+                d="M6 0L6 38M6 38L1 33M6 38L11 33"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+            </svg>
+            <SocialIcons direction="vertical" size="sm" gap="gap-2" />
+          </div>
+          <Image
+            src={HERO_IMAGE_URL}
             alt={translations.imageAlt}
-            className={`h-full w-auto object-contain object-bottom absolute inset-0 left-1/2 -translate-x-1/2 transition-opacity duration-700 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            onLoad={() => setImageLoaded(true)}
+            width={600}
+            height={900}
+            placeholder="blur"
+            blurDataURL={HERO_IMAGE_BLUR}
+            className="h-full w-auto object-contain object-bottom"
+            priority
           />
         </div>
       </div>

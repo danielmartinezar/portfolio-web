@@ -12,7 +12,7 @@ import Planet from './components/Planet';
 import PlanetGenericView from './components/PlanetGenericView';
 import SkipWorldButton from './components/SkipWorldButton';
 import BlackHole from './components/BlackHole';
-import BlackHoleView from './components/BlackHoleView';
+import TesseractGridView from './components/TesseractGridView';
 import styles from './SpaceJourney.module.css';
 
 interface SpaceJourneyProps {
@@ -21,8 +21,6 @@ interface SpaceJourneyProps {
 
 const ACTIVATION_THRESHOLD = 0.02;
 const SECTION_HEIGHT_VH = 700;
-// Black hole "locks in" slightly before SCROLL_CENTER (0.88), once shuttle is absorbed
-const BLACKHOLE_ACTIVATION = 0.86;
 
 export default function SpaceJourney({ translations }: SpaceJourneyProps) {
   const totalHeightVh = planets.length * SECTION_HEIGHT_VH + 1400;
@@ -74,8 +72,28 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     }
   }, [activePlanet, visiblePlanetId, updateHash]);
 
-  // Black hole activation: once the shuttle has been absorbed, center the BH and show info
-  const isBlackHoleActive = progress >= BLACKHOLE_ACTIVATION;
+  // Black hole: activates when shuttle is fully absorbed, deactivates when user scrolls back up
+  const [isBlackHoleActive, setIsBlackHoleActive] = useState(false);
+  const BLACKHOLE_DEACTIVATION = 0.82; // progress below which we reset (BH not yet in view)
+
+  const handleShuttleAbsorbed = useCallback(() => {
+    setIsBlackHoleActive(true);
+    updateHash('blackhole');
+  }, [updateHash]);
+
+  const handleExitBlackHole = useCallback(() => {
+    updateHash(null);
+    const maxScroll = totalHeightPx - window.innerHeight;
+    const targetScroll = (BLACKHOLE_DEACTIVATION - 0.01) * maxScroll;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  }, [totalHeightPx, updateHash]);
+
+  useEffect(() => {
+    if (progress < BLACKHOLE_DEACTIVATION) {
+      if (isBlackHoleActive) updateHash(null);
+      setIsBlackHoleActive(false);
+    }
+  }, [progress, isBlackHoleActive, updateHash]);
 
   // Delay showing the text panel slightly to let the centering animation finish
   const [showBlackHoleInfo, setShowBlackHoleInfo] = useState(false);
@@ -157,6 +175,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
           isHidden={!!visiblePlanetId}
           direction={direction}
           blackHoleRef={blackHoleRef}
+          onAbsorbed={handleShuttleAbsorbed}
         />
 
         <BlackHole progress={progress} centered={isBlackHoleActive} containerRef={blackHoleRef} />
@@ -188,12 +207,12 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
         </>
       )}
 
-      {/* Black hole info panel */}
+      {/* Black hole info panel — Tesseract */}
       {(showBlackHoleInfo || isBlackHoleInfoExiting) && (
-        <BlackHoleView
-          title={translations.blackhole.title}
-          content={translations.blackhole.content}
+        <TesseractGridView
           isVisible={showBlackHoleInfo && !isBlackHoleInfoExiting}
+          onExit={handleExitBlackHole}
+          exitLabel={translations.exitBlackHole}
         />
       )}
 

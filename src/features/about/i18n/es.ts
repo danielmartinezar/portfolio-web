@@ -4,6 +4,7 @@ const es: AboutPageTranslations = {
   title: "Mi Universo",
   scrollHint: "Haz scroll para explorar mi universo",
   skipWorld: "Saltar mundo",
+  exitBlackHole: "Salir del agujero negro",
   blackhole: {
     title: "La Singularidad",
     content:

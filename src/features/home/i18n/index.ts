@@ -9,6 +9,7 @@ export type {
   ContactTranslations,
   ContactItem,
   ExperienceTranslations,
+  RecentArticlesTranslations,
 } from './types';
 
 /**

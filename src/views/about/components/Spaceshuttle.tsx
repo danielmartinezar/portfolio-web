@@ -10,6 +10,7 @@ interface SpaceshuttleProps {
   isHidden: boolean;
   direction: 1 | -1;
   blackHoleRef: RefObject<HTMLDivElement | null>;
+  onAbsorbed?: () => void;
 }
 
 function easeInOut(t: number): number {
@@ -86,7 +87,7 @@ function getShuttlePosition(progress: number) {
   return { x: pos.x, y: pos.y, rotation };
 }
 
-export default function Spaceshuttle({ scrollProgress, isHidden, direction, blackHoleRef }: SpaceshuttleProps) {
+export default function Spaceshuttle({ scrollProgress, isHidden, direction, blackHoleRef, onAbsorbed }: SpaceshuttleProps) {
   const position = useMemo(
     () => getShuttlePosition(scrollProgress),
     [scrollProgress],
@@ -101,6 +102,7 @@ export default function Spaceshuttle({ scrollProgress, isHidden, direction, blac
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const shuttleRef = useRef<HTMLDivElement | null>(null);
+  const absorbedFiredRef = useRef(false);
 
   // Distance-based absorption: measure real pixel distance to black hole edge
   const TRIGGER_PX = 80; // px from BH edge to start effect
@@ -123,7 +125,14 @@ export default function Spaceshuttle({ scrollProgress, isHidden, direction, blac
 
     const t = Math.max(0, Math.min(1, 1 - dist / TRIGGER_PX));
     setAbsorptionT(t);
-  }, [scrollProgress, blackHoleRef]);
+
+    if (t >= 1 && !absorbedFiredRef.current) {
+      absorbedFiredRef.current = true;
+      onAbsorbed?.();
+    } else if (t < 1) {
+      absorbedFiredRef.current = false;
+    }
+  }, [scrollProgress, blackHoleRef, onAbsorbed]);
 
   useEffect(() => {
     setIsScrolling(true);

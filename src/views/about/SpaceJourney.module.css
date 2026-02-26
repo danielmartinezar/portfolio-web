@@ -135,3 +135,128 @@
   from { transform: translateY(0); }
   to   { transform: translateY(calc(-100vh - 200px)); }
 }
+
+/* ─── Bento Grid View ─────────────────────────────────────────────── */
+
+@keyframes gridFadeIn {
+  0%   { opacity: 0; transform: scale(0.97); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes gridFadeOut {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.97); }
+}
+
+@keyframes cellIn {
+  0%   { opacity: 0; transform: scale(0.88) translateY(8px); }
+  100% { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.gridEnter {
+  animation: gridFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.gridExit {
+  animation: gridFadeOut 0.3s ease-in forwards;
+  pointer-events: none;
+}
+
+/* ── Scroll wrapper — takes full viewport, scrolls internally ── */
+.bentoScroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  padding: 80px 12px 24px;
+}
+
+.bentoScroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Masonry container — CSS columns ── */
+.bentoGrid {
+  columns: 3;
+  column-gap: 6px;
+  width: min(96vw, 1000px);
+  margin: 0 auto;
+}
+
+@media (max-width: 700px) {
+  .bentoGrid {
+    columns: 2;
+    column-gap: 4px;
+    width: 100%;
+  }
+}
+
+/* ── Cell — breaks inside prevented so photo stays in one column ── */
+.bentoCell {
+  break-inside: avoid;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.94) translateY(6px);
+  background: #111118;
+  transition:
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bentoCellVisible {
+  animation: cellIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bentoCell:hover .bentoImg {
+  transform: scale(1.04);
+}
+
+/* Stagger delays */
+.bentoCellDelay0  { animation-delay:   0ms; }
+.bentoCellDelay1  { animation-delay:  40ms; }
+.bentoCellDelay2  { animation-delay:  80ms; }
+.bentoCellDelay3  { animation-delay: 120ms; }
+.bentoCellDelay4  { animation-delay: 160ms; }
+.bentoCellDelay5  { animation-delay: 200ms; }
+.bentoCellDelay6  { animation-delay: 240ms; }
+.bentoCellDelay7  { animation-delay: 280ms; }
+.bentoCellDelay8  { animation-delay: 320ms; }
+.bentoCellDelay9  { animation-delay: 360ms; }
+.bentoCellDelay10 { animation-delay: 400ms; }
+.bentoCellDelay11 { animation-delay: 440ms; }
+.bentoCellDelay12 { animation-delay: 480ms; }
+.bentoCellDelay13 { animation-delay: 520ms; }
+.bentoCellDelay14 { animation-delay: 560ms; }
+.bentoCellDelay15 { animation-delay: 600ms; }
+.bentoCellDelay16 { animation-delay: 640ms; }
+
+/* Image respects its natural proportions */
+.bentoImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* ── Exit button overlay ── */
+.bentoExitBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1.5rem;
+  padding-top: 2.5rem;
+  background: linear-gradient(to top, rgba(17,17,34,0.95) 60%, transparent);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.bentoExitBarHidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+}

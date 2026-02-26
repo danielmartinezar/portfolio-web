@@ -90,6 +90,15 @@ export interface ExperienceTranslations {
 }
 
 /**
+ * Recent articles section translation structure
+ */
+export interface RecentArticlesTranslations {
+  subtitle: string;
+  title: string;
+  viewAll: string;
+}
+
+/**
  * Complete Home page translation structure
  */
 export interface HomePageTranslations {
@@ -97,5 +106,6 @@ export interface HomePageTranslations {
   services: ServicesTranslations;
   skills: SkillsTranslations;
   experience: ExperienceTranslations;
+  recentArticles: RecentArticlesTranslations;
   contact: ContactTranslations;
 }

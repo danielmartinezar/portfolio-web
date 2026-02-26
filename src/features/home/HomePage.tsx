@@ -7,10 +7,16 @@ import Hero from "../../views/home/Hero";
 import Services from "../../views/home/Services";
 import Experience from "../../views/home/Experience";
 import Contact from "../../views/home/Contact";
+import RecentArticles from "../../views/home/RecentArticles";
+import type { ArticleOverview } from "../../features/blog/blog.types";
 
 const Skills = lazy(() => import("../../views/home/Skills"));
 
-export default function HomePage() {
+interface HomePageProps {
+  recentArticles: ArticleOverview[];
+}
+
+export default function HomePage({ recentArticles }: HomePageProps) {
   const { t, isLoading } = useTranslation<HomePageTranslations>(
     homeTranslationLoaders,
   );
@@ -27,6 +33,7 @@ export default function HomePage() {
       <Suspense fallback={null}>
         <Skills translations={t.skills} />
       </Suspense>
+      <RecentArticles translations={t.recentArticles} articles={recentArticles} />
       <Contact translations={t.contact} />
     </div>
   );

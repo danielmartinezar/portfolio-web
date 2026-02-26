@@ -124,6 +124,11 @@ const en: HomePageTranslations = {
       },
     },
   },
+  recentArticles: {
+    subtitle: "From the blog",
+    title: "Recent Articles",
+    viewAll: "View all articles",
+  },
   contact: {
     subtitle: "Let's talk",
     title: "Ways to contact me",

@@ -126,6 +126,11 @@ const es: HomePageTranslations = {
       },
     },
   },
+  recentArticles: {
+    subtitle: 'Del blog',
+    title: 'Artículos Recientes',
+    viewAll: 'Ver todos los artículos',
+  },
   contact: {
     subtitle: 'Hablemos',
     title: 'Formas de contactarme',
