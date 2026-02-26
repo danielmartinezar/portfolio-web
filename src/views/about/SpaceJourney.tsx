@@ -10,6 +10,7 @@ import AsteroidField from './components/AsteroidField';
 import Spaceshuttle from './components/Spaceshuttle';
 import Planet from './components/Planet';
 import PlanetGenericView from './components/PlanetGenericView';
+import SkipWorldButton from './components/SkipWorldButton';
 import BlackHole from './components/BlackHole';
 import BlackHoleView from './components/BlackHoleView';
 import styles from './SpaceJourney.module.css';
@@ -38,7 +39,8 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
 
   const { progress, direction } = useScrollProgress(totalHeightPx);
   const blackHoleRef = useRef<HTMLDivElement | null>(null);
-  const { updateHash, scrollToPlanet } = useHashNavigation({
+  const modalScrollRef = useRef<HTMLDivElement | null>(null);
+  const { updateHash } = useHashNavigation({
     planets,
     totalHeight: totalHeightPx,
   });
@@ -115,21 +117,16 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  // Handle skip world
+  // Handle skip world — exits the planet view without jumping to the next planet.
+  // Scrolls just past the activation threshold so the modal closes and the shuttle
+  // is free to continue, but the user stays at roughly the same journey position.
   const handleSkipWorld = useCallback(() => {
     if (!activePlanet) return;
-
-    const currentIndex = planets.findIndex((p) => p.id === activePlanet.id);
-    const nextPlanet = planets[currentIndex + 1];
-
-    if (nextPlanet) {
-      scrollToPlanet(nextPlanet.id);
-    } else {
-      // Last planet — scroll to end
-      const maxScroll = totalHeightPx - window.innerHeight;
-      window.scrollTo({ top: maxScroll, behavior: 'smooth' });
-    }
-  }, [activePlanet, scrollToPlanet, totalHeightPx]);
+    const targetProgress = activePlanet.scrollCenter + ACTIVATION_THRESHOLD + 0.001;
+    const maxScroll = totalHeightPx - window.innerHeight;
+    const targetScroll = Math.min(targetProgress * maxScroll, maxScroll);
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+  }, [activePlanet, totalHeightPx]);
 
   // Find the visible planet data for the modal
   const modalPlanet = visiblePlanetId
@@ -175,14 +172,20 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
 
       {/* Planet content modal */}
       {modalPlanet && modalTranslation && (
-        <PlanetGenericView
-          PlanetSvg={modalPlanet.SvgComponent}
-          title={modalTranslation.title}
-          content={modalTranslation.content}
-          skipLabel={translations.skipWorld}
-          onSkip={handleSkipWorld}
-          isVisible={!isExiting}
-        />
+        <>
+          <PlanetGenericView
+            PlanetSvg={modalPlanet.SvgComponent}
+            title={modalTranslation.title}
+            content={modalTranslation.content}
+            isVisible={!isExiting}
+            scrollContainerRef={modalScrollRef}
+          />
+          <SkipWorldButton
+            label={translations.skipWorld}
+            onSkip={handleSkipWorld}
+            scrollContainerRef={modalScrollRef}
+          />
+        </>
       )}
 
       {/* Black hole info panel */}

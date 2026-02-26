@@ -28,7 +28,10 @@ function getAsteroidSizeRanges() {
 }
 
 const ASTEROID_DURATION = { min: 12, range: 10 };
-const COLLISION_RADIUS_FACTOR = 3; // multiplier over asteroid radius to trigger collision
+// Collision radius factor per asteroid size tier (index matches svgIndex / size bucket)
+// Large asteroids (0): tighter — they look too early at 3x
+// Medium (1) and small (2): slightly looser for touch accuracy on mobile
+const COLLISION_RADIUS_FACTORS = [1.1, 1.4, 1.6];
 
 interface AsteroidData {
   id: number;
@@ -129,7 +132,7 @@ export default function AsteroidField({ scrollProgress }: AsteroidFieldProps) {
         const dist = Math.hypot(shuttleX - cx, shuttleY - cy);
 
         const asteroid = asteroids.find(a => a.id === id)!;
-        const collisionRadius = (asteroid.size / 2) * COLLISION_RADIUS_FACTOR;
+        const collisionRadius = (asteroid.size / 2) * COLLISION_RADIUS_FACTORS[asteroid.svgIndex];
         if (dist < collisionRadius) {
           floatingSet.current.add(id);
 
