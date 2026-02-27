@@ -9,5 +9,6 @@ export function getRecentArticles(count = 3): ArticleOverview[] {
   return blogService
     .getAllArticles()
     .slice(0, count)
-    .map(({ content: _content, ...rest }) => rest);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .map(({ content, ...rest }) => rest);
 }
