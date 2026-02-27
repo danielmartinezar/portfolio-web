@@ -14,7 +14,7 @@ export default function Contact({ translations }: ContactProps) {
     <HomeSection
       subtitle={translations.subtitle}
       title={translations.title}
-      variant="primary"
+      variant="secondary"
     >
       {/* Description paragraph */}
       <p className={styles.description}>{translations.description}</p>

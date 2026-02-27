@@ -7,6 +7,6 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  const recentArticles = getRecentArticles();
+  const recentArticles = getRecentArticles(3);
   return <HomePage recentArticles={recentArticles} />;
 }

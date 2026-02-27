@@ -16,10 +16,15 @@ interface RecentArticlesProps {
 
 export default function RecentArticles({ translations, articles }: RecentArticlesProps) {
   return (
-    <HomeSection subtitle={translations.subtitle} title={translations.title}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {articles.map((article) => (
-          <CardOverview key={article.id} article={article} />
+    <HomeSection subtitle={translations.subtitle} title={translations.title} variant="primary">
+      <div className="flex flex-wrap justify-center gap-6">
+        {articles.map((article, index) => (
+          <div
+            key={article.id}
+            className={`w-full sm:w-[calc(50%-12px)] lg:w-72 ${index >= 2 ? "hidden lg:block" : ""}`}
+          >
+            <CardOverview article={article} />
+          </div>
         ))}
       </div>
       <div className="mt-8 flex justify-center">

@@ -11,7 +11,7 @@ export default function Footer() {
   if (!t) return null;
 
   return (
-    <footer className="bg-bg-primary py-8">
+    <footer className="bg-bg-secondary py-8">
       {/* Divider with fade effect */}
       <div className="px-6 md:px-[170px]">
         <div className="h-px bg-linear-to-r from-transparent via-fg-secondary to-transparent mb-8" />
