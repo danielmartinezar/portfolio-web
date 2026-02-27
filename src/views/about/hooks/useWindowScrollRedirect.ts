@@ -4,49 +4,54 @@ import { useEffect } from 'react';
 
 /**
  * When `active` is true, intercepts all window wheel/touch scroll events and
- * redirects them into `scrollRef`. The window journey scroll is blocked while
- * the inner content can still scroll. Once the inner content reaches the top or
- * bottom, the event is passed through to the window so the journey resumes.
+ * redirects them into `scrollRef`. The window journey scroll is fully blocked.
  *
- * `onScrollUpAtTop` — if provided, called instead of letting the window scroll
- * when the user scrolls up while already at the top of the content. Useful for
- * views (e.g. black hole) that need a custom exit action on scroll-up-at-top.
+ * Boundary callbacks (instead of letting events leak to the window):
+ * - `onScrollPastBottom` — called when the user scrolls down past the end of the content.
+ * - `onScrollPastTop`    — called when the user scrolls up past the beginning of the content.
+ *   If not provided, scrolling past the top does nothing (stays put).
+ *
+ * `onScrollUpAtTop` is an alias for `onScrollPastTop` kept for back-compat with TesseractGridView.
  */
 export function useWindowScrollRedirect(
   scrollRef: React.RefObject<HTMLDivElement | null>,
   active: boolean,
   onScrollUpAtTop?: () => void,
+  onScrollPastBottom?: () => void,
+  onScrollPastTop?: () => void,
 ) {
   useEffect(() => {
     if (!active) return;
+
+    const exitTop = onScrollPastTop ?? onScrollUpAtTop;
+    const exitBottom = onScrollPastBottom;
 
     const onWheel = (e: WheelEvent) => {
       const el = scrollRef.current;
       if (!el) return;
 
       const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop = scrollTop <= 0 && e.deltaY < 0;
+      const atTop    = scrollTop <= 0 && e.deltaY < 0;
       const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
 
-      if (atTop && onScrollUpAtTop) {
-        e.preventDefault();
-        e.stopPropagation();
-        onScrollUpAtTop();
-        return;
-      }
+      // Always block the window scroll — no leaking
+      e.preventDefault();
+      e.stopPropagation();
 
-      if (!atTop && !atBottom) {
-        // Content can scroll — redirect delta and block the journey
-        e.preventDefault();
-        e.stopPropagation();
+      if (atTop && exitTop) {
+        exitTop();
+      } else if (atBottom && exitBottom) {
+        exitBottom();
+      } else if (!atTop && !atBottom) {
         el.scrollTop += e.deltaY;
       }
-      // else: let the event propagate to window → journey advances
     };
 
     let touchStartY = 0;
+    let touchExited = false;
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
+      touchExited = false;
     };
     const onTouchMove = (e: TouchEvent) => {
       const el = scrollRef.current;
@@ -54,33 +59,35 @@ export function useWindowScrollRedirect(
 
       const deltaY = touchStartY - e.touches[0].clientY;
       const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop = scrollTop <= 0 && deltaY < 0;
+      const atTop    = scrollTop <= 0 && deltaY < 0;
       const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && deltaY > 0;
 
-      if (atTop && onScrollUpAtTop) {
-        e.preventDefault();
-        e.stopPropagation();
-        onScrollUpAtTop();
-        return;
-      }
+      // Always block the window scroll — no leaking
+      e.preventDefault();
+      e.stopPropagation();
 
-      if (!atTop && !atBottom) {
-        e.preventDefault();
-        e.stopPropagation();
+      if (touchExited) return;
+
+      if (atTop && exitTop) {
+        touchExited = true;
+        exitTop();
+      } else if (atBottom && exitBottom) {
+        touchExited = true;
+        exitBottom();
+      } else if (!atTop && !atBottom) {
         el.scrollTop += deltaY;
         touchStartY = e.touches[0].clientY;
       }
     };
 
-    // Must be non-passive to allow preventDefault
-    window.addEventListener('wheel', onWheel, { passive: false, capture: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true, capture: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
+    window.addEventListener('wheel',      onWheel,      { passive: false, capture: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true,  capture: true });
+    window.addEventListener('touchmove',  onTouchMove,  { passive: false, capture: true });
 
     return () => {
-      window.removeEventListener('wheel', onWheel, { capture: true });
+      window.removeEventListener('wheel',      onWheel,      { capture: true });
       window.removeEventListener('touchstart', onTouchStart, { capture: true });
-      window.removeEventListener('touchmove', onTouchMove, { capture: true });
+      window.removeEventListener('touchmove',  onTouchMove,  { capture: true });
     };
-  }, [active, scrollRef, onScrollUpAtTop]);
+  }, [active, scrollRef, onScrollUpAtTop, onScrollPastBottom, onScrollPastTop]);
 }

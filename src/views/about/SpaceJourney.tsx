@@ -56,21 +56,40 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
   // Track modal visibility state for exit animation
   const [visiblePlanetId, setVisiblePlanetId] = useState<string | null>(null);
   const [isExiting, setIsExiting] = useState(false);
+  // Refs track shown/exiting state without causing effect re-runs
+  const shownPlanetIdRef = useRef<string | null>(null);
+  const isExitingRef = useRef(false);
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (activePlanet) {
-      setVisiblePlanetId(activePlanet.id);
+      // Guard: already showing this exact planet — ignore (handles momentum scroll re-entry)
+      if (shownPlanetIdRef.current === activePlanet.id) return;
+
+      // New planet incoming: cancel any in-flight exit animation and open immediately
+      if (exitTimerRef.current) {
+        clearTimeout(exitTimerRef.current);
+        exitTimerRef.current = null;
+      }
+      isExitingRef.current = false;
+      shownPlanetIdRef.current = activePlanet.id;
       setIsExiting(false);
+      setVisiblePlanetId(activePlanet.id);
       updateHash(activePlanet.id);
-    } else if (visiblePlanetId) {
+    } else if (shownPlanetIdRef.current) {
+      // Only start one exit animation at a time
+      if (isExitingRef.current) return;
+      isExitingRef.current = true;
       setIsExiting(true);
-      const timer = setTimeout(() => {
+      exitTimerRef.current = setTimeout(() => {
         setVisiblePlanetId(null);
         setIsExiting(false);
-      }, 300); // Match fadeOut duration
-      return () => clearTimeout(timer);
+        isExitingRef.current = false;
+        shownPlanetIdRef.current = null;
+        exitTimerRef.current = null;
+      }, 300);
     }
-  }, [activePlanet, visiblePlanetId, updateHash]);
+  }, [activePlanet, updateHash]);
 
   // Black hole: activates when shuttle is fully absorbed, deactivates when user scrolls back up
   const [isBlackHoleActive, setIsBlackHoleActive] = useState(false);
@@ -122,7 +141,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBlackHoleActive]);
 
-  // Arrow key scroll acceleration — each press scrolls 5vh of the total page
+  // Arrow key scroll acceleration — each press scrolls 9vh of the total page
   useEffect(() => {
     const STEP_VH = 9;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -135,16 +154,25 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  // Handle skip world — exits the planet view without jumping to the next planet.
-  // Scrolls just past the activation threshold so the modal closes and the shuttle
-  // is free to continue, but the user stays at roughly the same journey position.
-  const handleSkipWorld = useCallback(() => {
+  // Scroll past the activation threshold in a given direction to exit the planet modal.
+  const exitPlanetForward = useCallback(() => {
     if (!activePlanet) return;
-    const targetProgress = activePlanet.scrollCenter + ACTIVATION_THRESHOLD + 0.001;
     const maxScroll = totalHeightPx - window.innerHeight;
-    const targetScroll = Math.min(targetProgress * maxScroll, maxScroll);
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    const target = Math.min((activePlanet.scrollCenter + ACTIVATION_THRESHOLD + 0.005) * maxScroll, maxScroll);
+    window.scrollTo({ top: target, behavior: 'smooth' });
   }, [activePlanet, totalHeightPx]);
+
+  const exitPlanetBackward = useCallback(() => {
+    if (!activePlanet) return;
+    const maxScroll = totalHeightPx - window.innerHeight;
+    const target = Math.max((activePlanet.scrollCenter - ACTIVATION_THRESHOLD - 0.005) * maxScroll, 0);
+    window.scrollTo({ top: target, behavior: 'smooth' });
+  }, [activePlanet, totalHeightPx]);
+
+  // Handle skip world — same as exit forward (skip button advances the journey)
+  const handleSkipWorld = useCallback(() => {
+    exitPlanetForward();
+  }, [exitPlanetForward]);
 
   // Find the visible planet data for the modal
   const modalPlanet = visiblePlanetId
@@ -198,6 +226,8 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
             content={modalTranslation.content}
             isVisible={!isExiting}
             scrollContainerRef={modalScrollRef}
+            onScrollPastBottom={exitPlanetForward}
+            onScrollPastTop={exitPlanetBackward}
           />
           <SkipWorldButton
             label={translations.skipWorld}

@@ -15,23 +15,23 @@ interface TesseractGridViewProps {
 const CDN = 'https://res.cloudinary.com/dyezhjnea/image/upload';
 
 const GRID_IMAGES = [
-  { id: 'IMG-20250210-WA0000_jzosiq',       alt: 'Photo' },
-  { id: 'IMG-20240914-WA0026_iwjscl',       alt: 'Photo' },
-  { id: 'IMG-20240905-WA0022_ofnafk',       alt: 'Photo' },
-  { id: 'IMG-20250110-WA0036_yopih3',       alt: 'Photo' },
-  { id: 'IMG-20230221-WA0007_hvilao',       alt: 'Photo' },
-  { id: 'IMG-20240512-WA0017_fquhow',       alt: 'Photo' },
-  { id: 'IMG-20250105-WA0009_npcddw',       alt: 'Photo' },
-  { id: 'IMG-20220917-WA0016_drwlul',       alt: 'Photo' },
-  { id: 'IMG_20210904_172332_lvnacs',        alt: 'Photo' },
-  { id: 'IMG_20191231_135819-01_uk7zcd',    alt: 'Photo' },
-  { id: 'IMG_1260_th8blw',                  alt: 'Photo' },
-  { id: 'IMG_0413_yhyylv',                  alt: 'Photo' },
-  { id: '1711743922832_x7tsgg',             alt: 'Photo' },
-  { id: 'IMG_0138_id4sqn',                  alt: 'Photo' },
-  { id: '1000081667_n1brct',                alt: 'Photo' },
-  { id: '1000123048_zebpoj',                alt: 'Photo' },
-  { id: '1000117014_s9mpvw',                alt: 'Photo' },
+  { id: 'IMG-20250210-WA0000_hkh0wi',       alt: 'Photo' },
+  { id: 'IMG-20230221-WA0007_zcbkdk',       alt: 'Photo' },
+  { id: 'IMG-20250105-WA0009_hpxjem',       alt: 'Photo' },
+  { id: 'IMG-20220917-WA0016_aewfjh',       alt: 'Photo' },
+  { id: 'IMG_20210904_172332_ioy9x6',       alt: 'Photo' },
+  { id: 'IMG_20191231_135819-01_s1d2ig',    alt: 'Photo' },
+  { id: 'IMG_1260_osifbk',                  alt: 'Photo' },
+  { id: 'IMG_0558_ixt4t1',                  alt: 'Photo' },
+  { id: 'IMG_0436_hjjboa',                  alt: 'Photo' },
+  { id: '1000123048_y8tl2k',                alt: 'Photo' },
+  { id: 'IMG_0138_vxowxh',                  alt: 'Photo' },
+  { id: '1000081667_hxf2rm',                alt: 'Photo' },
+  { id: 'IMG_0346_hgh3tk',                  alt: 'Photo' },
+  { id: 'IMG_0250_p5hnpt',                  alt: 'Photo' },
+  { id: 'IMG_0413_vfwpx8',                  alt: 'Photo' },
+  { id: 'IMG_0374_vbmf99',                  alt: 'Photo' },
+  { id: '1000117014_zgy8lj',                alt: 'Photo' },
 ];
 
 export default function TesseractGridView({ isVisible, onExit, exitLabel }: TesseractGridViewProps) {
@@ -86,7 +86,7 @@ export default function TesseractGridView({ isVisible, onExit, exitLabel }: Tess
   return (
     <div
       ref={scrollRef}
-      className={`fixed inset-0 z-40 backdrop-blur-sm bg-black/5 ${
+      className={`fixed inset-0 z-40 ${styles.blackHoleBg} ${
         isVisible ? styles.gridEnter : styles.gridExit
       } ${styles.bentoScroll}`}
     >

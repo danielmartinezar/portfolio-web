@@ -11,6 +11,10 @@ interface PlanetGenericViewProps {
   content: string;
   isVisible: boolean;
   scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+  /** Called when the user scrolls past the bottom — advance journey forward */
+  onScrollPastBottom?: () => void;
+  /** Called when the user scrolls past the top — retreat journey backward */
+  onScrollPastTop?: () => void;
 }
 
 export default function PlanetGenericView({
@@ -19,9 +23,10 @@ export default function PlanetGenericView({
   content,
   isVisible,
   scrollContainerRef,
+  onScrollPastBottom,
+  onScrollPastTop,
 }: PlanetGenericViewProps) {
-  // Redirect window scroll into this panel while it's visible
-  useWindowScrollRedirect(scrollContainerRef, isVisible);
+  useWindowScrollRedirect(scrollContainerRef, isVisible, undefined, onScrollPastBottom, onScrollPastTop);
 
   // Reset scroll to top when a new planet becomes visible
   useEffect(() => {
@@ -41,7 +46,7 @@ export default function PlanetGenericView({
         <PlanetSvg className="w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] md:w-[60vh] md:h-[60vh] md:max-w-[600px] md:max-h-[600px] opacity-30" />
       </div>
 
-      {/* Scrollable content — scroll is driven by window events via useWindowScrollRedirect */}
+      {/* Scrollable content */}
       <div
         ref={scrollContainerRef}
         className={`relative z-10 h-full overflow-y-auto ${styles.modalScroll}`}
