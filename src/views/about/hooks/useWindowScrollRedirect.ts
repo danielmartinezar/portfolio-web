@@ -47,47 +47,31 @@ export function useWindowScrollRedirect(
       }
     };
 
+    // Touch: let the browser handle scrolling natively (smooth + momentum).
+    // Only intercept to detect boundary exits via a passive scroll listener on the element.
     let touchStartY = 0;
-    let touchExited = false;
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
-      touchExited = false;
     };
-    const onTouchMove = (e: TouchEvent) => {
+    const onTouchEnd = (e: TouchEvent) => {
       const el = scrollRef.current;
       if (!el) return;
-
-      const deltaY = touchStartY - e.touches[0].clientY;
+      const deltaY = touchStartY - e.changedTouches[0].clientY;
       const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop    = scrollTop <= 0 && deltaY < 0;
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && deltaY > 0;
-
-      // Always block the window scroll — no leaking
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (touchExited) return;
-
-      if (atTop && exitTop) {
-        touchExited = true;
-        exitTop();
-      } else if (atBottom && exitBottom) {
-        touchExited = true;
-        exitBottom();
-      } else if (!atTop && !atBottom) {
-        el.scrollTop += deltaY;
-        touchStartY = e.touches[0].clientY;
-      }
+      const atTop    = scrollTop <= 1 && deltaY < -8;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 2 && deltaY > 8;
+      if (atTop && exitTop) exitTop();
+      else if (atBottom && exitBottom) exitBottom();
     };
 
     window.addEventListener('wheel',      onWheel,      { passive: false, capture: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true,  capture: true });
-    window.addEventListener('touchmove',  onTouchMove,  { passive: false, capture: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchend',   onTouchEnd,   { passive: true });
 
     return () => {
       window.removeEventListener('wheel',      onWheel,      { capture: true });
-      window.removeEventListener('touchstart', onTouchStart, { capture: true });
-      window.removeEventListener('touchmove',  onTouchMove,  { capture: true });
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchend',   onTouchEnd);
     };
   }, [active, scrollRef, onScrollUpAtTop, onScrollPastBottom, onScrollPastTop]);
 }
