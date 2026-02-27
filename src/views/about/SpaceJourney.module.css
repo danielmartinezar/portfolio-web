@@ -175,6 +175,11 @@
   display: none;
 }
 
+/* Planet modal scroll container */
+.modalScroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Masonry container — CSS columns ── */
 .bentoGrid {
   columns: 3;

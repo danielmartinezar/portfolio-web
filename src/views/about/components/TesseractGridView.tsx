@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import styles from '../SpaceJourney.module.css';
+import { useWindowScrollRedirect } from '../hooks/useWindowScrollRedirect';
 
 interface TesseractGridViewProps {
   isVisible: boolean;
@@ -42,47 +43,9 @@ export default function TesseractGridView({ isVisible, onExit, exitLabel }: Tess
   const [btnVisible, setBtnVisible] = useState(true);
   const lastScrollTop = useRef(0);
 
-  // Lock page scroll while gallery is open so window scroll doesn't compete
-  useEffect(() => {
-    if (isVisible) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
-  }, [isVisible]);
-
-  // Exit when user scrolls up past the top of the gallery
-  useEffect(() => {
-    if (!isVisible || !onExit) return;
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY < 0 && el.scrollTop === 0) {
-        onExit();
-      }
-    };
-
-    let touchStartY = 0;
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      if (el.scrollTop === 0 && e.touches[0].clientY > touchStartY) {
-        onExit();
-      }
-    };
-
-    el.addEventListener('wheel', onWheel, { passive: true });
-    el.addEventListener('touchstart', onTouchStart, { passive: true });
-    el.addEventListener('touchmove', onTouchMove, { passive: true });
-    return () => {
-      el.removeEventListener('wheel', onWheel);
-      el.removeEventListener('touchstart', onTouchStart);
-      el.removeEventListener('touchmove', onTouchMove);
-    };
-  }, [isVisible, onExit]);
+  // Redirect window scroll into this grid while visible.
+  // Pass onExit so scrolling up at the top of the grid triggers the exit.
+  useWindowScrollRedirect(scrollRef, isVisible, onExit);
 
   // Hide button when scrolling down, show when scrolling up
   useEffect(() => {

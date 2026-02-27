@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import type { ComponentType, SVGProps } from 'react';
 import styles from '../SpaceJourney.module.css';
+import { useWindowScrollRedirect } from '../hooks/useWindowScrollRedirect';
 
 interface PlanetGenericViewProps {
   PlanetSvg: ComponentType<SVGProps<SVGSVGElement>>;
@@ -19,23 +20,8 @@ export default function PlanetGenericView({
   isVisible,
   scrollContainerRef,
 }: PlanetGenericViewProps) {
-  // Prevent wheel/touch events from propagating to window (which would advance the journey)
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-
-    const onWheel = (e: WheelEvent) => {
-      const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop = scrollTop === 0 && e.deltaY < 0;
-      const atBottom = scrollTop + clientHeight >= scrollHeight && e.deltaY > 0;
-      if (!atTop && !atBottom) {
-        e.stopPropagation();
-      }
-    };
-
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, [scrollContainerRef]);
+  // Redirect window scroll into this panel while it's visible
+  useWindowScrollRedirect(scrollContainerRef, isVisible);
 
   // Reset scroll to top when a new planet becomes visible
   useEffect(() => {
@@ -55,12 +41,12 @@ export default function PlanetGenericView({
         <PlanetSvg className="w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] md:w-[60vh] md:h-[60vh] md:max-w-[600px] md:max-h-[600px] opacity-30" />
       </div>
 
-      {/* Scrollable content — scroll is contained here, does not leak to window */}
+      {/* Scrollable content — scroll is driven by window events via useWindowScrollRedirect */}
       <div
         ref={scrollContainerRef}
-        className="relative z-10 h-full overflow-y-auto"
+        className={`relative z-10 h-full overflow-y-auto ${styles.modalScroll}`}
       >
-        <div className="min-h-full flex flex-col items-center justify-center max-w-2xl mx-auto px-6 pt-20 pb-28 text-center">
+        <div className="min-h-full flex flex-col items-center justify-start max-w-2xl mx-auto px-6 pt-32 pb-28 text-center">
           {/* Yellow divider */}
           <div className="w-12 h-1 bg-primary mx-auto mb-4" />
 
