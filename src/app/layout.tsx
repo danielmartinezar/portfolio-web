@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import { Georama } from "next/font/google";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import ScrollToTop from "../components/ScrollToTop";
-import { LanguageProvider } from "../shared/services";
 import "../index.css";
 
 const georama = Georama({
@@ -27,14 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" translate="no" className={georama.variable}>
       <body>
-        <LanguageProvider>
-          <div className="min-h-screen bg-bg-primary pt-24">
-            <Header />
-            {children}
-            <Footer />
-          </div>
-          <ScrollToTop />
-        </LanguageProvider>
+        {children}
       </body>
     </html>
   );

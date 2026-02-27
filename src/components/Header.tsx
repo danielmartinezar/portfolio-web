@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import I18nSwitchButton from "./I18nSwitchButton";
@@ -15,6 +16,8 @@ interface HeaderProps {
 
 export default function Header({ className = "" }: HeaderProps) {
   const { t: navbar } = useTranslation(navbarTranslationLoaders);
+  const pathname = usePathname();
+  const lang = pathname.startsWith('/es') ? 'es' : 'en';
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export default function Header({ className = "" }: HeaderProps) {
         <div className="flex justify-between items-center">
         {/* Logo D. */}
         <Link
-          href="/"
+          href={`/${lang}`}
           className="text-4xl font-bold text-primary hover:opacity-80 transition-opacity"
         >
           D<span className="text-primary">.</span>

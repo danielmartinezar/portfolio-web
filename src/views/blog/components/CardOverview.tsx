@@ -1,10 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { ArticleOverview } from '../../../features/blog/blog.types';
 
 interface CardOverviewProps {
   article: ArticleOverview;
 }
-
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -16,10 +18,12 @@ function formatDate(dateStr: string): string {
 }
 
 export default function CardOverview({ article }: CardOverviewProps) {
+  const pathname = usePathname();
+  const lang = pathname.startsWith('/es') ? 'es' : 'en';
 
   return (
     <Link
-      href={`/blog/${article.slug}`}
+      href={`/${lang}/blog/${article.slug}`}
       className="block rounded-[10px] overflow-hidden bg-bg-secondary hover:scale-[1.02] transition-transform duration-300"
     >
       <img

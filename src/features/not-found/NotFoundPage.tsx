@@ -21,7 +21,7 @@ export default function NotFoundPage() {
           {t.description}
         </p>
         <Link
-          href="/"
+          href="/en"
           className="inline-block px-6 py-3 rounded-[10px] bg-primary text-bg-primary font-semibold hover:opacity-90 transition-opacity"
         >
           {t.goHome}

@@ -4,8 +4,10 @@ export interface NavigationLink {
   href: string;
 }
 
-export const NAVIGATION_LINKS: NavigationLink[] = [
-  { translationKey: 'home', fallbackLabel: 'Home', href: '/' },
-  { translationKey: 'about', fallbackLabel: 'About me', href: '/about' },
-  { translationKey: 'blog', fallbackLabel: 'Blog', href: '/blog' },
-];
+export function getNavigationLinks(lang: string): NavigationLink[] {
+  return [
+    { translationKey: 'home', fallbackLabel: 'Home', href: `/${lang}` },
+    { translationKey: 'about', fallbackLabel: 'About me', href: `/${lang}/about` },
+    { translationKey: 'blog', fallbackLabel: 'Blog', href: `/${lang}/blog` },
+  ];
+}

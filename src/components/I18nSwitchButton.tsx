@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '../shared/services';
 
 interface I18nSwitchButtonProps {
@@ -11,8 +12,12 @@ export default function I18nSwitchButton({
   size = 'md',
   className = '',
 }: I18nSwitchButtonProps) {
-  const { language, setLanguage } = useLanguage();
-  const isSpanish = language === 'es';
+  const { setLanguage } = useLanguage();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Derive active language from URL prefix (source of truth)
+  const isSpanish = pathname.startsWith('/es');
 
   // Proportional sizes using rem (scaled up)
   const sizeConfig = {
@@ -51,7 +56,10 @@ export default function I18nSwitchButton({
   const config = sizeConfig[size];
 
   const handleToggle = () => {
-    setLanguage(isSpanish ? 'en' : 'es');
+    const nextLang = isSpanish ? 'en' : 'es';
+    setLanguage(nextLang);
+    const newPath = pathname.replace(/^\/(en|es)/, `/${nextLang}`);
+    router.push(newPath);
   };
 
   return (

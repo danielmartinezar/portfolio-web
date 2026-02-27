@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { blogService } from "../../features/blog/services";
-import type { ArticleOverview } from "../../features/blog/blog.types";
-import Blog from "../../views/blog/blog";
+import { blogService } from "../../../features/blog/services";
+import type { ArticleOverview } from "../../../features/blog/blog.types";
+import Blog from "../../../views/blog/blog";
 
 export const metadata: Metadata = {
   title: "Blog | Daniel Martinez",

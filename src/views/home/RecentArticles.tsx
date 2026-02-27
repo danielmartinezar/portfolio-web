@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { HomeSection } from "./shared";
 import { CardOverview } from "../blog/components";
 import type { ArticleOverview } from "../../features/blog/blog.types";
@@ -15,6 +16,9 @@ interface RecentArticlesProps {
 }
 
 export default function RecentArticles({ translations, articles }: RecentArticlesProps) {
+  const pathname = usePathname();
+  const lang = pathname.startsWith('/es') ? 'es' : 'en';
+
   return (
     <HomeSection subtitle={translations.subtitle} title={translations.title} variant="primary">
       <div className="flex flex-wrap justify-center gap-6">
@@ -29,7 +33,7 @@ export default function RecentArticles({ translations, articles }: RecentArticle
       </div>
       <div className="mt-8 flex justify-center">
         <Link
-          href="/blog"
+          href={`/${lang}/blog`}
           className="py-3 px-8 text-sm font-medium text-fg-secondary border border-fg-secondary rounded-lg hover:text-fg-primary hover:border-fg-primary transition-colors duration-200"
         >
           {translations.viewAll}

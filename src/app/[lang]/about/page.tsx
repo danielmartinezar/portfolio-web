@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AboutPage from "../../features/about/AboutPage";
+import AboutPage from "../../../features/about/AboutPage";
 
 export const metadata: Metadata = {
   title: "Daniel Martinez | About",

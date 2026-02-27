@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import type { NavbarTranslations } from "./i18n";
-import { NAVIGATION_LINKS } from "../shared/constants";
+import { getNavigationLinks } from "../shared/constants";
 import { isActive } from "../shared/utils/navigation.utils";
+import { useLanguage } from "../shared/services";
 
 interface MobileNavbarProps {
   translations: NavbarTranslations;
@@ -17,6 +18,8 @@ export default function MobileNavbar({
   className = "",
 }: MobileNavbarProps) {
   const pathname = usePathname();
+  const { language } = useLanguage();
+  const navigationLinks = getNavigationLinks(language);
   const [isOpen, setIsOpen] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
@@ -121,7 +124,7 @@ export default function MobileNavbar({
 
         {/* Navigation Links */}
         <nav className="flex flex-col items-start px-8 py-12 gap-8">
-          {NAVIGATION_LINKS.map((link, index) => {
+          {navigationLinks.map((link, index) => {
             const label = translations?.[link.translationKey] || link.fallbackLabel;
             const active = isActive(pathname, link.href);
             const delayClass = isOpen

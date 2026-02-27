@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ContentContainer } from "../../components/layout";
 import { MarkdownContent } from "./components/MarkdownContent";
 import { useTranslation } from "../../shared/services";
@@ -16,6 +17,8 @@ interface BlogDetailProps {
 
 export default function BlogDetail({ article }: BlogDetailProps) {
   const { t } = useTranslation<BlogPageTranslations>(blogTranslationLoaders);
+  const pathname = usePathname();
+  const lang = pathname.startsWith('/es') ? 'es' : 'en';
 
   if (!t) {
     return (
@@ -38,7 +41,7 @@ export default function BlogDetail({ article }: BlogDetailProps) {
     <div className="min-h-screen bg-bg-primary pt-8 pb-16">
       <ContentContainer>
         <Link
-          href="/blog"
+          href={`/${lang}/blog`}
           className="text-fg-primary hover:text-primary transition-colors mb-6 inline-block"
         >
           &larr; {t.backToBlog}

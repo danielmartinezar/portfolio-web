@@ -3,8 +3,9 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import type { NavbarTranslations } from "./i18n";
-import { NAVIGATION_LINKS } from "../shared/constants";
+import { getNavigationLinks } from "../shared/constants";
 import { isActive } from "../shared/utils/navigation.utils";
+import { useLanguage } from "../shared/services";
 
 interface DesktopNavbarProps {
   translations: NavbarTranslations;
@@ -16,11 +17,13 @@ export default function DesktopNavbar({
   className = "",
 }: DesktopNavbarProps) {
   const pathname = usePathname();
+  const { language } = useLanguage();
+  const navigationLinks = getNavigationLinks(language);
 
   return (
     <nav className={`flex items-center ${className}`}>
       <ul className="flex items-center gap-6 md:gap-8">
-        {NAVIGATION_LINKS.map((link) => {
+        {navigationLinks.map((link) => {
           const label = translations?.[link.translationKey] || link.fallbackLabel;
           const active = isActive(pathname, link.href);
 
