@@ -45,7 +45,7 @@ export default function TesseractGridView({ isVisible, onExit, exitLabel }: Tess
 
   // Redirect window scroll into this grid while visible.
   // Pass onExit so scrolling up at the top of the grid triggers the exit.
-  useWindowScrollRedirect(scrollRef, isVisible, onExit);
+  useWindowScrollRedirect(scrollRef, isVisible, onExit, undefined, undefined, undefined, true);
 
   // Hide button when scrolling down, show when scrolling up
   useEffect(() => {

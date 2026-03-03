@@ -17,9 +17,9 @@ import { useEffect } from 'react';
  * a boundary. `intensity` is clamped 0–1 and grows with accumulated delta. Called with
  * intensity=0 when the user stops pressing (wheel ends or moves away from boundary).
  *
- * Note: GSAP ScrollTrigger.normalizeScroll() (active globally) already intercepts native
- * touch/momentum events on the window. This hook only needs to handle wheel and the modal
- * inner scroll redirection — touchmove is handled by the normalizer.
+ * `nativeScroll` — when true, skips touch interception (no preventDefault) and lets the
+ * browser scroll the element natively. Only wheel blocking + touchend boundary exit are kept.
+ * Use this when scrollRef IS the overflow scroll container (e.g. TesseractGridView).
  */
 export function useWindowScrollRedirect(
   scrollRef: React.RefObject<HTMLDivElement | null>,
@@ -28,6 +28,7 @@ export function useWindowScrollRedirect(
   onScrollPastBottom?: () => void,
   onScrollPastTop?: () => void,
   onBoundaryPressure?: (dir: 'top' | 'bottom', intensity: number) => void,
+  nativeScroll?: boolean,
 ) {
   useEffect(() => {
     if (!active) return;
@@ -92,10 +93,6 @@ export function useWindowScrollRedirect(
     };
 
     // --- Touch (mobile) ---
-    // GSAP normalizeScroll intercepts window-level touch events, so touches on the
-    // fixed modal overlay are already de-bounced. We still need to:
-    // 1. Redirect the finger movement into the modal scroll container.
-    // 2. Detect boundary exits with a safe threshold.
     const TOUCH_EXIT_THRESHOLD = 40;
     let touchStartY = 0;
     let touchLastY  = 0;
@@ -106,33 +103,40 @@ export function useWindowScrollRedirect(
       touchLastY  = touchStartY;
     };
 
-    const onTouchMove = (e: TouchEvent) => {
+    // nativeScroll mode: the element scrolls natively, so we only track finger
+    // position for boundary-exit detection — no preventDefault, no manual scrollTop.
+    const onTouchMoveNative = (e: TouchEvent) => {
+      touchLastY = e.touches[0].clientY;
+    };
+
+    // Redirect mode: GSAP normalizeScroll is active so native touch is suppressed;
+    // we manually drive scrollTop and emit boundary pressure.
+    const onTouchMoveRedirect = (e: TouchEvent) => {
       const el = scrollRef.current;
       if (!el) return;
       e.preventDefault();
       e.stopPropagation();
       const currentY = e.touches[0].clientY;
       const delta = touchLastY - currentY;
-      el.scrollTop  += delta;
-      touchLastY     = currentY;
+      el.scrollTop += delta;
+      touchLastY    = currentY;
 
-      // Emit boundary pressure for touch too
       const { scrollTop, scrollHeight, clientHeight } = el;
       const isScrollable = scrollHeight > clientHeight + 2;
       if (!isScrollable || scrollTop <= 1) {
         const totalDelta = touchStartY - currentY;
         if (totalDelta < 0) {
-          const intensity = Math.min(Math.abs(totalDelta) / TOUCH_EXIT_THRESHOLD, 1);
-          onBoundaryPressure?.('top', intensity);
+          onBoundaryPressure?.('top', Math.min(Math.abs(totalDelta) / TOUCH_EXIT_THRESHOLD, 1));
         }
       } else if (!isScrollable || scrollTop + clientHeight >= scrollHeight - 2) {
         const totalDelta = touchStartY - currentY;
         if (totalDelta > 0) {
-          const intensity = Math.min(totalDelta / TOUCH_EXIT_THRESHOLD, 1);
-          onBoundaryPressure?.('bottom', intensity);
+          onBoundaryPressure?.('bottom', Math.min(totalDelta / TOUCH_EXIT_THRESHOLD, 1));
         }
       }
     };
+
+    const onTouchMove = nativeScroll ? onTouchMoveNative : onTouchMoveRedirect;
 
     const onTouchEnd = () => {
       onBoundaryPressure?.('top', 0);
@@ -141,8 +145,6 @@ export function useWindowScrollRedirect(
       const totalDeltaY = touchStartY - touchLastY;
       const { scrollTop, scrollHeight, clientHeight } = el;
       const isScrollable = scrollHeight > clientHeight + 2;
-      // For scrollable content: exit only when already at boundary + pull past it.
-      // For non-scrollable content: any swipe past threshold exits in that direction.
       const isAtTop    = !isScrollable || scrollTop <= 1;
       const isAtBottom = !isScrollable || scrollTop + clientHeight >= scrollHeight - 2;
       const pullUp   = isAtTop    && totalDeltaY < -TOUCH_EXIT_THRESHOLD;
@@ -160,15 +162,15 @@ export function useWindowScrollRedirect(
 
     window.addEventListener('wheel',      onWheel,      { passive: false, capture: true });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove',  onTouchMove,  { passive: false, capture: true });
+    window.addEventListener('touchmove',  onTouchMove,  { passive: !nativeScroll, capture: !nativeScroll });
     window.addEventListener('touchend',   onTouchEnd,   { passive: true });
 
     return () => {
       if (idleTimer) clearTimeout(idleTimer);
       window.removeEventListener('wheel',      onWheel,      { capture: true });
       window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove',  onTouchMove,  { capture: true });
+      window.removeEventListener('touchmove',  onTouchMove,  { capture: !nativeScroll });
       window.removeEventListener('touchend',   onTouchEnd);
     };
-  }, [active, scrollRef, onScrollUpAtTop, onScrollPastBottom, onScrollPastTop, onBoundaryPressure]);
+  }, [active, scrollRef, onScrollUpAtTop, onScrollPastBottom, onScrollPastTop, onBoundaryPressure, nativeScroll]);
 }
