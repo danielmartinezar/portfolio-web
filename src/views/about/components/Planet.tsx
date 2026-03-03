@@ -24,7 +24,7 @@ export default function Planet({ planet, scrollProgress }: PlanetProps) {
     const prox = 1 - distance / VISIBLE_RANGE;
 
     return {
-      scale: 0.3 + prox * 0.9,
+      scale: 0.255 + prox * 0.765,
       opacity: Math.min(prox * 1.6, 1),
     };
   }, [scrollProgress, planet]);
