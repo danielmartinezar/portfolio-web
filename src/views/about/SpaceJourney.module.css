@@ -607,3 +607,65 @@
   pointer-events: none;
   transform: translateY(12px);
 }
+
+/* ── Boundary exit hint ── */
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 1; }
+}
+
+.boundaryHint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  animation: hintPulse 1.8s ease-in-out infinite;
+  color: var(--color-fg-secondary, rgba(255,255,255,0.45));
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.boundaryHintBottom {
+  bottom: 5.5rem; /* above the SkipWorldButton */
+}
+
+/* Inline variant — sits in the scroll flow after the last paragraph */
+.boundaryHintInline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3rem;
+  pointer-events: none;
+  animation: hintPulse 1.8s ease-in-out infinite;
+  color: var(--color-fg-secondary, rgba(255,255,255,0.45));
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.boundaryHintTop {
+  top: 1.5rem;
+  flex-direction: column-reverse;
+}
+
+.boundaryHintArrow {
+  width: 20px;
+  height: 20px;
+  animation: bounceDown 1.4s ease-in-out infinite;
+}
+
+.boundaryHintArrowUp {
+  animation-name: bounceUp;
+}
+
+@keyframes bounceUp {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}

@@ -8,6 +8,7 @@ export interface AboutPageTranslations {
   scrollHint: string;
   skipWorld: string;
   exitBlackHole: string;
+  holdToExit: string;
   planets: Record<string, PlanetTranslation>;
   blackhole: PlanetTranslation;
 }

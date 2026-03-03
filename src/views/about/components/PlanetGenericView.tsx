@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ComponentType, SVGProps } from 'react';
 import styles from '../SpaceJourney.module.css';
 import { useWindowScrollRedirect } from '../hooks/useWindowScrollRedirect';
@@ -17,6 +17,8 @@ interface PlanetGenericViewProps {
   onScrollPastTop?: () => void;
   /** Called with boundary direction and intensity (0–1) while pressing at boundary */
   onBoundaryPressure?: (dir: 'top' | 'bottom', intensity: number) => void;
+  /** Label shown when the user reaches a scroll boundary */
+  holdToExitLabel?: string;
 }
 
 export default function PlanetGenericView({
@@ -28,8 +30,11 @@ export default function PlanetGenericView({
   onScrollPastBottom,
   onScrollPastTop,
   onBoundaryPressure,
+  holdToExitLabel,
 }: PlanetGenericViewProps) {
   useWindowScrollRedirect(scrollContainerRef, isVisible, undefined, onScrollPastBottom, onScrollPastTop, onBoundaryPressure);
+
+  const [hintDir, setHintDir] = useState<'top' | 'bottom' | null>(null);
 
   const paragraphs = content.split('\n\n').filter(Boolean);
   const paragraphRefs = useRef<(HTMLParagraphElement | null)[]>([]);
@@ -112,6 +117,21 @@ export default function PlanetGenericView({
     return () => { clearTimeout(id); container.removeEventListener('scroll', applyFocus); };
   }, [isVisible, title, scrollContainerRef]);
 
+  // Boundary hint (top only) — show after user scrolls down and returns to top
+  useEffect(() => {
+    if (!isVisible) { setHintDir(null); return; }
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    let hasScrolledDown = false;
+    const onScroll = () => {
+      const { scrollTop } = container;
+      if (scrollTop > 20) hasScrolledDown = true;
+      setHintDir(hasScrolledDown && scrollTop <= 4 ? 'top' : null);
+    };
+    container.addEventListener('scroll', onScroll, { passive: true });
+    return () => container.removeEventListener('scroll', onScroll);
+  }, [isVisible, title, scrollContainerRef]);
+
   return (
     <div
       className={`fixed inset-0 z-30 bg-bg-primary/90 ${
@@ -122,6 +142,23 @@ export default function PlanetGenericView({
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <PlanetSvg className="w-[80vw] h-[80vw] max-w-[500px] max-h-[500px] md:w-[60vh] md:h-[60vh] md:max-w-[600px] md:max-h-[600px] opacity-30" />
       </div>
+
+      {/* Top boundary hint — fixed overlay, shown after scrolling back to top */}
+      {holdToExitLabel && hintDir === 'top' && (
+        <div
+          className={[styles.boundaryHint, styles.boundaryHintTop].join(' ')}
+          aria-hidden="true"
+        >
+          <svg
+            className={[styles.boundaryHintArrow, styles.boundaryHintArrowUp].join(' ')}
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
+            strokeLinecap="round" strokeLinejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+          <span>{holdToExitLabel}</span>
+        </div>
+      )}
 
       {/* Scrollable content */}
       <div
@@ -155,6 +192,20 @@ export default function PlanetGenericView({
               </p>
             ))}
           </div>
+
+          {/* Bottom exit hint — inline after last paragraph */}
+          {holdToExitLabel && (
+            <div className={styles.boundaryHintInline} aria-hidden="true">
+              <svg
+                className={styles.boundaryHintArrow}
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
+                strokeLinecap="round" strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+              <span>{holdToExitLabel}</span>
+            </div>
+          )}
 
         </div>
       </div>

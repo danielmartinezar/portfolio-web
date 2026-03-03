@@ -370,6 +370,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
             onScrollPastBottom={exitPlanetForward}
             onScrollPastTop={exitPlanetBackward}
             onBoundaryPressure={handleBoundaryPressure}
+            holdToExitLabel={translations.holdToExit}
           />
           <SkipWorldButton
             label={translations.skipWorld}
