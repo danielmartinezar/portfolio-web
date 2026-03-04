@@ -24,6 +24,7 @@ export function useScrollProgress(totalHeight: number): ScrollProgress {
     direction: 1,
   });
   const prevScrollY = useRef(0);
+  const directionRef = useRef<1 | -1>(1);
   const normalizerRef = useRef<ReturnType<typeof ScrollTrigger.normalizeScroll> | null>(null);
 
   useEffect(() => {
@@ -39,9 +40,14 @@ export function useScrollProgress(totalHeight: number): ScrollProgress {
     const update = () => {
       const scrollY = scrollFn();
       const progress = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
-      const direction: 1 | -1 = scrollY >= prevScrollY.current ? 1 : -1;
+      // Only flip direction when movement exceeds 2px — prevents Safari mouse wheel
+      // momentum micro-reversals from flipping the shuttle 180°
+      const delta = scrollY - prevScrollY.current;
+      if (Math.abs(delta) > 2) {
+        directionRef.current = delta > 0 ? 1 : -1;
+      }
       prevScrollY.current = scrollY;
-      setState({ progress, scrollY, direction });
+      setState({ progress, scrollY, direction: directionRef.current });
     };
 
     const st = ScrollTrigger.create({ start: 0, end: maxScroll, onUpdate: update });
