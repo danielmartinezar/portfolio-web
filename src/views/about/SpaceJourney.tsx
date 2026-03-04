@@ -185,15 +185,20 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
   // While a planet modal is open:
   // 1. Pause normalizeScroll so GSAP doesn't hijack touches inside the modal.
   // 2. Snap window.scrollY to the planet's scrollCenter to cancel any in-flight momentum.
+  // 3. Lock body scroll so Brave/Chromium native scroll doesn't leak through.
   // useWindowScrollRedirect takes over touch handling while the modal is active.
   useEffect(() => {
     if (!activePlanet || !totalHeightPx) return;
     pauseNormalizer();
+    document.body.style.overflow = 'hidden';
     const maxScroll = totalHeightPx - window.innerHeight;
     const lockedY = activePlanet.scrollCenter * maxScroll;
     const scrollFn = ScrollTrigger.getScrollFunc(window) as (v: number) => void;
     scrollFn(lockedY);
-    return () => resumeNormalizer();
+    return () => {
+      resumeNormalizer();
+      document.body.style.overflow = '';
+    };
   }, [activePlanet, totalHeightPx, pauseNormalizer, resumeNormalizer]);
 
   // Thruster exit animation state
