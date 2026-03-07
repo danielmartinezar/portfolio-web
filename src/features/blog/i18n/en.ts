@@ -16,6 +16,9 @@ const en: BlogPageTranslations = {
     architecture: 'Architecture',
     testing: 'Testing',
   },
+  emptyState: {
+    label: "Something's brewing",
+  },
 };
 
 export default en;

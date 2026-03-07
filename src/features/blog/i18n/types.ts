@@ -14,4 +14,7 @@ export interface BlogPageTranslations {
     architecture: string;
     testing: string;
   };
+  emptyState: {
+    label: string;
+  };
 }

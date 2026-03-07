@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { ContentContainer } from "../../components/layout";
 import { useTranslation } from "../../shared/services";
+import CookingEmptyState from "../../components/CookingEmptyState";
 import { CardOverview, CategoryTabs } from "./components";
 import {
   blogTranslationLoaders,
@@ -81,11 +82,16 @@ export default function Blog({ allArticles }: BlogProps) {
           {t.allPosts} ({displayCount})
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredArticles.map((article: ArticleOverview) => (
-            <CardOverview key={article.id} article={article} />
-          ))}
-        </div>
+        {filteredArticles.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredArticles.map((article: ArticleOverview) => (
+              <CardOverview key={article.id} article={article} />
+            ))}
+          </div>
+        ) : (
+          <CookingEmptyState label={t.emptyState.label} />
+        )}
+
         {hasMore && (
           <button
             type="button"

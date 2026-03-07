@@ -128,6 +128,9 @@ const en: HomePageTranslations = {
     subtitle: "From the blog",
     title: "Recent Articles",
     viewAll: "View all articles",
+    emptyState: {
+      label: "Something's brewing",
+    },
   },
   contact: {
     subtitle: "Let's talk",

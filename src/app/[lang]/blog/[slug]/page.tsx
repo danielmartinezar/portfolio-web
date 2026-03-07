@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { SUPPORTED_LANGUAGES } from "../../../../shared/services";
 import { blogService } from "../../../../features/blog/services";
 import BlogDetail from "../../../../views/blog/blogDetail";
 
@@ -45,6 +46,22 @@ export async function generateMetadata({
       images: [ogImage],
     },
   };
+}
+
+export async function generateStaticParams() {
+  const articles = blogService.getAllArticles();
+  const paths: { lang: string; slug: string }[] = [];
+
+  SUPPORTED_LANGUAGES.forEach((lang) => {
+    articles.forEach((article) => {
+      paths.push({
+        lang,
+        slug: article.slug,
+      });
+    });
+  });
+
+  return paths;
 }
 
 export default async function Page({

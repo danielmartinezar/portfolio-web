@@ -130,6 +130,9 @@ const es: HomePageTranslations = {
     subtitle: 'Del blog',
     title: 'Artículos Recientes',
     viewAll: 'Ver todos los artículos',
+    emptyState: {
+      label: 'Algo se está cocinando',
+    },
   },
   contact: {
     subtitle: 'Hablemos',

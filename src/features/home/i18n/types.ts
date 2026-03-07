@@ -96,6 +96,9 @@ export interface RecentArticlesTranslations {
   subtitle: string;
   title: string;
   viewAll: string;
+  emptyState: {
+    label: string;
+  };
 }
 
 /**
