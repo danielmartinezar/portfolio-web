@@ -7,6 +7,10 @@ import { parsePost } from './helpers';
 const postsDirectory = path.join(process.cwd(), 'src/content/posts');
 
 function loadAllPosts(): Article[] {
+  if (!fs.existsSync(postsDirectory)) {
+    return [];
+  }
+
   const filenames = fs.readdirSync(postsDirectory).filter(f => f.endsWith('.md'));
 
   return filenames
