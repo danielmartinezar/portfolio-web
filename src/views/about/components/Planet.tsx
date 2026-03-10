@@ -8,12 +8,13 @@ import styles from '../SpaceJourney.module.css';
 interface PlanetProps {
   planet: PlanetData;
   scrollProgress: number;
+  hidden?: boolean;
 }
 
 // How far (in scroll progress units) the planet is visible on each side of its center
 const VISIBLE_RANGE = 0.13;
 
-export default function Planet({ planet, scrollProgress }: PlanetProps) {
+export default function Planet({ planet, scrollProgress, hidden }: PlanetProps) {
   const { scale, opacity } = useMemo(() => {
     const distance = Math.abs(scrollProgress - planet.scrollCenter);
 
@@ -29,7 +30,7 @@ export default function Planet({ planet, scrollProgress }: PlanetProps) {
     };
   }, [scrollProgress, planet]);
 
-  if (opacity === 0) return null;
+  if (opacity === 0 || hidden) return null;
 
   const { SvgComponent } = planet;
 

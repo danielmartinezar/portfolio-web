@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ComponentType, SVGProps } from 'react';
 import styles from '../SpaceJourney.module.css';
 import { useWindowScrollRedirect } from '../hooks/useWindowScrollRedirect';
+import ThrusterExitOverlay from './ThrusterExitOverlay';
 
 interface PlanetGenericViewProps {
   PlanetSvg: ComponentType<SVGProps<SVGSVGElement>>;
@@ -35,6 +36,8 @@ export default function PlanetGenericView({
   useWindowScrollRedirect(scrollContainerRef, isVisible, undefined, onScrollPastBottom, onScrollPastTop, onBoundaryPressure);
 
   const [hintDir, setHintDir] = useState<'top' | 'bottom' | null>(null);
+  const [flameIntensity, setFlameIntensity] = useState(0);
+  const lastScrollTopRef = useRef(0);
 
   const paragraphs = content.split('\n\n').filter(Boolean);
   const paragraphRefs = useRef<(HTMLParagraphElement | null)[]>([]);
@@ -115,6 +118,44 @@ export default function PlanetGenericView({
     const id = setTimeout(applyFocus, 1300);
     container.addEventListener('scroll', applyFocus, { passive: true });
     return () => { clearTimeout(id); container.removeEventListener('scroll', applyFocus); };
+  }, [isVisible, title, scrollContainerRef]);
+
+  // Booster flame — grows progressively once the user scrolls into the empty zone
+  // after the last paragraph (the pb-[65vh] padding area). Scroll-down only.
+  useEffect(() => {
+    if (!isVisible) { setFlameIntensity(0); return; }
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const onScroll = () => {
+      const { scrollTop } = container;
+
+      // Only grow on scroll-down; collapse immediately on scroll-up
+      if (scrollTop < lastScrollTopRef.current) {
+        lastScrollTopRef.current = scrollTop;
+        setFlameIntensity(0);
+        return;
+      }
+      lastScrollTopRef.current = scrollTop;
+
+      const lastEl = [...paragraphRefs.current].filter(Boolean).at(-1);
+      if (!lastEl) return;
+
+      // Empty zone = space between bottom of last paragraph and scrollHeight
+      const lastParaBottom = lastEl.offsetTop + lastEl.offsetHeight;
+      const viewportBottom = scrollTop + container.clientHeight;
+      const emptyZone = container.scrollHeight - lastParaBottom;
+
+      const entered = Math.max(0, viewportBottom - lastParaBottom);
+      const intensity = emptyZone > 0 ? Math.min(entered / emptyZone, 1) : 0;
+      setFlameIntensity(intensity);
+    };
+
+    container.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      setFlameIntensity(0);
+      container.removeEventListener('scroll', onScroll);
+    };
   }, [isVisible, title, scrollContainerRef]);
 
   // Boundary hint (top only) — show after user scrolls down and returns to top
@@ -209,6 +250,11 @@ export default function PlanetGenericView({
 
         </div>
       </div>
+
+      {/* Booster flame — appears progressively when scrolling down toward the bottom */}
+      {flameIntensity > 0 && (
+        <ThrusterExitOverlay direction="forward" intensity={flameIntensity} />
+      )}
     </div>
   );
 }

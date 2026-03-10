@@ -18,20 +18,31 @@ const SMOKE_DELAYS = [styles.exitSmoke0, styles.exitSmoke1, styles.exitSmoke2];
 export default function ThrusterExitOverlay({ direction, intensity }: ThrusterExitOverlayProps) {
   const isBottom = direction === 'forward';
 
+  // Quadratic ramp: color/glow starts very dim and brightens quickly only near full scroll.
+  // scaleY stays linear so height grows steadily from the start.
+  const colorIntensity = intensity * intensity;
+
   return (
     <div
       className={[
         styles.thrusterOverlay,
         isBottom ? styles.thrusterBottom : styles.thrusterTop,
       ].join(' ')}
-      style={{ ['--thruster-intensity' as string]: intensity }}
+      style={{ ['--thruster-intensity' as string]: colorIntensity }}
       aria-hidden="true"
     >
       {/* Ambient warm flood over the whole viewport */}
       <div className={isBottom ? styles.screenFloodBottom : styles.screenFloodTop} />
 
-      {/* Flame row — 2 engines */}
-      <div className={styles.exitFlameRow}>
+      {/* Flame row — 2 engines, scaleY grows linearly (height) while color ramps quadratically */}
+      <div
+        className={styles.exitFlameRow}
+        style={{
+          transform: `scaleY(${intensity * 1.5})`,
+          transformOrigin: isBottom ? 'center bottom' : 'center top',
+          opacity: colorIntensity,
+        }}
+      >
         {FLAMES.map(({ wrapCls, coreCls, glowCls }, i) => (
           <div key={i} className={[styles.exitFlameWrap, styles[wrapCls as keyof typeof styles]].join(' ')}>
             <div className={[styles.exitFlameGlow, styles[glowCls as keyof typeof styles]].join(' ')} />

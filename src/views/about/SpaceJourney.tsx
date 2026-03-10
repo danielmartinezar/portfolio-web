@@ -341,6 +341,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
             key={planet.id}
             planet={planet}
             scrollProgress={progress}
+            hidden={!!visiblePlanetId}
           />
         ))}
 
