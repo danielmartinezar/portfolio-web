@@ -2,14 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useTranslation } from "../shared/services";
+import { BlogEmptyStateTranslationLoaders, type EmptyStateTranslations } from "./i18n";
 
-interface CookingEmptyStateProps {
-  label: string;
-}
-
-export default function CookingEmptyState({ label }: CookingEmptyStateProps) {
+export default function CookingEmptyState() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useTranslation<EmptyStateTranslations>(BlogEmptyStateTranslationLoaders);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -54,13 +53,13 @@ export default function CookingEmptyState({ label }: CookingEmptyStateProps) {
           className="text-xl md:text-2xl font-medium"
           style={{ color: "var(--color-fg-primary)" }}
         >
-          {label}
+          {t?.label || "Something's brewing"}
         </h3>
         <p
           className="text-sm md:text-base opacity-70"
           style={{ color: "var(--color-fg-secondary)" }}
         >
-          Stay tuned.
+          {t?.stayTuned || 'Stay tuned.'}
         </p>
       </div>
     </div>

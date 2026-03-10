@@ -53,7 +53,7 @@ export default function RecentArticles({
           </div>
         </>
       ) : (
-        <CookingEmptyState label={translations.emptyState.label} />
+        <CookingEmptyState />
       )}
     </HomeSection>
   );

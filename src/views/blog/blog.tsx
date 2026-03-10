@@ -89,7 +89,7 @@ export default function Blog({ allArticles }: BlogProps) {
             ))}
           </div>
         ) : (
-          <CookingEmptyState label={t.emptyState.label} />
+          <CookingEmptyState />
         )}
 
         {hasMore && (

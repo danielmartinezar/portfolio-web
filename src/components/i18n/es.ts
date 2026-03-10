@@ -1,4 +1,4 @@
-import type { FooterTranslations, NavbarTranslations } from './types';
+import type { FooterTranslations, NavbarTranslations, EmptyStateTranslations } from './types';
 
 export const navbar: NavbarTranslations = {
   home: 'Inicio',
@@ -14,4 +14,9 @@ export const footer: FooterTranslations = {
     { label: 'Acerca de mí', href: '#aboutme' },
     { label: 'Blog', href: '#blog' },
   ],
+};
+
+export const emptyState: EmptyStateTranslations = {
+  label: 'Algo se está cocinando',
+  stayTuned: 'Mantente al tanto.',
 };

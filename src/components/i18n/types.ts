@@ -23,3 +23,11 @@ export interface FooterTranslations {
   designedBy: string;
   navigation: NavLinkTranslation[];
 }
+
+/**
+ * Empty state translation structure
+ */
+export interface EmptyStateTranslations {
+  label: string;
+  stayTuned: string;
+}

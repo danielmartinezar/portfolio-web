@@ -1,4 +1,4 @@
-export type { FooterTranslations, NavbarTranslations } from './types';
+export type { FooterTranslations, NavbarTranslations, EmptyStateTranslations } from './types';
 
 /**
  * Lazy loaders for Navbar translations
@@ -16,4 +16,13 @@ export const navbarTranslationLoaders = {
 export const footerTranslationLoaders = {
   en: () => import('./en').then((m) => ({ default: m.footer })),
   es: () => import('./es').then((m) => ({ default: m.footer })),
+};
+
+/**
+ * Lazy loaders for Empty State translations
+ * Only the active language file will be loaded
+ */
+export const BlogEmptyStateTranslationLoaders = {
+  en: () => import('./en').then((m) => ({ default: m.emptyState })),
+  es: () => import('./es').then((m) => ({ default: m.emptyState })),
 };
