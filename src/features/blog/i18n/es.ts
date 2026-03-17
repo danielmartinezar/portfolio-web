@@ -3,7 +3,7 @@ import type { BlogPageTranslations } from './types';
 const es: BlogPageTranslations = {
   title: 'Blog',
   description: 'Este es un espacio para compartir nuevos conceptos que aprendo.',
-  searchPlaceholder: 'Presiona (Ctrl + /) para buscar...',
+  searchPlaceholder: 'Busca artículos, temas, categorías...',
   allPosts: 'Todos los Posts',
   loadMore: 'Cargar más',
   backToBlog: 'Volver al Blog',

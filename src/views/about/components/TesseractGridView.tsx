@@ -18,7 +18,6 @@ const GRID_IMAGES = [
   { id: 'IMG-20250210-WA0000_hkh0wi',       alt: 'Photo' },
   { id: 'IMG-20230221-WA0007_zcbkdk',       alt: 'Photo' },
   { id: 'IMG-20250105-WA0009_hpxjem',       alt: 'Photo' },
-  { id: 'IMG-20220917-WA0016_aewfjh',       alt: 'Photo' },
   { id: 'IMG_20210904_172332_ioy9x6',       alt: 'Photo' },
   { id: 'IMG_20191231_135819-01_s1d2ig',    alt: 'Photo' },
   { id: 'IMG_1260_osifbk',                  alt: 'Photo' },
@@ -32,6 +31,12 @@ const GRID_IMAGES = [
   { id: 'IMG_0413_vfwpx8',                  alt: 'Photo' },
   { id: 'IMG_0374_vbmf99',                  alt: 'Photo' },
   { id: '1000117014_zgy8lj',                alt: 'Photo' },
+  { id: 'IMG-20220121-WA0024_1_x9gltf',    alt: 'Photo' },
+  { id: '1000095261_kfmj9w',                alt: 'Photo' },
+  { id: 'IMG-20241120-WA0013_bfbd7n',       alt: 'Photo' },
+  { id: '83cacc30-c319-4879-b4ca-2efe519ac7de_nqi7uq', alt: 'Photo' },
+  { id: 'IMG_7513_wvhtsh',                  alt: 'Photo' },
+  { id: 'angie-daniel_wrs2h6',              alt: 'Photo' },
 ];
 
 export default function TesseractGridView({ isVisible, onExit, exitLabel }: TesseractGridViewProps) {
