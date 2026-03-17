@@ -1,12 +1,12 @@
 import type { ComponentType, SVGProps } from 'react';
-import Planet1 from '../../../assets/planets/planet1.svg';
-import Planet3 from '../../../assets/planets/planet3.svg';
 import Planet5 from '../../../assets/planets/planet5.svg';
+import Planet3 from '../../../assets/planets/planet3.svg';
+import planet13 from '../../../assets/planets/planet13.svg';
 import Planet7 from '../../../assets/planets/planet7.svg';
 import Planet9 from '../../../assets/planets/planet9.svg';
-import Planet12 from '../../../assets/planets/planet12.svg';
+import planet11 from '../../../assets/planets/planet11.svg';
 import Planet15 from '../../../assets/planets/planet15.svg';
-import Planet17 from '../../../assets/planets/planet17.svg';
+import Planet1 from '../../../assets/planets/planet1.svg';
 
 export interface PlanetData {
   id: string;
@@ -31,14 +31,14 @@ export interface PlanetData {
  *        [Planet 7]  (right)
  */
 export const planets: PlanetData[] = [
-  { id: 'dreams',     SvgComponent: Planet1,  side: 'right', scrollCenter: 0.080 },
+  { id: 'dreams',     SvgComponent: Planet5,  side: 'right', scrollCenter: 0.080 },
   { id: 'psychology', SvgComponent: Planet3,  side: 'left',  scrollCenter: 0.167 },
-  { id: 'hobbies',    SvgComponent: Planet5,  side: 'right', scrollCenter: 0.254 },
+  { id: 'hobbies',    SvgComponent: planet13,  side: 'right', scrollCenter: 0.254 },
   { id: 'engineering',SvgComponent: Planet7,  side: 'left',  scrollCenter: 0.341 },
   { id: 'art',        SvgComponent: Planet9,  side: 'right', scrollCenter: 0.428 },
-  { id: 'childhood',  SvgComponent: Planet12, side: 'left',  scrollCenter: 0.515 },
+  { id: 'childhood',  SvgComponent: planet11, side: 'left',  scrollCenter: 0.515 },
   { id: 'people',     SvgComponent: Planet15, side: 'right', scrollCenter: 0.602 },
-  { id: 'lifestyle',  SvgComponent: Planet17, side: 'left',  scrollCenter: 0.689 },
+  { id: 'lifestyle',  SvgComponent: Planet1, side: 'left',  scrollCenter: 0.689 },
 ];
 
 /** Get the X position (%) for a planet based on its side */

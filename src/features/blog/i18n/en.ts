@@ -3,7 +3,7 @@ import type { BlogPageTranslations } from './types';
 const en: BlogPageTranslations = {
   title: 'Blog',
   description: 'This is a space to share new concepts I learn.',
-  searchPlaceholder: 'Press (Ctrl + /) to search...',
+  searchPlaceholder: 'Search articles, topics, categories...',
   allPosts: 'All Posts',
   loadMore: 'Load more',
   backToBlog: 'Back to Blog',
