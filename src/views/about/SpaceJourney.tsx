@@ -107,7 +107,14 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     updateHash(null);
     const maxScroll = totalHeightPx - window.innerHeight;
     const targetScroll = (BLACKHOLE_DEACTIVATION - 0.01) * maxScroll;
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    const scrollFn = ScrollTrigger.getScrollFunc(window) as (v: number) => void;
+    const proxy = { y: (ScrollTrigger.getScrollFunc(window) as () => number)() };
+    gsap.to(proxy, {
+      y: targetScroll,
+      duration: 1.2,
+      ease: 'power2.inOut',
+      onUpdate: () => scrollFn(proxy.y),
+    });
   }, [totalHeightPx, updateHash]);
 
   useEffect(() => {
@@ -182,24 +189,31 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  // While a planet modal is open:
-  // 1. Pause normalizeScroll so GSAP doesn't hijack touches inside the modal.
-  // 2. Snap window.scrollY to the planet's scrollCenter to cancel any in-flight momentum.
-  // 3. Lock body scroll so Brave/Chromium native scroll doesn't leak through.
-  // useWindowScrollRedirect takes over touch handling while the modal is active.
+  // While a planet modal is stably open (visiblePlanetId is debounced — only changes
+  // when a new planet opens or the modal fully closes after 300 ms).
+  // Tying pause/resume to activePlanet causes rapid toggling on fast scroll → GSAP freeze.
   useEffect(() => {
-    if (!activePlanet || !totalHeightPx) return;
+    if (!visiblePlanetId || !totalHeightPx) return;
     pauseNormalizer();
     document.body.style.overflow = 'hidden';
-    const maxScroll = totalHeightPx - window.innerHeight;
-    const lockedY = activePlanet.scrollCenter * maxScroll;
-    const scrollFn = ScrollTrigger.getScrollFunc(window) as (v: number) => void;
-    scrollFn(lockedY);
+    const planet = planets.find((p) => p.id === visiblePlanetId);
+    if (planet) {
+      const maxScroll = totalHeightPx - window.innerHeight;
+      const scrollFn = ScrollTrigger.getScrollFunc(window) as (v: number) => void;
+      scrollFn(planet.scrollCenter * maxScroll);
+    }
     return () => {
+      // Snap scroll to the exit target before re-enabling normalizer so GSAP
+      // wakes up already past the activation zone — prevents re-entry into planet.
+      if (exitScrollTargetRef.current !== null) {
+        const scrollFn2 = ScrollTrigger.getScrollFunc(window) as (v: number) => void;
+        scrollFn2(exitScrollTargetRef.current);
+        exitScrollTargetRef.current = null;
+      }
       resumeNormalizer();
       document.body.style.overflow = '';
     };
-  }, [activePlanet, totalHeightPx, pauseNormalizer, resumeNormalizer]);
+  }, [visiblePlanetId, totalHeightPx, pauseNormalizer, resumeNormalizer]);
 
   // Thruster exit animation state
   const [thrusterDir, setThrusterDir]         = useState<'forward' | 'backward' | null>(null);
@@ -211,6 +225,9 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
   // pending scroll target while hold timer is running
   const pendingTarget = useRef<{ dir: 'forward' | 'backward'; px: number } | null>(null);
   const exitingRef    = useRef(false);
+  // Target scroll position committed by exit actions — applied on normalizer resume
+  // so GSAP wakes up already past the activation zone (prevents re-entry).
+  const exitScrollTargetRef = useRef<number | null>(null);
 
   const scrollTo = (v: number) => (ScrollTrigger.getScrollFunc(window) as (v: number) => void)(v);
 
@@ -271,7 +288,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
       holdTimerRef.current = null;
       exitingRef.current   = true;
       const t = pendingTarget.current;
-      if (t) scrollTo(t.px);
+      if (t) { exitScrollTargetRef.current = t.px; scrollTo(t.px); }
       setThrusterIntensity(0);
       fadeTimerRef.current = setTimeout(() => {
         setThrusterDir(null);
@@ -286,12 +303,48 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     cancelThruster();
   }, [visiblePlanetId, cancelThruster]);
 
+  // Black hole boundary pressure — hold scroll-up for 1s to exit
+  const handleBhBoundaryPressure = useCallback((
+    _dir: 'top' | 'bottom',
+    intensity: number,
+  ) => {
+    if (exitingRef.current) return;
+    if (intensity <= 0) {
+      if (holdTimerRef.current) {
+        clearTimeout(holdTimerRef.current);
+        holdTimerRef.current = null;
+        setThrusterIntensity(0);
+        fadeTimerRef.current = setTimeout(() => {
+          setThrusterDir(null);
+          fadeTimerRef.current = null;
+        }, 300);
+      }
+      return;
+    }
+    setThrusterDir('backward');
+    setThrusterIntensity(intensity);
+    if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+    if (fadeTimerRef.current) { clearTimeout(fadeTimerRef.current); fadeTimerRef.current = null; }
+    holdTimerRef.current = setTimeout(() => {
+      holdTimerRef.current = null;
+      exitingRef.current = true;
+      handleExitBlackHole();
+      setThrusterIntensity(0);
+      fadeTimerRef.current = setTimeout(() => {
+        setThrusterDir(null);
+        exitingRef.current = false;
+        fadeTimerRef.current = null;
+      }, 400);
+    }, 1000);
+  }, [handleExitBlackHole]);
+
   // exitPlanetForward/Backward kept for SkipWorldButton
   const exitPlanetForward = useCallback(() => {
     if (!activePlanet) return;
     const maxScroll = totalHeightPx - window.innerHeight;
     const target = Math.min((activePlanet.scrollCenter + ACTIVATION_THRESHOLD + 0.018) * maxScroll, maxScroll);
     exitingRef.current = true;
+    exitScrollTargetRef.current = target;
     setThrusterDir('forward');
     setThrusterIntensity(1);
     scrollTo(target);
@@ -306,6 +359,7 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
     const maxScroll = totalHeightPx - window.innerHeight;
     const target = Math.max((activePlanet.scrollCenter - ACTIVATION_THRESHOLD - 0.018) * maxScroll, 0);
     exitingRef.current = true;
+    exitScrollTargetRef.current = target;
     setThrusterDir('backward');
     setThrusterIntensity(1);
     scrollTo(target);
@@ -395,11 +449,17 @@ export default function SpaceJourney({ translations }: SpaceJourneyProps) {
 
       {/* Black hole info panel — Tesseract */}
       {(showBlackHoleInfo || isBlackHoleInfoExiting) && (
-        <TesseractGridView
-          isVisible={showBlackHoleInfo && !isBlackHoleInfoExiting}
-          onExit={handleExitBlackHole}
-          exitLabel={translations.exitBlackHole}
-        />
+        <>
+          <TesseractGridView
+            isVisible={showBlackHoleInfo && !isBlackHoleInfoExiting}
+            onExit={handleExitBlackHole}
+            exitLabel={translations.exitBlackHole}
+            onBoundaryPressure={handleBhBoundaryPressure}
+          />
+          {thrusterDir && (
+            <ThrusterExitOverlay direction={thrusterDir} intensity={thrusterIntensity} />
+          )}
+        </>
       )}
 
       {/* Scroll hint at the beginning */}

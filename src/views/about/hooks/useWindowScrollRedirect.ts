@@ -106,7 +106,30 @@ export function useWindowScrollRedirect(
     // nativeScroll mode: the element scrolls natively, so we only track finger
     // position for boundary-exit detection — no preventDefault, no manual scrollTop.
     const onTouchMoveNative = (e: TouchEvent) => {
-      touchLastY = e.touches[0].clientY;
+      const currentY = e.touches[0].clientY;
+      touchLastY = currentY;
+      if (!onBoundaryPressure) return;
+      const el = scrollRef.current;
+      if (!el) return;
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const atTop = scrollTop <= 1;
+      if (atTop) {
+        const totalDelta = touchStartY - currentY; // negative = pulling down (scroll up gesture)
+        if (totalDelta < 0) {
+          onBoundaryPressure('top', Math.min(Math.abs(totalDelta) / TOUCH_EXIT_THRESHOLD, 1));
+        } else {
+          onBoundaryPressure('top', 0);
+        }
+      }
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
+      if (atBottom && !atTop) {
+        const totalDelta = touchStartY - currentY;
+        if (totalDelta > 0) {
+          onBoundaryPressure('bottom', Math.min(totalDelta / TOUCH_EXIT_THRESHOLD, 1));
+        } else {
+          onBoundaryPressure('bottom', 0);
+        }
+      }
     };
 
     // Redirect mode: GSAP normalizeScroll is active so native touch is suppressed;

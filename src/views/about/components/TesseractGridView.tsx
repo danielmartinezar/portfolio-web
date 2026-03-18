@@ -10,6 +10,7 @@ interface TesseractGridViewProps {
   isVisible: boolean;
   onExit?: () => void;
   exitLabel?: string;
+  onBoundaryPressure?: (dir: 'top' | 'bottom', intensity: number) => void;
 }
 
 const CDN = 'https://res.cloudinary.com/dyezhjnea/image/upload';
@@ -39,7 +40,7 @@ const GRID_IMAGES = [
   { id: 'angie-daniel_wrs2h6',              alt: 'Photo' },
 ];
 
-export default function TesseractGridView({ isVisible, onExit, exitLabel }: TesseractGridViewProps) {
+export default function TesseractGridView({ isVisible, onExit, exitLabel, onBoundaryPressure }: TesseractGridViewProps) {
   const [cellsVisible, setCellsVisible] = useState<boolean[]>(
     Array(GRID_IMAGES.length).fill(false)
   );
@@ -50,7 +51,7 @@ export default function TesseractGridView({ isVisible, onExit, exitLabel }: Tess
 
   // Redirect window scroll into this grid while visible.
   // Pass onExit so scrolling up at the top of the grid triggers the exit.
-  useWindowScrollRedirect(scrollRef, isVisible, onExit, undefined, undefined, undefined, true);
+  useWindowScrollRedirect(scrollRef, isVisible, onExit, undefined, undefined, onBoundaryPressure, true);
 
   // Hide button when scrolling down, show when scrolling up
   useEffect(() => {
